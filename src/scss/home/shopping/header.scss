@@ -1,0 +1,14 @@
+#shopping-header{
+    height: 1rem;
+    font: .34rem/1rem "PingFang-M";
+    color: #fff;
+    background: #49B152;
+    text-align: center;
+    position: relative;
+    span{
+        font-size: .28rem;
+        position: absolute;
+        right: .4rem;
+        top: 0;
+    }
+}

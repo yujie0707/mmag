@@ -1,0 +1,114 @@
+
+
+#address{
+    display: flex;
+    flex-direction: column;
+    
+    height: 100%;
+    header{
+        height: 1rem;
+        text-align: center;
+        color: #fff;
+        font: .34rem/1rem "PingFang-M";
+        background: #49B152;
+        position: relative;
+        img{
+            height: .4rem;
+            position: absolute;
+            left: .4rem;
+            top: .3rem;
+        }
+    }
+    div.addressEmpty{
+        img{
+            display: block;
+            width: 70%;
+            margin: 2rem auto .4rem;
+        }
+        button{
+            font: .3rem/.6rem "PingFang-M";
+            color: #fff;
+            background: #49B152;
+            display: block;
+            padding: 0 .2rem;
+            border-radius: .2rem;
+            
+            margin: 0 auto;
+        }
+    }
+    ul{
+        flex: 1;
+        overflow: auto;
+        padding: 0 .1rem;
+        background: #F7F7F7;
+        li{
+            margin-top: .2rem;
+            background: #fff;
+            height: 2.5rem;
+            border: 1px solid #C8C8C8;
+            position: relative;
+            div.address-wrap{
+                width: 6rem;
+                height: 2.5rem;
+                box-sizing: border-box;
+                padding: .2rem .4rem;
+                p:nth-child(1){
+                    display: flex;
+                    justify-content: space-between;
+                    font: .32rem "PingFang-M";
+                    color: #323232;
+                    span.isdefault{
+                        color: #fff;
+                        padding: 0 .2rem;
+                        background: #FF7916;
+                        border-radius: .2rem;
+                    }
+                }
+                p:nth-child(2){
+                    display: flex;
+                    justify-content: space-between;
+                    font: .28rem "PingFang-M";
+                    color: #323232;
+                }
+                p:nth-child(3){
+                    font: .28rem "PingFang-M";
+                    color: #323232;
+                }
+                p:nth-child(4){
+                    position: absolute;
+                    left: .4rem;
+                    bottom: .2rem;
+                    font: .3rem "PingFang-M";
+                    color: #323232;
+                }
+            }
+            img.edit{
+                position: absolute;
+                top: .4rem;
+                right: .4rem;
+                height: .4rem;
+            }
+            img.del{
+                position: absolute;
+                bottom: .4rem;
+                right: .4rem;
+                height: .4rem;
+            }
+        }
+    }
+    footer{
+        height: .7rem;
+        padding: .1rem .45rem;
+        background: #fff;
+        button{
+            float: left;
+            height: 100%;
+            width: 100%;
+            background: #49B152;
+            border-radius: .4rem;
+            font: .3rem/.5rem "PingFang-M";
+            
+            color: #fff;
+        }
+    }
+}

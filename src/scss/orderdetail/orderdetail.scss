@@ -1,0 +1,189 @@
+
+
+#orderDetail{
+    background: #F7F7F7;
+    padding-top: 1rem;
+    #orderDetail-header{
+        height: 1rem;
+        text-align: center;
+        color: #fff;
+        font: .34rem/1rem "PingFang-M";
+        background: #49B152;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+        img{
+            height: .4rem;
+            position: absolute;
+            left: .4rem;
+            top: .3rem;
+        }
+    }
+    #yes{
+        padding: .5rem .6rem;
+        background: #fff;
+        .name{
+            font: .34rem "PingFang-M";
+            color: #333;
+            span.phone{
+                margin-left: .5rem;
+            }
+        }
+        .address{
+            margin-top: .1rem;
+            font: .28rem "PingFang-M";
+            color: #323232;
+        }
+    }
+    .status{
+        position: relative;
+        background: #fff;
+        img{
+            width: 100%;
+        }
+        p{
+            position: absolute;
+            color: #fff;
+            left: 1.32rem;
+            top: .62rem;
+            text-align: center;
+            span{
+                display: block;
+            }
+            span:nth-child(1){
+                font: .36rem "PingFang-M";
+            }
+            span:nth-child(2){
+                font: .28rem "PingFang-M";
+            }
+        }
+    }
+    .fruit{
+        background: #fff;
+        padding: .2rem .4rem;
+        height: 2.4rem;
+        .detail-img{
+            float: left;
+            height: 2rem;
+            width: 2rem;
+        }
+        .detail{
+            float: left;
+            width: 4.5rem;
+            padding-left: .2rem;
+            .title{
+                font: .34rem "PingFang-M";
+                color: #323232;
+            }
+            .weight{
+                font: .28rem "PingFang-M";
+                color: #646464;
+            }
+            .send{
+                margin-top: .1rem;
+                height: .3rem;
+                img{
+                    float: left;
+                    height: .3rem;
+                    margin-right: .1rem;
+                }
+            }
+            .price{
+                font: .34rem "PingFang-M";
+                color: #FE555A;
+                margin-top: .1rem;
+                span:nth-child(2){
+                    float: right;
+                    color: #323232;
+                }
+            }
+        }
+    }
+    .pick{
+        background: #fff;
+        padding: .2rem .4rem;
+        height: 2.4rem;
+        .single-img{
+            float: left;
+            height: 2rem;
+            width: 2rem;
+        }
+        .single-detail{
+            float: left;
+            width: 4.5rem;
+            padding-left: .2rem;
+            .title{
+                font: .34rem "PingFang-M";
+                color: #323232;
+            }
+            .address{
+                font: .28rem "PingFang-M";
+                color: #646464;
+                img{
+                    height: .4rem;
+                    vertical-align: middle;
+                    
+                }
+            }
+            .price{
+                font: .34rem "PingFang-M";
+                color: #FE555A;
+                margin-top: .1rem;
+            }
+        }
+    }
+    .finMoney{
+        padding: 0 .4rem;
+        margin-top: .2rem;
+        p:nth-child(1){
+            font: .3rem/.6rem "PingFang-M";
+            height: .6rem;
+            color: #323232;
+            span:nth-child(1){
+                float: left;
+            }
+            span:nth-child(2){
+                float: right;
+            }
+        }
+        p:nth-child(2){
+            height: .6rem;
+            font: .3rem/.6rem "PingFang-M";
+            color: #323232;
+            span:nth-child(1){
+                float: left;
+            }
+            span:nth-child(2){
+                float: right;
+                color: #FE555A;
+            }
+        }
+        p:nth-child(3){
+            height: .6rem;
+            text-align: right;
+            font: .3rem/.6rem "PingFang-M";
+            color: #323232;
+        }
+        p:nth-child(4){
+            height: .6rem;
+            margin-top: .2rem;
+            text-align: right;
+            font: .3rem/.6rem "PingFang-M";
+            color: #323232;
+            a{
+                color: #FE555A;
+            }
+        }
+    }
+    .orderid{
+        
+        p{
+            padding: .1rem .4rem;
+            font-size: .28rem;
+            font-family: "PingFang-M";
+            color: #646464;
+        }
+    }
+}

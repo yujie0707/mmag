@@ -1,0 +1,45 @@
+#footer{
+    height: 1.2rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    border-top: 1px solid #e0e0e0;
+    background: #e5e5e5;
+    a{
+        flex: 1;
+        div{
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            img{
+                width: .5rem;
+                height: .5rem;
+                display: block;
+                margin: 0 auto .1rem;
+            }
+            span{
+                font: .28rem "PingFang-M";
+                color:#333;
+            }
+            span.active{
+                color: #49b152;
+            }
+        }
+        #carNum{
+            position: absolute;
+            top: -.1rem;
+            text-align: center;
+            width: .34rem;
+            height: .34rem;
+            right: .4rem;
+            font: .24rem/.34rem "PignFang-M";
+            padding: .05rem;
+            background: #FE555A;
+            border-radius: 50%;
+            color: #fff;
+            z-index: 900;
+        }
+    }
+}

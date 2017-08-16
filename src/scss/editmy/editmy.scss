@@ -1,0 +1,77 @@
+
+
+#editmy{
+    background: #eee;
+    height: 100%;
+    #orderDetail-header{
+        
+        height: 1rem;
+        text-align: center;
+        color: #fff;
+        font: .34rem/1rem "PingFang-M";
+        background: #49B152;
+        position: relative;
+        img{
+            height: .4rem;
+            position: absolute;
+            left: .4rem;
+            top: .3rem;
+        }
+    }
+    .img{
+        background: #fff;
+        
+        height: 1.14rem;
+        padding: 0 .4rem;
+        font: .3rem/1.14rem "PingFang-M";
+        color: #555;
+        border-bottom: 1px solid #C8C8C8;
+        span{
+            float: left;
+        }
+        img:nth-child(3){
+            height: .8rem;
+            border-radius: 50%;
+            float: right;
+            margin-top: .16rem;
+            margin-right: .18rem;
+        }
+        img:nth-child(2){
+            height: .3rem;
+            float: right;
+            margin-top: .41rem;
+        }
+    }
+    .phone,.password{
+        background: #fff;
+        height: 1.14rem;
+        padding: 0 .4rem;
+        font: .3rem/1.14rem "PingFang-M";
+        color: #555;
+        border-bottom: 1px solid #C8C8C8;
+        span:nth-child(1){
+            float: left;
+        }
+        span:nth-child(3){
+            float: right;
+            margin-right: .18rem;
+        }
+        img{
+            float: right;
+            height: .3rem;
+            margin-top: .41rem;
+        }
+    }
+    
+    button.exit{
+        height: 1rem;
+        width: 100%;
+        text-align: center;
+        font: .3rem "PingFang-M";
+        color: #49B152;
+        background: #fff;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+    }
+}

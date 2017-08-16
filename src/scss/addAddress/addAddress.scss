@@ -1,0 +1,202 @@
+
+#comble{
+    height: 100%;
+    width: 100%;
+}
+
+#addAdderss{
+    padding-top: 1rem;
+    header#address-header{
+        height: 1rem;
+        text-align: center;
+        color: #fff;
+        font: .34rem/1rem "PingFang-M";
+        background: #49B152;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        img{
+            height: .4rem;
+            position: absolute;
+            left: .4rem;
+            top: .3rem;
+        }
+    }
+    div{
+        border-bottom: 1px solid #C8C8C8;
+        padding: 0 .4rem;
+        height: 1.1rem;
+        font: .3rem/1.1rem "PingFang-M";
+        color: #323232;
+    }
+    .name,.phone,.addressDetail{
+        span{
+            float: left;
+        }
+        input{
+            float: left;
+            height: 1.1rem;
+            margin-left: 1.1rem;
+            font-size: .28rem;
+        }
+    }
+    .city,.address{
+        span{
+            float: left;
+        }
+        span:nth-child(2){
+            margin-left: 1.1rem;
+            width: 4rem;
+            white-space:nowrap; 
+            overflow:hidden; 
+            text-overflow:ellipsis;
+            a{
+                
+                color: #646464;
+            }
+        }
+        img{
+            float: right;
+            height: .4rem;
+            margin-top: .35rem;
+        }
+    }
+    .type{
+        span{
+            float: left;
+            margin-right: .25rem;
+            a{
+                border: 1px solid #C8C8C8;
+                border-radius: .1rem;
+                padding: .1rem;
+            }
+        }
+        span:nth-child(2){
+            margin-left: 1.1rem;
+        }
+        span:nth-child(1){
+            padding: 0;
+            border: 0;
+            margin-right: 0;
+        }
+        span.active a{
+            border: 0;
+            background: #49B152;
+            color: #fff;
+        }
+    }
+    .defaultAddress{
+        span{
+            float: left;
+        }
+        img{
+            float: right;
+            height: .4rem;
+            margin-top: .35rem;
+        }
+    }
+    button.send{
+        width: 6.6rem;
+        margin: .7rem auto 0;
+        background: #49B152;
+        color: #fff;
+        font: .32rem/.8rem "PingFang-M";
+        display: block;
+        border-radius: .2rem;
+    }
+    #city{
+        width: 100%;
+        background: rgba(0,0,0,.5);
+        padding: 0;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        #bottom{
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            background: #fff;
+            height: 4.8rem;
+            padding: 0;
+            animation: slide .5s;
+            header{
+                display: flex;
+                height: .6rem;
+                background: #e5e5e5;
+                span{
+                    flex: 1;
+                    font: .28rem/.6rem "PingFang-M";
+                    text-align: center;
+                    color: #007AFF;
+                }
+                span.city-choose{
+                    font-size: .34rem;
+                    color: #333;
+                }
+            }
+            ul{
+                height: 4.2rem;
+                
+                overflow: auto;
+                width: 100%;
+                li{
+                    height: .59rem;
+                    text-align: center;
+                    border-bottom: .01rem solid #999;
+                    color: #333;
+                    font: .28rem/.6rem "PingFang-M";
+                }
+            }
+        }
+    }
+}
+#searchAddress{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    header{
+        height: 1rem;
+        background: #49B152;
+        position: relative;
+        padding: 0 .4rem;
+        img:nth-child(1){
+            float: left;
+            height: .4rem;
+            margin-top: .3rem;
+        }
+        input{
+            float: left;
+            height: .6rem;
+            width: 5.5rem;
+            box-sizing: border-box;
+            padding-left: .6rem;
+            font: .3rem/.6rem "PingFang-M";
+            color: #323232;
+            margin: .2rem 0 0 .4rem;
+            border-radius: .2rem;
+        }
+        img:nth-child(3){
+            position: absolute;
+            height: .3rem;
+            top: .35rem;
+            left: 1.2rem;
+        }
+    }
+    ul{
+        flex: 1;
+        overflow: auto;
+        li{
+            padding: .3rem .4rem;
+            font: .28rem "PingFang-M";
+            color: #323232;
+            border-bottom: 1px solid #C8C8C8;
+            p:nth-child(1){
+                font: .3rem "PingFang-M";
+                text-indent: 1em;
+            }
+        }
+    }
+}

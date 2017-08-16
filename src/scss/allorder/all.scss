@@ -1,0 +1,122 @@
+
+#all{
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.orderSingle{
+    background: #fff;
+    margin-bottom: .2rem;
+    position: relative;
+    p{
+        height: .7rem;
+        padding: 0 .4rem;
+        font: .28rem/.7rem "PingFang-M";
+        color: #999;
+        border-bottom: 1px solid #C8C8C8;
+        img{
+            float: left;
+            height: .3rem;
+            margin-top: .2rem;
+        }
+        span:nth-child(2){
+            float: left;
+            margin-left: .2rem;
+        }
+        span:nth-child(3){
+            float: right;
+            
+            color: #49B152;
+        }
+    }
+    .fruit{
+        padding: .2rem .4rem;
+        height: 2.4rem;
+        .detail-img{
+            float: left;
+            height: 2rem;
+            width: 2rem;
+        }
+        .detail{
+            float: left;
+            width: 4.5rem;
+            padding-left: .2rem;
+            .title{
+                font: .34rem "PingFang-M";
+                color: #323232;
+            }
+            .weight{
+                font: .28rem "PingFang-M";
+                color: #646464;
+            }
+            .send{
+                margin-top: .1rem;
+                height: .3rem;
+                img{
+                    float: left;
+                    height: .3rem;
+                    margin-right: .1rem;
+                }
+            }
+            .price{
+                font: .34rem "PingFang-M";
+                color: #FE555A;
+                margin-top: .1rem;
+            }
+        }
+    }
+    .pick{
+        padding: .2rem .4rem;
+        height: 2.4rem;
+        .single-img{
+            float: left;
+            height: 2rem;
+            width: 2rem;
+        }
+        .single-detail{
+            float: left;
+            width: 4.5rem;
+            padding-left: .2rem;
+            .title{
+                font: .34rem "PingFang-M";
+                color: #323232;
+            }
+            .address{
+                font: .28rem "PingFang-M";
+                color: #646464;
+                img{
+                    height: .4rem;
+                    vertical-align: middle;
+                    
+                }
+            }
+            .price{
+                font: .34rem "PingFang-M";
+                color: #FE555A;
+                margin-top: .1rem;
+            }
+        }
+    }
+    .bottom-button{
+        position: absolute;
+        right: .1rem;
+        bottom: .1rem;
+        overflow: hidden;
+        button{
+            float: left;
+            padding: 0 .2rem;
+            background: #fff; 
+            font: .28rem "PingFang-M";
+            color: #323232;
+        }
+        .cancle,.refund,.talked{
+            border: 1px solid #323232;
+            border-radius: .4rem;
+            margin-right: .2rem;
+        }
+        .payNow,.shipments,.affirm,.talking{
+            border: 1px solid #FE555A;
+            border-radius: .4rem;
+            color: #FE555A;
+        }
+    }
+}

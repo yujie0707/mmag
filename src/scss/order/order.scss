@@ -1,0 +1,205 @@
+
+
+#order{
+    padding-top: 1rem;
+    #order-header{
+        height: 1rem;
+        text-align: center;
+        color: #fff;
+        font: .34rem/1rem "PingFang-M";
+        background: #49B152;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+        img{
+            height: .4rem;
+            position: absolute;
+            left: .4rem;
+            top: .3rem;
+        }
+    }
+    #order-address{
+        #no{
+            height: 1.76rem;
+            font: .32rem/1.76rem "PingFang-M";
+            color: #323232;
+            text-align: center;
+        }
+        #yes{
+            padding: .5rem .6rem;
+            .name{
+                font: .34rem "PingFang-M";
+                color: #333;
+                span.isdefault{
+                    background: #FF7916;
+                    padding: .1rem;
+                    color: #fff;
+                    font-size: .28rem;
+                    border-radius: .3rem;
+                }
+                span.phone{
+                    margin-left: .5rem;
+                }
+            }
+            .address{
+                margin-top: .1rem;
+                font: .28rem "PingFang-M";
+                color: #323232;
+            }
+        }
+        ul{
+            display: flex;
+            flex-direction: column;
+            li{
+                display: flex;
+                align-items: center;
+                padding: .3rem .2rem;
+                width: 100%;
+                box-sizing: border-box;
+                height: 2.1rem;
+                border-bottom: .01rem solid #c8c8c8;
+                position: relative;
+                a{
+                    flex: 1;
+                    display: flex;
+                    img.shopping-list-img{
+                        height: 1.5rem;
+                        width: 1.5rem;
+                        
+                        margin-right: .3rem;
+                    }
+                    .shopping-list-detail{
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        p:nth-child(1){
+                            font: .34rem "PingFang-M";
+                            color:#323232;
+                        }
+                        p:nth-child(2){
+                            font: .28rem "PingFang-M";
+                            color: #646464;
+                        }
+                        p:nth-child(3){
+                            font: .28rem "PingFang-M";
+                            color: #FE555A;
+                            margin-top: .15rem;
+                            span{
+                                font-size: .38rem;
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                }
+                .shopping-list-num{
+                    position: absolute;
+                    bottom: .3rem;
+                    right: .4rem;
+                    display: flex;
+                    span{
+                        width: .5rem;
+                        text-align: center;
+                        font: .28rem "PingFang-M";
+                    }
+                }
+            }
+        }
+        .time{
+            height: 1rem;
+            border-bottom: 1px solid #C8C8C8;
+            padding: 0 .4rem;
+            font: .28rem/1rem "PingFang-M";
+            color: #323232;
+            img{
+                vertical-align: middle;
+                height: .4rem;
+                float: left;
+                margin-top: .3rem;
+                margin-right: .14rem;
+            }
+            span{
+                float: left;
+            }
+            span:nth-child(3){
+                float: right;
+                color: #49B152;
+            }
+        }
+        .coupon{
+            height: 1rem;
+            border-bottom: 1px solid #C8C8C8;
+            padding: 0 .4rem;
+            font: .28rem/1rem "PingFang-M";
+            color: #323232;
+            span{
+                float: left;
+            }
+            span:nth-child(2){
+                color: #646464;
+            }
+            img{
+                float: right;
+                height: .4rem;
+                margin-top: .3rem;
+            }
+        }
+        .grade{
+            height: 1rem;
+            border-bottom: 1px solid #C8C8C8;
+            padding: 0 .4rem;
+            font: .28rem/1rem "PingFang-M";
+            color: #323232;
+        }
+        .mustTotal{
+            height: 1rem;
+            border-bottom: 1px solid #C8C8C8;
+            padding: 0 .4rem;
+            font: .28rem/1rem "PingFang-M";
+            color: #323232;
+            span:nth-child(1){
+                float: left;
+            }
+            span:nth-child(2){
+                float: right;
+            }
+        }
+        footer{
+            position: fixed;
+            width: 100%;
+            height: 2.21rem;
+            left: 0;
+            bottom: 0;
+            background: #fff;
+            div:nth-child(1){
+                text-align: right;
+                font: .3rem/1.1rem "PingFang-M";
+                padding: 0 .4rem;
+                span:nth-child(2){
+                    color: #FF7916;
+                }
+            }
+            div:nth-child(2){
+                padding: 0 0 0 .4rem;
+                display: flex;
+                border-top: .01rem solid #C8C8C8;
+                span:nth-child(1){
+                    font: .3rem/1.1rem "PingFang-M";
+                    flex: 1;
+                    a{
+                        color: #FF7916;
+                    }
+                }
+                span:nth-child(2){
+                    width: 2.4rem;
+                    background: #FE555A;
+                    color: #fff;
+                    font: .34rem/1.1rem "PingFang-M";
+                    text-align: center;
+                }
+            }
+        }
+    }
+    
+}

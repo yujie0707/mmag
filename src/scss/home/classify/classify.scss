@@ -1,0 +1,28 @@
+
+@import "./aside";
+
+#classify{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    #classify-header{
+        height: .9rem;
+        text-align: center;
+        position: relative;
+        color: #fff;
+        background: #49B152;
+        font: .34rem/.9rem "PingFang-M";
+        #search{
+            
+            img{
+                position: absolute;
+                top: .3rem;
+                right: .4rem;
+                width: .3rem;
+                height: .3rem;
+                line-height: 0;
+            }
+        }
+    }
+}

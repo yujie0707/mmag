@@ -1,0 +1,135 @@
+#login{
+    overflow: hidden;
+    width: 100%;
+    .login-logo{
+        display: block;
+        margin: 1.5rem auto 1.2rem;
+        height: 1.8rem;
+        width: 1.8rem;
+    }
+    .login-tel-wrap{
+        width: 6rem;
+        margin: 0 auto;
+        position: relative;
+        height: .72rem;
+        .login-tel{
+            width: 5.1rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: .01rem solid #e0e0e0;
+            border-radius: .35rem;
+            height: .7rem;
+            padding-left: .8rem;
+            font-size: .28rem;
+            color: #333;
+            
+        }
+        .login-tel-img{
+            position: absolute;
+            width: .3rem;
+            height: .3rem;
+            top: .2rem;
+            left: .3rem;
+        }
+    }
+    .login-yanzheng-wrap{
+        width: 6rem;
+        margin: .5rem auto .94rem;
+        position: relative;
+        height: .72rem;
+        .login-yanzheng{
+            width: 5.1rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: .01rem solid #e0e0e0;
+            border-radius: .35rem;
+            height: .7rem;
+            padding-left: .8rem;
+            font-size: .28rem;
+            color: #333;
+        }
+        .login-yanzheng-img{
+            position: absolute;
+            width: .3rem;
+            height: .3rem;
+            top: .2rem;
+            left: .3rem;
+        }
+        span{
+            position: absolute;
+            font-size: .28rem;
+            line-height: .72rem;
+            right: .3rem;
+            top: 0;
+            color: #ff8416;
+        }
+    }
+    .login-invite-wrap{
+        width: 6rem;
+        margin: .5rem auto 0;
+        position: relative;
+        height: .72rem;
+        .login-invite{
+            width: 5.1rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: .01rem solid #e0e0e0;
+            border-radius: .35rem;
+            height: .7rem;
+            padding-left: .8rem;
+            font: .28rem "";
+            color: #333;
+        }
+        .login-invite-img{
+            position: absolute;
+            width: .3rem;
+            height: .3rem;
+            top: .2rem;
+            left: .3rem;
+        }
+        span{
+            position: absolute;
+            font: .28rem/.72rem "PingFang-M";
+            right: .3rem;
+            top: 0;
+            color: #ff8416;
+        }
+    }
+    .login-argee{
+        width: 6rem;
+        margin: 0 auto;
+        position: relative;
+        height: .3rem;
+        img{
+            position: absolute;
+            width: .3rem;
+            height: .3rem;
+            top: 0;
+            left: .3rem;
+            z-index: 100;
+        }
+        a{
+            position: absolute;
+            top: 0;
+            left: 0;
+            font: .28rem/.3rem "PingFang-M";
+            padding-left: .8rem;
+            color: #333;
+        }
+    }
+    .login-submit{
+        
+        display: block;
+        width: 6rem;
+        margin: .28rem auto 0;
+        height: .7rem;
+        border: 0;
+        color: #fff;
+        font: .32rem "PingFang-M";
+        
+        border-radius: .35rem;
+    }
+}

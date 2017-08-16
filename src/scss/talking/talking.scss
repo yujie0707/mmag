@@ -1,0 +1,96 @@
+
+#talking{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    #talking-header{
+        height: 1rem;
+        text-align: center;
+        color: #fff;
+        font: .34rem/1rem "PingFang-M";
+        background: #49B152;
+        position: relative;
+        img{
+            height: .4rem;
+            position: absolute;
+            left: .4rem;
+            top: .3rem;
+        }
+    }
+    nav{
+        display: flex;
+        text-align: center;
+        height: .8rem;
+        position: relative;
+        div{
+            flex: 1;
+            font: .28rem/.8rem "PingFang-M";
+            color: #323232;
+        }
+        div.active{
+            color: #49B152;
+        }
+        p{
+            height: .06rem;
+            width: 2.5rem;
+            background: #49b152;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transition: .3s left;
+        }
+    }
+    .wrap-swiper{
+        flex: 1;
+        width: 100%;
+        overflow: auto;
+        background: #F3F3F3;
+    }
+    .talking-single{
+        padding: .4rem .2rem;
+        background: #fff;
+        margin-bottom: .1rem;
+        div:nth-child(1){
+            height: 1rem;
+            img.img{
+                float: left;
+                height: 1rem;
+                border-radius: .5rem;
+            }
+            span{
+                margin-left: .2rem;
+                float: left;
+                font: .3rem/1rem "PingFang-M";
+                color: #323232;
+            }
+            div.div{
+                float: right;
+                height: .3rem;
+                margin-top: .35rem;
+                img{
+                    height: .3rem;
+                    float: left;
+                }
+            }
+        }
+        p:nth-child(2){
+            font: .28rem/.5rem "PingFang-M";
+            color: #969696;
+            text-align: right;
+        }
+        p:nth-child(3){
+            font: .28rem/.4rem "PingFang-M";
+            color: #323232;
+        }
+        .img-wrap{
+            width: 100%;
+            overflow: hidden;
+            margin-top: .2rem;
+            img{
+                width: 20%;
+                float: left;
+            }
+        }
+    }
+}
+

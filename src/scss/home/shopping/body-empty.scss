@@ -1,0 +1,26 @@
+
+
+#shopping-empty{
+    flex: 1;
+    overflow: auto;
+    img.empty-bg{
+        display: block;
+        margin: 1.6rem auto .45rem;
+        width: 4.2rem;
+    }
+    span{
+        display: block;
+        font: .34rem "PingFang-M";
+        color: #323232;
+        text-align: center;
+    }
+    input.goHome{
+        display: block;
+        margin: .45rem auto;
+        background: #49B152;
+        color: #fff;
+        font: .28rem/.6rem "PingFang-M";
+        width: 1.6rem;
+        border-radius: .1rem;
+    }
+}

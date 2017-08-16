@@ -1,0 +1,224 @@
+
+#pick{
+    width: 100%;
+    padding-bottom: 1.1rem;
+    img.pick-logo{
+        width: 100%;
+    }
+    div.address{
+        padding: .3rem;
+        .name{
+            font: .34rem "PingFang-M";
+            color: #333;
+        }
+        .addressDetail{
+            margin-top: .28rem;
+            font: .28rem "PingFang-M";
+            color: #969696;
+        }
+        .distance{
+            display: flex;
+            margin-top: .2rem;
+            span{
+                flex: 1;
+                font: .3rem "PingFang-M";
+            }
+            span:nth-child(1){
+                img{
+                    height: .28rem;
+                    vertical-align: middle;
+                }
+            }
+            span:nth-child(2){
+                color: #FE555A;
+            }
+            span:nth-child(3){
+                color: #969696;
+                text-align: right;
+            }
+        }
+    }
+    div.price{
+        padding: .3rem;
+        border-bottom: 1px solid #C8C8C8;
+        p{
+            font: .3rem "PingFang-M";
+        }
+        div{
+            display: flex;
+            margin: .2rem 0;
+            span{
+                flex: 1;
+                font: .28rem "PingFang-M";
+            }
+            span:nth-child(1){
+                
+                color: #FE555A;
+            }
+            span:nth-child(2){
+                flex: 2;
+                color: #646464;
+                b{
+                    color: #FE555A;
+                    font-weight: 100;
+                }
+            }
+            span:nth-child(3){
+                color: #333;
+                a{
+                    margin: 0 .2rem;
+                }
+                img{
+                    height: .34rem;
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+    #comment{
+        margin-top: .2rem;
+        padding: 0 .2rem;
+        .commentNum{
+            height: .7rem;
+            font: .28rem/.7rem "PingFang-M";
+            color: #969696;
+            a{
+                color: #FE555A;
+            }
+            span:nth-child(1){
+                float: left;
+            }
+            span:nth-child(2){
+                float: right;
+            }
+        }
+        .user{
+            img.pic{
+               height: .58rem;
+               width: .58rem;
+               vertical-align: middle;
+               margin-top: .2rem;
+               border-radius: 50%;
+               
+            } 
+            span.phone{
+                font: .28rem "PingFang-M";
+                color: #323232;
+            }
+            span.star{
+                float: right;
+                margin-top: .1rem;
+                img{
+                    height: .28rem;
+                    
+                    vertical-align: middle;                    
+                }
+            }
+        }
+        .commentContext{
+            margin-top: .2rem;
+            font: .28rem/.5rem "PingFang-M";
+            color: #323232;
+        }
+        .checkComment{
+            height: .4rem;
+            font: .28rem/.4rem "PingFang-M";
+            color: #969696;
+            width: 1.96rem;
+            text-align: center;
+            border: 1px solid #969696;
+            margin: .2rem auto;
+            border-radius: .1rem;
+        }
+    }
+    #noComment{
+        font: .34rem "PingFang-M";
+        margin: .2rem 0;
+        padding: 0 .3rem;
+    }
+    #pickDetail{
+        padding: .1rem 0;
+        .push{
+            font: .38rem "PingFang-M";
+            color: #323232;
+            text-align: center;
+            
+        }
+        .needKnow{
+            border: 1px solid #333;
+            width: 6.4rem;
+            margin: .3rem auto 0;
+            padding: .35rem;
+            position: relative;
+            .title{
+                font: .3rem "PingFang-M";
+                color: #646464;
+                text-align: center;
+                position: absolute;
+                top: -.25rem;
+                left: 0;
+                right: 0;
+                margin: auto;
+                span{
+                    background: #fff;
+                    padding: 0 .2rem;
+                }
+            }
+            .context{
+                p{
+                    font: .28rem/.4rem "PingFang-M";
+                    color: #969696;
+                    span:nth-child(1){
+                        color: #333;
+                    }
+                    span{
+                        display: block;
+                    }
+                }
+            }
+        }
+        .detail-img{
+            margin-top: .3rem;
+            img{
+                width: 100%;
+            }
+        }
+    }
+    footer{
+        position: fixed;
+        width: 100%;
+        height: 1.1rem;
+        border-top: 1px solid #C8C8C8;
+        display: flex;
+        align-items: center;
+        left: 0;
+        bottom: 0;
+        background: #fff;
+        div{
+            font: .34rem/1.1rem "PingFang-M";
+            text-align: center;
+            color: #fff;
+        }
+        div:nth-child(1){
+            width: 1.4rem;
+            font: .28rem "PingFang-M";
+            color: #646464;
+            img{
+                display: block;
+                margin: 0 auto;
+                height: .5rem;
+            }
+        }
+        div:nth-child(2){
+            flex: 1;
+            background: #FF7916;
+            height: 1.1rem;
+        }
+        div:nth-child(3){
+            flex: 1;
+            background: #FE555A;
+            height: 1.1rem;
+        }
+    }
+
+}

@@ -1,0 +1,233 @@
+
+#detail{
+    padding-bottom: 1.15rem;
+    width: 100%;
+    #description{
+        .title{
+            font: .3rem "PingFang-M";
+            color: #323232;
+            padding-left: .4rem;
+            img{
+                height: .3rem;
+                vertical-align: middle;
+            }
+        }
+        .one{
+            margin-top: .2rem;
+            font: .28rem "PingFang-M";
+            color: #969696;
+            padding-left: .4rem;
+            img{
+                height: .4rem;
+                vertical-align: middle;
+            }
+        }
+        .taste{
+            overflow: hidden;
+            padding: 0 .4rem;
+            margin-top: .2rem;
+            span:nth-child(1){
+                float: left;
+                font: .28rem "PingFang-M";
+                color: #969696;
+            }
+            span:nth-child(2){
+                float: right;
+                font: .34rem "PingFang-M";
+                color: #646464;
+            }
+        }
+        .price{
+            padding-left: .4rem;
+            overflow: hidden;
+            margin-top: .2rem;
+            span:nth-child(1){
+                color: #FE555A;
+                font: .28rem "PingFang-M";
+                float: left;
+            }
+            span:nth-child(2){
+                float: left;
+                color: #646464;
+                font: .28rem "PingFang-M";
+                margin-left: .4rem;
+            }
+        }
+        .tip{
+            display: flex;
+            height: .7rem;
+            background: #f7f7f7;
+            margin-top: .3rem;
+            span{
+                flex: 1;
+                text-align: center;
+                font: .28rem/.7rem "PingFang-M";
+                color: #969696;
+                img{
+                    height: .2rem;
+                    vertical-align: middle;
+                    margin-right: .1rem;
+                }
+            }
+        }
+    }
+    #comment{
+        margin-top: .2rem;
+        padding: 0 .2rem;
+        .commentNum{
+            height: .7rem;
+            font: .28rem/.7rem "PingFang-M";
+            color: #969696;
+            a{
+                color: #FE555A;
+            }
+            span:nth-child(1){
+                float: left;
+            }
+            span:nth-child(2){
+                float: right;
+            }
+        }
+        .user{
+            img.pic{
+               height: .58rem;
+               width: .58rem;
+               vertical-align: middle;
+               margin-top: .2rem;
+               border-radius: 50%;
+            } 
+            span.phone{
+                font: .28rem "PingFang-M";
+                color: #323232;
+            }
+            span.star{
+                float: right;
+                margin-top: .1rem;
+                img{
+                    height: .28rem;
+                    
+                    vertical-align: middle;                    
+                }
+            }
+        }
+        .commentContext{
+            margin-top: .2rem;
+            font: .28rem/.5rem "PingFang-M";
+            color: #323232;
+        }
+        .checkComment{
+            height: .4rem;
+            font: .28rem/.4rem "PingFang-M";
+            color: #969696;
+            width: 1.96rem;
+            text-align: center;
+            border: 1px solid #969696;
+            margin: .2rem auto;
+            border-radius: .1rem;
+        }
+    }
+    #noComment{
+        font: .34rem "PingFang-M";
+        margin: .2rem 0;
+        padding: 0 .3rem;
+    }
+    #productDetail{
+        .title{
+            height: .9rem;
+            font: .4rem/.9rem "PingFang-M";
+            color: #323232;
+            text-align: center;
+            background: #F7F7F7;
+        }
+        table{
+            width: 100%;
+            border-left: 1px solid #999;
+            border-top: 1px solid #999;
+            td{
+                border-right: 1px solid #999;
+                border-bottom: 1px solid #999;
+                height: .7rem;
+                font: .28rem "PingFang-M";
+                padding: .2rem;
+            }
+        }
+        .standard{
+            font: .34rem/.7rem "PingFang-M";
+            text-align: center;
+            color: #333;
+            
+        }
+        .name{
+            font: .28rem "pngFang-M";
+            color: #999;
+            margin-bottom: .2rem;
+        }
+        
+    }
+    .advert{
+        width: 100%;
+            
+    }
+    footer{
+        height: 1.1rem;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        left: 0;
+        display: flex;
+        text-align: center;
+        align-items: center;
+        border-top: 1px solid #C8C8C8;
+        background: #fff;
+        div:nth-child(1){
+            flex: 1;
+            font: .28rem "PingFang-M";
+            color: #646464;
+            position: relative;
+            
+            img{
+                display: block;
+                height: .48rem;
+                margin: 0 auto;
+            }
+            #num{
+               position: absolute;
+               width: .34rem;
+               height: .34rem;
+               background: #FE555A;
+               font: .28rem/.34rem "PingFang-M";
+               text-align: center;
+               border-radius: 50%; 
+               color: #fff;
+               top: -.1rem;
+               right: .4rem;
+            }
+        }
+        div:nth-child(2){
+            flex: 1;
+            font: .28rem "PingFang-M";
+            color: #646464;
+            img{
+                display: block;
+                height: .48rem;
+                margin: 0 auto;
+            }
+        }
+        div:nth-child(3){
+            width: 4.2rem;
+            display: flex;
+            div{
+                flex: 1;
+                font: .34rem/1.1rem "PingFang-M";
+                color: #fff;
+                height: 1.1rem;
+            }
+            div:nth-child(1){
+                background: #FE555A;
+            }
+            div:nth-child(2){
+                background: #f90;
+            }
+        }
+    }
+}
