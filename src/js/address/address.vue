@@ -81,7 +81,7 @@
 			},
 			del(index,addressid){
 				axios({
-					url:"http://ws.tianmaoetong.com/address/del",
+					url:"/address/del",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -103,7 +103,7 @@
 							this.alertshow = false;
 						},1000)
 						axios({
-							url:"http://ws.tianmaoetong.com/address/search",
+							url:"/address/search",
 							method:"post",
 							headers:{
 								"appid": 1,
@@ -150,7 +150,7 @@
 		},
 		mounted(){
 			axios({
-				url:"http://ws.tianmaoetong.com/address/search",
+				url:"/address/search",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -176,7 +176,7 @@
 		},
 		activated(){
 			axios({
-				url:"http://ws.tianmaoetong.com/address/search",
+				url:"/address/search",
 				method:"post",
 				headers:{
 					"appid": 1,

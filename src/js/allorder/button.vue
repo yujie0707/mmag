@@ -45,7 +45,7 @@
 		methods:{
 			cancel(orderid){
 				axios({
-					url:"http://ws.tianmaoetong.com/order/cancle",
+					url:"/order/cancle",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -68,7 +68,7 @@
 						},1000)
 
 						axios({
-							url:"http://ws.tianmaoetong.com/order/search",
+							url:"/order/search",
 							method:"post",
 							headers:{
 								"appid": 1,
@@ -92,7 +92,7 @@
 							}
 						})
 						axios({
-							url:"http://ws.tianmaoetong.com/order/search",
+							url:"/order/search",
 							method:"post",
 							headers:{
 								"appid": 1,
@@ -140,7 +140,7 @@
 				}else{
 					if(confirm("你确定退款吗?")){
 						axios({
-							url:"http://ws.tianmaoetong.com/ec_pay/backmoney",
+							url:"/ec_pay/backmoney",
 							method:"post",
 							headers:{
 								"appid": 1,
@@ -163,7 +163,7 @@
 									this.alertshow = false;
 								},1000)
 								axios({
-									url:"http://ws.tianmaoetong.com/order/search",
+									url:"/order/search",
 									method:"post",
 									headers:{
 										"appid": 1,
@@ -187,7 +187,7 @@
 									}
 								})
 								axios({
-									url:"http://ws.tianmaoetong.com/order/search",
+									url:"/order/search",
 									method:"post",
 									headers:{
 										"appid": 1,
@@ -211,7 +211,7 @@
 									}
 								})
 								axios({
-									url:"http://ws.tianmaoetong.com/order/search",
+									url:"/order/search",
 									method:"post",
 									headers:{
 										"appid": 1,
@@ -235,7 +235,7 @@
 									}
 								})
 								axios({
-									url:"http://ws.tianmaoetong.com/order/search",
+									url:"/order/search",
 									method:"post",
 									headers:{
 										"appid": 1,
@@ -274,7 +274,7 @@
 			affirm(orderid,type){
 				type = type == 1 ? 1 : 3;
 				axios({
-					url:"http://ws.tianmaoetong.com/orderhandle/sure",
+					url:"/orderhandle/sure",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -294,7 +294,7 @@
 					if(res.data.code == 0){
 						
 						axios({
-							url:"http://ws.tianmaoetong.com/order/search",
+							url:"/order/search",
 							method:"post",
 							headers:{
 								"appid": 1,
@@ -318,7 +318,7 @@
 							}
 						})
 						axios({
-							url:"http://ws.tianmaoetong.com/order/search",
+							url:"/order/search",
 							method:"post",
 							headers:{
 								"appid": 1,
@@ -337,6 +337,30 @@
 							if(res.data.code == 0){
 								Store.dispatch({
 									type:"YES",
+									context: res.data.data
+								})
+							}
+						})
+						axios({
+							url:"/order/search",
+							method:"post",
+							headers:{
+								"appid": 1,
+						        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
+						        "channelid": "WX",
+						        "UserAgent": "WX",
+						        "productid": 1,
+						        "userid":sessionStorage.getItem("userid"),
+						        "usertoken":sessionStorage.getItem("usertoken")
+							},
+							params:{
+								type: 5,
+								page: 1
+							}
+						}).then(res => {
+							if(res.data.code == 0){
+								Store.dispatch({
+									type:"COMPLETE",
 									context: res.data.data
 								})
 							}

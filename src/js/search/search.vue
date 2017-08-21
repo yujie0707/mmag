@@ -58,7 +58,7 @@
 		},
 		mounted(){
 			axios({
-				url:"http://ws.tianmaoetong.com/search/searchnum",
+				url:"/search/searchnum",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -87,7 +87,7 @@
 			searchLevel(name,level){
 				var namename = level == 2 ? name : name.split(" ")[0];
 				axios({
-					url:"http://ws.tianmaoetong.com/search/details",
+					url:"/search/details",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -114,7 +114,7 @@
 			},
 			gosearch(){
 				axios({
-					url:"http://ws.tianmaoetong.com/search/details",
+					url:"/search/details",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -150,7 +150,7 @@
 					clearTimeout(this.timer);
 					this.timer = setTimeout(() => {
 						axios({
-							url:"http://ws.tianmaoetong.com/search/item",
+							url:"/search/item",
 							method:"post",
 							headers:{
 								"appid": 1,

@@ -47,7 +47,7 @@
 						page++;
 						that.page = page;
 						axios({
-							url:"http://ws.tianmaoetong.com/order/search",
+							url:"/order/search",
 							method:"post",
 							headers:{
 								"appid": 1,
@@ -77,7 +77,7 @@
 		},
 		mounted(){
 			axios({
-				url:"http://ws.tianmaoetong.com/order/search",
+				url:"/order/search",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -147,7 +147,7 @@
 					break;
 			}
 			axios({
-				url:"http://ws.tianmaoetong.com/order/search",
+				url:"/order/search",
 				method:"post",
 				headers:{
 					"appid": 1,

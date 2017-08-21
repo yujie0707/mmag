@@ -19,7 +19,7 @@
 		activated(){
 			this.$el.scrollTop = sessionStorage.getItem("chinaTop") ? sessionStorage.getItem("chinaTop") : 0;
 			axios({
-				url:"http://ws.tianmaoetong.com/index/category",
+				url:"/index/category",
 				method:"post",
 				headers:{
 					"appid": 1,

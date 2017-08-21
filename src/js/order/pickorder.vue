@@ -118,7 +118,7 @@
 					return;
 				}
 				axios({
-					url:"http://ws.tianmaoetong.com/order/addcg",
+					url:"/order/addcg",
 					method:"post",
 					headers:{
 						"appid": 1,

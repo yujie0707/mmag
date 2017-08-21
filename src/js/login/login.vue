@@ -5,10 +5,10 @@
 			<input type="number" class="login-tel" v-model="tel" placeholder="手机号" @focus="telGet()" @blur="telTake()" />
 			<img class="login-tel-img" :src="isTel ? '/dist/image/logo/shouji_weixuan.png' : '/dist/image/logo/shouji_dianji.png'" />
 		</div>
-		<div class="login-invite-wrap" v-if="isShow">
+		<!--<div class="login-invite-wrap" v-if="isShow">
 			<input type="number" class="login-invite" placeholder="邀请码（可选）" @focus="inviteGet()" @blur="inviteTake()" />
 			<img class="login-invite-img" :src="isInvite ? '/dist/image/logo/yaoqing_weixuan.png' : '/dist/image/logo/yaoqing_dianji.png'" />
-		</div>
+		</div>-->
 		<div class="login-yanzheng-wrap">
 			<input type="number" class="login-yanzheng" v-model="yanzheng" placeholder="验证码" @focus="yanzhengGet()" @blur="yanzhengTake()" />
 			<img class="login-yanzheng-img" :src="isYanzheng ? '/dist/image/logo/yanzhengma_weixuan.png' : '/dist/image/logo/yanzhengma_dianji.png'" />
@@ -86,7 +86,7 @@
 				
 				axios({
 					method: 'post',
-					url: "http://ws.tianmaoetong.com/sms/login",
+					url: "/sms/login",
 					params: {
 						mobile:that.tel
 					},
@@ -142,7 +142,7 @@
 				}else{
 					axios({
 						method: 'post',
-						url: "http://ws.tianmaoetong.com/user/login",
+						url: "/user/login",
 						params: {
 							mobile:that.tel,
 							smscode:that.yanzheng,

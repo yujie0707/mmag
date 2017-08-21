@@ -31,7 +31,7 @@
 		</div>
 		<div class="refundMoney">
 			<span>退款金额：</span>
-			<span>￥{{item.fin_money}}</span>
+			<input type="number" placeholder="请输入退款金额" v-model="money" />
 		</div>
 		<div class="max">
 			最多￥{{item.fin_money}}（含发货邮费￥0.00）
@@ -93,7 +93,8 @@
 				height: document.body.offsetHeight,
 				slide:{},
 				alertshow:false,
-				context:"请选择退款原因"
+				context:"请选择退款原因",
+				money:''
 			}
 		},
 		methods:{
@@ -125,8 +126,24 @@
 					},1000)
 					return;
 				}
+				if(this.money == ""){
+					this.context = "请输入退款金额";
+					this.alertshow = true;
+					setTimeout(() => {
+						this.alertshow = false;
+					},1000)
+					return;
+				}
+				if(parseFloat(this.money) > parseFloat(this.item.fin_money)){
+					this.context = "退款金额不能大于订单金额";
+					this.alertshow = true;
+					setTimeout(() => {
+						this.alertshow = false;
+					},1000)
+					return;
+				}
 				axios({
-					url:"http://ws.tianmaoetong.com/ec_pay/backmoney",
+					url:"/ec_pay/backmoney",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -140,7 +157,7 @@
 					params:{
 						orderid: this.item.orderid,
 						type:1,
-						money: this.item.fin_money,
+						money: this.money,
 						backReason: this.reason,
 						other: this.state,
 						file:''

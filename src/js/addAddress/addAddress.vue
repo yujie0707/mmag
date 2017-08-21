@@ -10,7 +10,7 @@
 			<span>联系电话</span>
 			<input type="number" placeholder="快递员联系你的电话" v-model="phone" />
 		</div>
-		<div class="city" @click="show()">
+		<div class="cityAt" @click="show()">
 			<span>所在城市</span>
 			<span>
 				<a>{{city}}</a>
@@ -60,14 +60,17 @@
 				</ul>
 			</div>
 		</div>
+		<v-alert v-if="alertshow" :context="context"></v-alert>
 	</div>
 </template>
 
 <script>
+	import Alert from "../alert.vue";
 	import Header from "./header.vue";
 	export default{
 		components:{
-			"v-header":Header
+			"v-header": Header,
+			"v-alert": Alert
 		},
 		data(){
 			return{
@@ -89,7 +92,9 @@
 				lng:'',
 				lat:'',
 				plot:"小区/街道/写字楼",
-				addressid:''
+				addressid:'',
+				alertshow: false,
+				context:""
 			}
 		},
 		methods:{
@@ -114,7 +119,7 @@
 			tocity(id,province){
 				var that = this;
 				axios({
-					url:"http://ws.tianmaoetong.com/address/getarea",
+					url:"/address/getarea",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -140,7 +145,7 @@
 				var that = this;
 				
 				axios({
-					url:"http://ws.tianmaoetong.com/address/getarea",
+					url:"/address/getarea",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -183,7 +188,7 @@
 			send(){
 				if(!this.addressid){
 					axios({
-						url:"http://ws.tianmaoetong.com/address/adds",
+						url:"/address/adds",
 						method:"post",
 						headers:{
 							"appid": 1,
@@ -206,14 +211,27 @@
 							type: this.type
 						}
 					}).then(res => {
-						console.log(res);
 						if(res.data.code == 0){
 							this.$router.go(-1);
+						}else if(res.data.code == 2175){
+							this.context = "详细地址字数过多，请适当删减";
+							this.alertshow = true;
+							
+							setTimeout(() => {
+								this.alertshow = false;
+							},1000)
+						}else{
+							this.context = "地址添加失败";
+							this.alertshow = true;
+							
+							setTimeout(() => {
+								this.alertshow = false;
+							},1000)
 						}
 					})
 				}else{
 					axios({
-						url:"http://ws.tianmaoetong.com/address/update",
+						url:"/address/update",
 						method:"post",
 						headers:{
 							"appid": 1,
@@ -237,9 +255,15 @@
 							addressid: this.addressid
 						}
 					}).then(res => {
-						console.log(res);
 						if(res.data.code == 0){
 							this.$router.go(-1);
+						}else{
+							this.context = "地址添加失败";
+							this.alertshow = true;
+							
+							setTimeout(() => {
+								this.alertshow = false;
+							},1000)
 						}
 					})
 				}
@@ -256,7 +280,7 @@
 		},
 		mounted(){
 			axios({
-				url:"http://ws.tianmaoetong.com/address/getarea",
+				url:"/address/getarea",
 				method:"post",
 				headers:{
 					"appid": 1,

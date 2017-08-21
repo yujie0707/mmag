@@ -25,9 +25,9 @@
 		<div class="car-wrap" @click.stop.prevent="addCar(data.catid)" >
 			<img src="/dist/image/home/subhome/gouwuche_red.png" class="single-car" />
 		</div>
-		<!--<span class="single-num">
-			{{data.buyNum}}
-		</span>-->
+		<span class="single-num">
+			已售{{data.buyNum}}
+		</span>
 		<v-alert v-if="alertshow" context="添加购物车成功"></v-alert>
 	</div>
 </template>
@@ -58,7 +58,7 @@
 			},
 			addCar(id){
 				axios({
-					url:"http://ws.tianmaoetong.com/ec_shoppingcart/add",
+					url:"/ec_shoppingcart/add",
 					method:"post",
 					headers:{
 						"appid": 1,

@@ -24,6 +24,7 @@ import Orderdetail from "./js/orderdetail/orderdetail.vue";
 import Editmy from "./js/editmy/editmy.vue";
 import Talkingnow from "./js/talkingnow/talkingnow.vue";
 import Refund from "./js/refund/refund.vue";
+import Coupon from "./js/coupon/coupon.vue";
 
 import './scss/total.scss';
 
@@ -35,6 +36,7 @@ Vue.use(VueLazyload,{
 	error: "/dist/image/error.png"
 })
 
+axios.defaults.baseUrl = "http://www.tianmaoetong.com:5555";
 
 var routes = [{
 	path:"/",
@@ -118,6 +120,10 @@ var routes = [{
 	path:"/refund/:data",
 	name:"refund",
 	component:Refund
+},{
+	path:"/coupon/:type/:money",
+	name:"coupon",
+	component:Coupon
 }];
 
 var router = new VueRouter({

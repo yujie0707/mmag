@@ -19,7 +19,7 @@
 		},
 		activated(){
 			axios({
-				url:"http://ws.tianmaoetong.com/index/category",
+				url:"/index/category",
 				method:"post",
 				headers:{
 					"appid": 1,

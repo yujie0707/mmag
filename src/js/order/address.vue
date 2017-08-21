@@ -32,10 +32,11 @@
 		<div class="time">
 			<img src="/dist/image/order/shijianbiao.png" /><span>配送时间</span><span>工作节假日均可收货</span>
 		</div>
-		<div class="coupon">
+		<div class="coupon" @click="goCoupon()">
 			<span>优惠券</span>
-			<span>（可用0张）</span>
-			<img src="/dist/image/home/my/quanbu.png"/>
+			<span v-if="couponShow">（可用{{couponNum}}张）</span>
+			<span v-else style="float: right; color: #FF7916;">-￥{{couponMoney.toFixed(2)}}</span>
+			<img v-if="couponShow" src="/dist/image/home/my/quanbu.png"/>
 		</div>
 		<div class="grade">
 			<span>积分</span>
@@ -52,11 +53,11 @@
 		<footer>
 			<div>
 				<span>合计：</span>
-				<span>￥{{total}}</span>
+				<span>￥{{totalcoupon}}</span>
 			</div>
 			<div>
 				<span>
-					付款：<a>￥{{total}}</a>
+					付款：<a>￥{{totalcoupon}}</a>
 				</span>
 				<span @click="submit()">提交订单</span>
 			</div>
@@ -70,6 +71,16 @@
 	export default{
 		
 		methods:{
+			goCoupon(){
+				
+				this.$router.push({
+					name:"coupon",
+					params:{
+						type: 2,
+						money: this.total
+					}
+				})
+			},
 			addAddress(){
 				sessionStorage.setItem("isjump",1);
 				this.$router.push("/address");
@@ -77,7 +88,7 @@
 			submit(){
 				if(Store.getState().order.type == 1){
 					axios({
-						url:"http://ws.tianmaoetong.com/order/add",
+						url: "/order/add",
 						method:"post",
 						headers:{
 							"appid": 1,
@@ -90,10 +101,10 @@
 						},
 						params:{
 							addressid: this.address.addressid,
-							couponid:'',
+							couponid: this.couponid,
 							integralid:'',
 							totallmoney: this.total,
-							finallymoney: this.total,
+							finallymoney: this.totalcoupon,
 							freight:"0.00",
 							ordertype: Store.getState().order.type,
 							orderids: Store.getState().order.detail.orderids
@@ -107,13 +118,17 @@
 									money: res.data.data.fin_money
 								}
 							})
+							if(sessionStorage.getItem("coupon")){
+								sessionStorage.removeItem("coupon");
+								sessionStorage.removeItem("couponid");
+							}
 							this.$router.push("/weixin")
 						}
 					})
 					
 				}else if(Store.getState().order.type == 2){
 					axios({
-						url:"http://ws.tianmaoetong.com/order/add",
+						url:"/order/add",
 						method:"post",
 						headers:{
 							"appid": 1,
@@ -126,10 +141,10 @@
 						},
 						params:{
 							addressid: this.address.addressid,
-							couponid:'',
+							couponid:this.couponid,
 							integralid:'',
 							totallmoney: this.total,
-							finallymoney: this.total,
+							finallymoney: this.totalcoupon,
 							freight:"0.00",
 							ordertype: Store.getState().order.type,
 							catid:Store.getState().order.detail.list[0].catid,
@@ -144,6 +159,10 @@
 									money: res.data.data.fin_money
 								}
 							})
+							if(sessionStorage.getItem("coupon")){
+								sessionStorage.removeItem("coupon");
+								sessionStorage.removeItem("couponid");
+							}
 							this.$router.push("/weixin")
 						}
 					})
@@ -154,7 +173,11 @@
 			return{
 				show:false,
 				address:{},
-			    list: Store.getState().order.detail.list
+			    list: Store.getState().order.detail.list,
+			    couponNum:0,
+			    couponShow:true,
+			    couponMoney:0,
+			    couponid:''
 			}
 		},
 		computed:{
@@ -164,11 +187,19 @@
 					total += parseFloat(this.list[i].num) * parseFloat(this.list[i].mbn_details) * parseFloat(this.list[i].price);
 				}
 				return total.toFixed(2);
+			},
+			totalcoupon(){
+				var total = 0;
+				for(var i = 0; i < this.list.length; i++){
+					total += parseFloat(this.list[i].num) * parseFloat(this.list[i].mbn_details) * parseFloat(this.list[i].price);
+				}
+				total = total - this.couponMoney;
+				return total.toFixed(2);
 			}
 		},
 		mounted(){
 			axios({
-				url:"http://ws.tianmaoetong.com/address/search",
+				url:"/address/search",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -186,15 +217,56 @@
 				this.address = res.data.data[0];
 				this.show = res.data.data.length == 0 ? true : false;
 			})
+			axios({
+				url:"/Coupon/GetList",
+				method:"post",
+				headers:{
+					"appid": 1,
+			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
+			        "channelid": "WX",
+			        "UserAgent": "WX",
+			        "productid": 1,
+			        "userid":sessionStorage.getItem("userid"),
+			        "usertoken":sessionStorage.getItem("usertoken")
+				},
+				params:{
+					type:1,
+					money: this.total
+				}
+			}).then(res => {
+				this.couponNum = res.data.data.length;
+			})
 		},
 		activated(){
 			this.show = false;
 			this.list = Store.getState().order.detail.list;
+			this.couponShow = sessionStorage.getItem("coupon") ? false : true;
+			this.couponMoney = sessionStorage.getItem("coupon") ? parseFloat(sessionStorage.getItem("coupon")) : 0;
+			this.couponid = sessionStorage.getItem("couponid") ? sessionStorage.getItem("couponid") : '';
 			
+			axios({
+				url:"/Coupon/GetList",
+				method:"post",
+				headers:{
+					"appid": 1,
+			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
+			        "channelid": "WX",
+			        "UserAgent": "WX",
+			        "productid": 1,
+			        "userid":sessionStorage.getItem("userid"),
+			        "usertoken":sessionStorage.getItem("usertoken")
+				},
+				params:{
+					type:1,
+					money: this.total
+				}
+			}).then(res => {
+				this.couponNum = res.data.data.length;
+			})
 			if(this.$route.params.address){
 				if(this.$route.params.address == "false"){
 					axios({
-						url:"http://ws.tianmaoetong.com/address/search",
+						url:"/address/search",
 						method:"post",
 						headers:{
 							"appid": 1,
@@ -217,7 +289,7 @@
 				}
 			}else{
 				axios({
-					url:"http://ws.tianmaoetong.com/address/search",
+					url:"/address/search",
 					method:"post",
 					headers:{
 						"appid": 1,

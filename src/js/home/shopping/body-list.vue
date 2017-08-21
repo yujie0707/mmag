@@ -88,7 +88,7 @@
 			},
 			add(index,id){
 				axios({
-					url:"http://ws.tianmaoetong.com/ec_shoppingcart/add",
+					url:"/ec_shoppingcart/add",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -119,7 +119,7 @@
 					return					
 				}
 				axios({
-					url:"http://ws.tianmaoetong.com/ec_shoppingcart/minus",
+					url:"/ec_shoppingcart/minus",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -193,7 +193,7 @@
 		},
 		mounted(){
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_shoppingcart/list",
+				url:"/ec_shoppingcart/list",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -230,7 +230,7 @@
 		},
 		activated(){
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_shoppingcart/list",
+				url:"/ec_shoppingcart/list",
 				method:"post",
 				headers:{
 					"appid": 1,

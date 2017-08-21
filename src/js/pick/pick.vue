@@ -286,7 +286,7 @@
 		},
 		mounted(){
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_category/details",
+				url:"/ec_category/details",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -306,7 +306,7 @@
 		},
 		activated(){
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_category/details",
+				url:"/ec_category/details",
 				method:"post",
 				headers:{
 					"appid": 1,

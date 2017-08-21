@@ -16,6 +16,12 @@
 		activated(){
 			wx.hideOptionMenu();
 		},
+		deactivated(){
+			if(sessionStorage.getItem("coupon")){
+				sessionStorage.removeItem("coupon");
+				sessionStorage.removeItem("couponid");
+			}
+		},
 		beforeRouteEnter(to,from,next){
 			if(localStorage.getItem("info")){
 				if(JSON.parse(localStorage.getItem("info")).time < new Date().getTime()){

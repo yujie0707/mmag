@@ -27,7 +27,7 @@
 				}
 				orderid = list.join("_");
 				axios({
-					url:"http://ws.tianmaoetong.com/ec_shoppingcart/delete",
+					url:"/ec_shoppingcart/delete",
 					method:"post",
 					headers:{
 						"appid": 1,

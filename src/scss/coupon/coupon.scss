@@ -1,0 +1,105 @@
+
+
+#coupon{
+    display: flex;
+    flex-direction: column;
+    
+    height: 100%;
+    header{
+        height: 1rem;
+        text-align: center;
+        color: #fff;
+        font: .34rem/1rem "PingFang-M";
+        background: #49B152;
+        position: relative;
+        img{
+            height: .4rem;
+            position: absolute;
+            left: .4rem;
+            top: .3rem;
+        }
+    }
+    #coupon-empty{
+        flex: 1;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        text-align: center;
+        font: .32rem "PingFang-M";
+        color: #666;
+        img{
+            width: 80%;
+            display: block;
+            margin: 1rem auto .5rem;
+        }
+    }
+    #list{
+        flex: 1;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 .2rem;
+        background: #fff;
+        .coupon-single{
+            height: 1.8rem;
+            margin-top: .2rem;
+            position: relative;
+            padding-left: .4rem;
+            img.background{
+                height: 1.8rem;
+                width: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                z-index: 0;
+            }
+            .value{
+                position: relative;
+                z-index: 1;
+                float: left;
+                font: 600 .4rem "PingFang-M";
+                color: #fff;
+                a{
+                    font: 600 .7rem "PingFang-M";
+                    color: #fff;
+                }
+                span{
+                    display: block;
+                    
+                }
+                span:nth-child(1){
+                    margin-top: .3rem;
+                    
+                }
+                span:nth-child(2){
+                    margin-top: .2rem;
+                    font-weight: 100;
+                    font-size: .3rem;
+                }
+            }
+            .type{
+                position: relative;
+                z-index: 1;
+                float: right;
+                margin-right: 1.8rem;
+                span:nth-child(1){
+                    display: block;
+                    margin-top: .5rem;
+                    font: .3rem "PingFang-M";
+                }
+                span:nth-child(2){
+                    display: block;
+                    margin-top: .3rem;
+                    font: .28rem "PingFang-M";
+                }
+            }
+            .overdue{
+                height: 1.4rem;
+                position: absolute;
+                top: .2rem;
+                right: 0;
+                z-index: 1;
+            }
+        }
+        
+    }
+}

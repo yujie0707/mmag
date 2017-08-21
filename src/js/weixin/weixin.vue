@@ -41,7 +41,7 @@
 		methods:{
 			payNow(){
 				axios({
-					url:"http://ws.tianmaoetong.com/ec_pay/pay",
+					url:"/ec_pay/pay",
 					method:"post",
 					headers:{
 						"appid": 1,

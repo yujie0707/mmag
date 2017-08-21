@@ -15,6 +15,7 @@
 @import "./editmy/editmy";
 @import "./talkingnow/talkingnow";
 @import "./refund/refund";
+@import "./coupon/coupon";
 
 
 html,body,#outer{
@@ -96,6 +97,14 @@ html,body,#outer{
             bottom: .5rem;
             z-index: 100;
         }            
+    }
+    .single-num{
+        position: absolute;
+        top: .2rem;
+        left: .2rem;
+        background: #FE555A;
+        color: #fff;
+        font: .2rem "PingFang-M";
     }
     
 }

@@ -23,14 +23,12 @@
             top: .3rem;
         }
     }
-    div{
+    .name,.phone,.addressDetail{
         border-bottom: 1px solid #C8C8C8;
         padding: 0 .4rem;
         height: 1.1rem;
         font: .3rem/1.1rem "PingFang-M";
         color: #323232;
-    }
-    .name,.phone,.addressDetail{
         span{
             float: left;
         }
@@ -41,7 +39,12 @@
             font-size: .28rem;
         }
     }
-    .city,.address{
+    .cityAt,.address{
+        border-bottom: 1px solid #C8C8C8;
+        padding: 0 .4rem;
+        height: 1.1rem;
+        font: .3rem/1.1rem "PingFang-M";
+        color: #323232;
         span{
             float: left;
         }
@@ -63,6 +66,11 @@
         }
     }
     .type{
+        border-bottom: 1px solid #C8C8C8;
+        padding: 0 .4rem;
+        height: 1.1rem;
+        font: .3rem/1.1rem "PingFang-M";
+        color: #323232;
         span{
             float: left;
             margin-right: .25rem;
@@ -87,6 +95,11 @@
         }
     }
     .defaultAddress{
+        border-bottom: 1px solid #C8C8C8;
+        padding: 0 .4rem;
+        height: 1.1rem;
+        font: .3rem/1.1rem "PingFang-M";
+        color: #323232;
         span{
             float: left;
         }

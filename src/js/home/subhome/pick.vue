@@ -68,7 +68,7 @@
 			}else{
 				if(sessionStorage.getItem("lng")){
 					axios({
-			        	url:"http://ws.tianmaoetong.com/index/orchard",
+			        	url:"/index/orchard",
 			        	method:"post",
 			        	headers:{
 			        		"appid": 1,
@@ -92,7 +92,7 @@
 			        })
 				}else if(sessionStorage.getItem("error")){
 					axios({
-			        	url:"http://ws.tianmaoetong.com/index/orchard",
+			        	url:"/index/orchard",
 			        	method:"post",
 			        	headers:{
 			        		"appid": 1,
@@ -131,7 +131,7 @@
 				        sessionStorage.setItem("lat",data.position.getLat());
 				        
 				        axios({
-				        	url:"http://ws.tianmaoetong.com/index/orchard",
+				        	url:"/index/orchard",
 				        	method:"post",
 				        	headers:{
 				        		"appid": 1,
@@ -160,7 +160,7 @@
 				        sessionStorage.setItem("fail","error");
 				        if(sessionStorage.getItem("lng")){
 							axios({
-					        	url:"http://ws.tianmaoetong.com/index/orchard",
+					        	url:"/index/orchard",
 					        	method:"post",
 					        	headers:{
 					        		"appid": 1,
@@ -184,7 +184,7 @@
 					        })
 						}else{
 							axios({
-					        	url:"http://ws.tianmaoetong.com/index/orchard",
+					        	url:"/index/orchard",
 					        	method:"post",
 					        	headers:{
 					        		"appid": 1,
@@ -229,7 +229,7 @@
 						page++;
 						that.page = page;
 						axios({
-							url:"http://ws.tianmaoetong.com/index/orchard",
+							url:"/index/orchard",
 							method:"post",
 							headers:{
 								"appid": 1,

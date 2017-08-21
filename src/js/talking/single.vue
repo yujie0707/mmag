@@ -15,15 +15,16 @@
 			{{data.remarkValue}}
 		</p>
 		<div class="img-wrap">
-			<img v-lazy="item" v-for="item in data.imgMap"/>
+			<img v-lazy="item" v-for="(item,index) in data.imgMap" @click="showSwiper(index)"/>
 		</div>
+		
 	</div>
 </template>
 
 <script>
 	export default{
 		props:{
-			data:Object
+			data: Object
 		},
 		filters:{
 			mobile:function(value){
@@ -37,6 +38,13 @@
 				}else{
 					return "";
 				}
+			}
+		},
+		methods:{
+			showSwiper(index){
+				this.$parent.show = true;
+				this.$parent.showList = this.data.imgMap;
+				this.$parent.swiperShow.slideTo(index);
 			}
 		}
 	}

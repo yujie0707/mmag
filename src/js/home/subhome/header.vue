@@ -109,7 +109,7 @@
 				this.$parent.$refs.pick.lock = true;
 				this.$parent.$refs.pick.page = 1;
 				axios({
-		        	url:"http://ws.tianmaoetong.com/index/orchard",
+		        	url:"/index/orchard",
 		        	method:"post",
 		        	headers:{
 		        		"appid": 1,

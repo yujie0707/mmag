@@ -23,7 +23,7 @@
 		},
 		mounted(){
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_shoppingcart/getnum",
+				url:"/ec_shoppingcart/getnum",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -43,7 +43,7 @@
 		},
 		activated(){
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_shoppingcart/getnum",
+				url:"/ec_shoppingcart/getnum",
 				method:"post",
 				headers:{
 					"appid": 1,

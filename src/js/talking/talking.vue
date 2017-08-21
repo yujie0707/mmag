@@ -25,6 +25,17 @@
 			  </div>
 			</div>
 		</div>
+		<div class="wrap-swiper-show" v-show="show" @click="close()">
+			<div class="swiper-container-show">
+			  <div class="swiper-wrapper">
+			    <div class="swiper-slide" v-for="item in showList">
+			    	<div :style="{height:height + 'px',position:relative}">
+				    	<img :src="item" style="width: 100%;position: absolute;left: 0;right: 0;top: 0;bottom: 0;margin: auto;"/>
+			    	</div>
+			    </div>
+			  </div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -40,23 +51,14 @@
 				index:0,
 				move:{},
 				swiper:{},
+				swiperShow:{},
 				goodList:[],
 				imgList:[],
-				badList:[]
+				badList:[],
+				showLisr:[],
+				show:false,
+				height:document.body.offsetHeight
 			}
-		},
-		mounted(){
-			var that = this;
-			setTimeout(()=>{
-				this.swiper = new Swiper('.swiper-container', {
-					speed:300,
-					autoHeight:true,
-					onTransitionEnd: function(swiper){
-				        that.index = swiper.activeIndex;
-				    }
-				})
-				
-			},500);
 		},
 		methods:{
 			jumpto(index){
@@ -66,6 +68,9 @@
 			},
 			goback(){
 				this.$router.go(-1);
+			},
+			close(){
+				this.show = false;
 			}
 		},
 		watch:{
@@ -77,8 +82,28 @@
 			}
 		},
 		activated(){
+			this.show = false;
+			var that = this;
+			setTimeout(()=>{
+				this.swiper = new Swiper('.swiper-container', {
+					speed:300,
+					autoHeight:true,
+					onTransitionEnd: function(swiper){
+				        that.index = swiper.activeIndex;
+				    },
+				    onInit: function(swiper){
+						swiper.slideTo(0);
+					}
+				})
+				this.swiperShow = new Swiper('.swiper-container-show', {
+					speed:300,
+					autoHeight:true,
+					observer:true,
+					observeParents:true,
+				})
+			},500);
 			axios({
-				url:"http://ws.tianmaoetong.com/remark/search",
+				url:"/remark/search",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -96,10 +121,12 @@
 			}).then(res => {
 				if(res.data.code == 0){
 					this.goodList = res.data.data;
+				}else{
+					this.goodList = [];
 				}
 			})
 			axios({
-				url:"http://ws.tianmaoetong.com/remark/search",
+				url:"/remark/search",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -117,10 +144,12 @@
 			}).then(res => {
 				if(res.data.code == 0){
 					this.imgList = res.data.data;
+				}else{
+					this.imgList = [];
 				}
 			})
 			axios({
-				url:"http://ws.tianmaoetong.com/remark/search",
+				url:"/remark/search",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -138,6 +167,8 @@
 			}).then(res => {
 				if(res.data.code == 0){
 					this.badList = res.data.data;
+				}else{
+					this.badList = [];
 				}
 			})
 			wx.hideMenuItems({

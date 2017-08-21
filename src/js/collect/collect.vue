@@ -86,7 +86,7 @@
 				}
 				catid = list.join("_");
 				axios({
-					url:"http://ws.tianmaoetong.com/ec_collection/del",
+					url:"/ec_collection/del",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -123,7 +123,7 @@
 		},
 		mounted(){
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_collection/search",
+				url:"/ec_collection/search",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -151,7 +151,7 @@
 			this.del = true;
 			this.chooseAll = false;
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_collection/search",
+				url:"/ec_collection/search",
 				method:"post",
 				headers:{
 					"appid": 1,

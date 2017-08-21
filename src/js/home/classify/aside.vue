@@ -60,7 +60,7 @@
 				this.top = 1 * index;
 				this.title = name;
 				axios({
-					url:"http://ws.tianmaoetong.com/ec_category/category",
+					url:"/ec_category/category",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -86,7 +86,7 @@
 			},
 			addCar(id){
 				axios({
-					url:"http://ws.tianmaoetong.com/ec_shoppingcart/add",
+					url:"/ec_shoppingcart/add",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -119,7 +119,7 @@
 		},
 		mounted(){
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_category/list",
+				url:"/ec_category/list",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -138,7 +138,7 @@
 				}
 			})
 			axios({
-					url:"http://ws.tianmaoetong.com/ec_category/category",
+					url:"/ec_category/category",
 					method:"post",
 					headers:{
 						"appid": 1,

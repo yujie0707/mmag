@@ -189,7 +189,7 @@
 		},
 		mounted(){
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_category/details",
+				url:"/ec_category/details",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -209,7 +209,7 @@
 		},
 		activated(){
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_category/details",
+				url:"/ec_category/details",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -274,7 +274,7 @@
 			},
 			add(id){
 				axios({
-					url:"http://ws.tianmaoetong.com/ec_shoppingcart/add",
+					url:"/ec_shoppingcart/add",
 					method:"post",
 					headers:{
 						"appid": 1,
@@ -305,7 +305,7 @@
 			addSave(id){
 				if(this.detail.collStatus == 0){
 					axios({
-						url:"http://ws.tianmaoetong.com/ec_collection/add",
+						url:"/ec_collection/add",
 						method:"post",
 						headers:{
 							"appid": 1,
@@ -328,7 +328,7 @@
 					})
 				}else{
 					axios({
-						url:"http://ws.tianmaoetong.com/ec_collection/del",
+						url:"/ec_collection/del",
 						method:"post",
 						headers:{
 							"appid": 1,

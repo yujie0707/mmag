@@ -15,7 +15,7 @@
 			edit(){
 				console.log(this.$parent.num,this.$route.params.catid)
 				axios({
-					url:"http://ws.tianmaoetong.com/remark/post",
+					url:"/remark/post",
 					method:"post",
 					headers:{
 						"appid": 1,

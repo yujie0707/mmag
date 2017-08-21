@@ -14,7 +14,7 @@
 				<span>{{info.points}}</span>
 				<span>去兑换<img src="/dist/image/home/my/duihuan.png"/></span>
 			</div>
-			<div class="coupon-right">
+			<div class="coupon-right" @click="goCoupon()">
 				<span>优惠券</span>
 				<span>{{info.couponNum}}</span>
 				<span>查看<img src="/dist/image/home/my/duihuan.png"/></span>
@@ -72,7 +72,6 @@
 		data(){
 			return {
 				info:{}
-			    
 			}
 		},
 		methods:{
@@ -95,11 +94,20 @@
 						phone:phone
 					}
 				})
+			},
+			goCoupon(){
+				this.$router.push({
+					name:"coupon",
+					params:{
+						type:1,
+						money:0
+					}
+				})
 			}
 		},
 		mounted(){
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_shoppingcart/getnum",
+				url:"/ec_shoppingcart/getnum",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -117,7 +125,7 @@
 				})
 			})
 			axios({
-				url:"http://ws.tianmaoetong.com/user/getmyuserinfo",
+				url:"/user/getmyuserinfo",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -148,7 +156,7 @@
 		},
 		activated(){
 			axios({
-				url:"http://ws.tianmaoetong.com/ec_shoppingcart/getnum",
+				url:"/ec_shoppingcart/getnum",
 				method:"post",
 				headers:{
 					"appid": 1,
@@ -166,7 +174,7 @@
 				})
 			})
 			axios({
-				url:"http://ws.tianmaoetong.com/user/getmyuserinfo",
+				url:"/user/getmyuserinfo",
 				method:"post",
 				headers:{
 					"appid": 1,
