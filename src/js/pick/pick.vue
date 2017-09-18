@@ -57,7 +57,7 @@
 			<p class="user">
 				<img v-lazy="detail.remark[0].userImg" class="pic"/>
 				<span class="phone">
-					{{detail.remark[0].userPhone | mobile}}
+					{{detail.remark[0].userPhone}}
 				</span>
 				<span class="star">
 					<img src="/dist/image/home/subhome/star_good.png" v-for="n in parseInt(detail.remark[0].remarkLevel)"/>
@@ -131,23 +131,11 @@
 <script>
 	import Share from "../detail/share.vue";
 	import Alert from "../alert.vue";
+	import config from "../config/config.js";
 	export default{
 		components:{
 			"v-share":Share,
 			"v-alert":Alert
-		},
-		filters:{
-			mobile:function(value){
-				if(value){
-					var arr = value.split("");
-					for(var i = 0; i < 4; i++){
-						arr[i+3] = "*";
-					}
-					return arr.join("");
-				}else{
-					return "";
-				}
-			}
 		},
 		data(){
 			return{
@@ -241,7 +229,6 @@
 				})
 			},
 			add(index){
-				
 				switch(index){
 					case 1:
 						var temp = this.adultNum;
@@ -263,6 +250,7 @@
 				}
 			},
 			minus(index){
+
 				switch(index){
 					case 1:
 						var temp = this.adultNum;
@@ -284,43 +272,12 @@
 				}
 			}
 		},
-		mounted(){
-			axios({
-				url:"/ec_category/details",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				},
-				params:{
-					catid: this.$route.params.id
-				}
-			}).then(res => {
-				this.detail = res.data.data;
-			})
-		},
 		activated(){
-			axios({
-				url:"/ec_category/details",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				},
-				params:{
-					catid: this.$route.params.id
-				}
-			}).then(res => {
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/ec_category/details",{
+				catid: this.$route.params.id
+			},config).then(res => {
 				this.detail = res.data.data;
 			})
 			this.adultNum = 0;
@@ -329,31 +286,6 @@
 			wx.hideMenuItems({
 			  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
 			});
-		},
-		beforeRouteEnter(to,from,next){
-			if(localStorage.getItem("info")){
-				if(JSON.parse(localStorage.getItem("info")).time < new Date().getTime()){
-					localStorage.removeItem("info");
-					sessionStorage.removeItem("userid");
-					sessionStorage.removeItem("usertoken");
-					next(vm => {
-						vm.$router.push("/");
-					});
-				}else{
-					var time = new Date();
-					time = time.getTime() + 3*24*60*60*1000;
-					var obj = JSON.parse(localStorage.getItem("info"));
-					obj.time = time;
-					localStorage.setItem("info",JSON.stringify(obj));
-					sessionStorage.setItem("userid",JSON.parse(localStorage.getItem("info")).userid);
-					sessionStorage.setItem("usertoken",JSON.parse(localStorage.getItem("info")).usertoken);
-					next();
-				}
-			}else{
-				next(vm => {
-					vm.$router.push("/");
-				});
-			}
 		}
 	}
 </script>

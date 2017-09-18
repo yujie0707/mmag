@@ -21,22 +21,21 @@ import Address from "./js/address/address.vue";
 import Addaddress from "./js/addAddress/comble.vue";
 import Talking from "./js/talking/talking.vue";
 import Orderdetail from "./js/orderdetail/orderdetail.vue";
-import Editmy from "./js/editmy/editmy.vue";
 import Talkingnow from "./js/talkingnow/talkingnow.vue";
 import Refund from "./js/refund/refund.vue";
 import Coupon from "./js/coupon/coupon.vue";
+import Sale from "./js/sale/sale.vue";
+import Editmy from "./js/editmy/editmy.vue";
 
 import './scss/total.scss';
 
 Vue.use(VueRouter);
 
-Vue.use(VueResource);
 Vue.use(VueLazyload,{
 	loading: '/dist/image/loading.png',
 	error: "/dist/image/error.png"
 })
 
-axios.defaults.baseUrl = "http://www.tianmaoetong.com:5555";
 
 var routes = [{
 	path:"/",
@@ -109,10 +108,6 @@ var routes = [{
 	name:"orderdetail",
 	component:Orderdetail
 },{
-	path:"/editmy/:img/:phone",
-	name:"editmy",
-	component:Editmy
-},{
 	path:"/talkingnow/:catid/:img/:orderid",
 	name:"talkingnow",
 	component:Talkingnow
@@ -124,6 +119,14 @@ var routes = [{
 	path:"/coupon/:type/:money",
 	name:"coupon",
 	component:Coupon
+},{
+	path:"/sale",
+	name:"sale",
+	component:Sale
+},{
+	path:"/editmy/:head/:name",
+	name:"editmy",
+	component:Editmy
 }];
 
 var router = new VueRouter({
@@ -145,7 +148,6 @@ new Vue({
 					break;
 				case "/home/classify":
 					sessionStorage.setItem("cur",1)
-					
 					this.cur = 1;
 					break;
 				case "/home/shopping":
@@ -154,7 +156,6 @@ new Vue({
 					break;
 				case "/home/my":
 					sessionStorage.setItem("cur",3)
-					
 					this.cur = 3;
 					break;
 				default:
@@ -163,17 +164,6 @@ new Vue({
 		}
 	}
 })
-Vue.prototype.setCookie = function(name,value,day){
-	var d = new Date;
-    d.setTime(d.getTime() + 24*60*60*1000*day);
-    window.document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
-}
-Vue.prototype.getCookie = function(name){
-	var v = window.document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-    return v ? v[2] : null;
-}
-Vue.prototype.removeCookie = function(name){
-	this.set(name, '', -1);
-}
+
 
 

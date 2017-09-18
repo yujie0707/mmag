@@ -21,7 +21,7 @@
 						</div>
 						<img :src="'/dist/image/home/subhome/' + item.level + '.png'" />
 						<div class="article-single-detail-price">
-							￥<b>{{item.price.split(".")[0]}}.</b>{{item.price.split(".")[1]}}/斤
+							￥<b>{{item.price.split(".")[0]}}.</b>{{item.price.split(".")[1]}}{{item.mbn_detailsType | type}}
 						</div>
 					</div>
 				</a>
@@ -37,6 +37,7 @@
 <script>
 	import Store from "../../store/store.js";
 	import Alert from "../../alert.vue";
+	import config from "../../config/config.js";
 	export default{
 		components:{
 			"v-alert":Alert
@@ -50,7 +51,11 @@
 				num:0,
 				productList:[],
 				alertshow:false
-				
+			}
+		},
+		filters:{
+			type(val){
+				return val == 1 ? "/斤" : "/个";
 			}
 		},
 		methods:{
@@ -59,48 +64,24 @@
 				this.cur = index;
 				this.top = 1 * index;
 				this.title = name;
-				axios({
-					url:"/ec_category/category",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						catid:id,
-						updateTime: ''
-					}
-				}).then(res => {
-					console.log(res);
+				axios.post("/ec_category/category",{
+					catid: id,
+					updateTime: ''
+				},config).then(res => {
 					if(res.data.code == 0){
 						this.productList = res.data.data;
-						
 						this.num = res.data.data.length;
+					}else if(res.data.code == 356){
+						this.productList = [];
+						this.num = 0;
 					}
 				})
 			},
 			addCar(id){
-				axios({
-					url:"/ec_shoppingcart/add",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						catid:id
-					}
-				}).then(res => {
+
+				axios.post("/ec_shoppingcart/add",{
+					catid:id
+				},config).then(res => {
 					if(res.data.code == 0){
 						Store.dispatch({
 							type:"NUM",
@@ -118,48 +99,22 @@
 			}
 		},
 		mounted(){
-			axios({
-				url:"/ec_category/list",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				}
-			}).then(res => {
-				console.log(res);
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/ec_category/list",{},config).then(res => {
 				if(res.data.code == 0){
 					this.asideList = res.data.data;
-					
 				}
 			})
-			axios({
-					url:"/ec_category/category",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						catid:1,
-						updateTime: ''
-					}
-				}).then(res => {
-					console.log(res);
-					if(res.data.code == 0){
-						this.productList = res.data.data;
-						this.num = res.data.data.length;
-					}
-				})
+			axios.post("/ec_category/category",{
+				catid:1,
+				updateTime: ''
+			},config).then(res => {
+				if(res.data.code == 0){
+					this.productList = res.data.data;
+					this.num = res.data.data.length;
+				}
+			})
 		}
 	}
 </script>

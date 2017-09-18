@@ -6,7 +6,7 @@
 		</div>
 		<div id="description">
 			<p class="title">
-				{{detail.name}} {{detail.mbn_details}}斤/件 <img :src="'/dist/image/home/subhome/' + detail.level + '.png'" />
+				{{detail.name}} {{detail.mbn_details}}{{detail.mbn_detailsType | type}}/件 <img :src="'/dist/image/home/subhome/' + detail.level + '.png'" />
 			</p>
 			<p class="one">
 				一件起售 {{detail.details}}
@@ -23,7 +23,7 @@
 			</p>
 			<p class="price">
 				<span>
-					共享价：￥{{detail.money}}/斤
+					共享价：￥{{detail.money}}/{{detail.mbn_detailsType | type}}
 				</span>
 				<span>商超价/<s>￥{{detail.shop_money}}</s></span>
 			</p>
@@ -59,11 +59,10 @@
 			<p class="user">
 				<img v-lazy="detail.remark[0].userImg" class="pic"/>
 				<span class="phone">
-					{{detail.remark[0].userPhone | mobile}}
+					{{detail.remark[0].userPhone}}
 				</span>
 				<span class="star">
-					<img src="/dist/image/home/subhome/star_good.png" v-for="n in parseInt(detail.remark[0].remarkLevel)"/>
-					<img src="/dist/image/home/subhome/star_good.png" v-for="n in (5 - parseInt(detail.remark[0].remarkLevel))"/>
+					<img src="/dist/image/home/subhome/star_good.png" v-for="n in parseInt(detail.remark[0].remarkLevel)"/><img src="/dist/image/home/subhome/star_bad.png" v-for="n in (5 - parseInt(detail.remark[0].remarkLevel))"/>
 				</span>
 			</p>
 			
@@ -168,66 +167,27 @@
 	import Swiper from "./swiper.vue";
 	import Store from "../store/store.js";
 	import Share from "./share.vue";
+	import config from "../config/config.js";
 	export default{
 		components:{
 			"v-swiper":Swiper,
 			"v-share":Share
 		},
 		filters:{
-			mobile:function(value){
-				if(value){
-					var arr = value.split("");
-					for(var i = 0; i < 4; i++){
-						arr[i+3] = "*";
-					}
-					return arr.join("");
-					
-				}else{
-					return "";
-				}
+			type(val){
+				return val == 1 ? "斤" : "个";
 			}
 		},
-		mounted(){
-			axios({
-				url:"/ec_category/details",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				},
-				params:{
-					catid:this.$route.params.id
-				}
-			}).then(res => {
-				this.detail = res.data.data;
-			})
-		},
 		activated(){
-			axios({
-				url:"/ec_category/details",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				},
-				params:{
-					catid:this.$route.params.id
-				}
-			}).then(res => {
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/ec_category/details",{
+				catid:this.$route.params.id
+			},config).then(res => {
 				this.detail = res.data.data;
 			})
 			wx.hideMenuItems({
-			  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+			  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] 
 			});
 		},
 		data(){
@@ -273,22 +233,10 @@
 				});
 			},
 			add(id){
-				axios({
-					url:"/ec_shoppingcart/add",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						catid:id
-					}
-				}).then(res => {
+
+				axios.post("/ec_shoppingcart/add",{
+					catid:id
+				},config).then(res => {
 					Store.dispatch({
 						type:"NUM",
 						context: res.data.data.carNum
@@ -303,23 +251,11 @@
 				
 			},
 			addSave(id){
+
 				if(this.detail.collStatus == 0){
-					axios({
-						url:"/ec_collection/add",
-						method:"post",
-						headers:{
-							"appid": 1,
-					        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-					        "channelid": "WX",
-					        "UserAgent": "WX",
-					        "productid": 1,
-					        "userid":sessionStorage.getItem("userid"),
-					        "usertoken":sessionStorage.getItem("usertoken")
-						},
-						params:{
-							catid:id
-						}
-					}).then(res => {
+					axios.post("/ec_collection/add",{
+						catid:id
+					},config).then(res => {
 						if(res.data.msg == "ok"){
 							var temp = this.detail;
 							temp.collStatus = 1;
@@ -327,22 +263,9 @@
 						}
 					})
 				}else{
-					axios({
-						url:"/ec_collection/del",
-						method:"post",
-						headers:{
-							"appid": 1,
-					        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-					        "channelid": "WX",
-					        "UserAgent": "WX",
-					        "productid": 1,
-					        "userid":sessionStorage.getItem("userid"),
-					        "usertoken":sessionStorage.getItem("usertoken")
-						},
-						params:{
-							catids:id
-						}
-					}).then(res => {
+					axios.post("/ec_collection/del",{
+						catids:id
+					},config).then(res => {
 						if(res.data.msg == "ok"){
 							var temp = this.detail;
 							temp.collStatus = 0;
@@ -350,31 +273,6 @@
 						}
 					})
 				}
-			}
-		},
-		beforeRouteEnter(to,from,next){
-			if(localStorage.getItem("info")){
-				if(JSON.parse(localStorage.getItem("info")).time < new Date().getTime()){
-					localStorage.removeItem("info");
-					sessionStorage.removeItem("userid");
-					sessionStorage.removeItem("usertoken");
-					next(vm => {
-						vm.$router.push("/");
-					});
-				}else{
-					var time = new Date();
-					time = time.getTime() + 3*24*60*60*1000;
-					var obj = JSON.parse(localStorage.getItem("info"));
-					obj.time = time;
-					localStorage.setItem("info",JSON.stringify(obj));
-					sessionStorage.setItem("userid",JSON.parse(localStorage.getItem("info")).userid);
-					sessionStorage.setItem("usertoken",JSON.parse(localStorage.getItem("info")).usertoken);
-					next();
-				}
-			}else{
-				next(vm => {
-					vm.$router.push("/");
-				});
 			}
 		}
 	}

@@ -11,26 +11,31 @@
 	import Header from "./header.vue";
 	import Empty from "./body-empty.vue"; 
 	import List from "./body-list.vue";
+	import config from "../../config/config.js";
 	export default{
 		components:{
 			"v-header":Header,
 			"v-empty":Empty,
 			"v-list":List
 		},
+		mounted(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/ec_shoppingcart/getnum",{},config).then(res => {
+				Store.dispatch({
+					type:"NUM",
+					context: res.data.data.carNum
+				})
+				this.carNum = res.data.data.carNum;
+			})
+			Store.subscribe(() => {
+				this.carNum = Store.getState().carNum;
+			})
+		},
 		activated(){
-			axios({
-				url:"/ec_shoppingcart/getnum",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				}
-			}).then(res => {
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/ec_shoppingcart/getnum",{},config).then(res => {
 				Store.dispatch({
 					type:"NUM",
 					context: res.data.data.carNum

@@ -32,6 +32,7 @@
 
 <script>
 	import Search from "../search.vue";
+	import config from "../../config/config.js";
 	export default{
 		components:{
 			"v-search":Search,
@@ -99,6 +100,8 @@
 				this.areaindex = index;
 			},
 			yes(){
+				config.headers.userid = sessionStorage.getItem("userid");
+				config.headers.usertoken = sessionStorage.getItem("usertoken");
 				this.city = this.citylist[this.cityindex].cityname;
 				this.isshow = false;
 				sessionStorage.setItem("city",this.citylist[this.cityindex].cityname);
@@ -108,26 +111,12 @@
 				this.$parent.$refs.pick.isShow = false;
 				this.$parent.$refs.pick.lock = true;
 				this.$parent.$refs.pick.page = 1;
-				axios({
-		        	url:"/index/orchard",
-		        	method:"post",
-		        	headers:{
-		        		"appid": 1,
-		                "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-		                "channelid": "WX",
-		                "UserAgent": "WX",
-		                "productid": 1,
-		                "userid":sessionStorage.getItem("userid"),
-		                "usertoken":sessionStorage.getItem("usertoken")
-		        	},
-		        	params:{
-		        		longitude: sessionStorage.getItem("lng"),
-		        		latitude: sessionStorage.getItem("lat"),
-		        		city:"青岛市",
-		        		page: 1
-		        	}
-		        }).then(res => {
-		        	console.log(res.data.data);
+				axios.post("/index/orchard",{
+	        		longitude: sessionStorage.getItem("lng"),
+	        		latitude: sessionStorage.getItem("lat"),
+	        		city:"青岛市",
+	        		page: 1
+		        },config).then(res => {
 		        	if(res.data.code == 0){
 		        		this.$parent.$refs.pick.picklist = res.data.data;
 		        	}

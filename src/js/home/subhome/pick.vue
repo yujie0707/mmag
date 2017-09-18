@@ -43,7 +43,7 @@
 </template>
 
 <script>
-	
+	import config from "../../config/config.js";
 	export default{
 		data(){
 			return{
@@ -57,59 +57,33 @@
 			}
 		},
 		activated(){
-			console.log(this.picklist)
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
 			var that = this;
 			/*this.page = 1;
 			this.isShow = false;*/
 			this.$el.scrollTop = sessionStorage.getItem("pickTop") ? sessionStorage.getItem("pickTop") : 0;
 			if(this.picklist.length > 0){
-				console.log(111);
-				return
+				return;
 			}else{
 				if(sessionStorage.getItem("lng")){
-					axios({
-			        	url:"/index/orchard",
-			        	method:"post",
-			        	headers:{
-			        		"appid": 1,
-			                "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			                "channelid": "WX",
-			                "UserAgent": "WX",
-			                "productid": 1,
-			                "userid":sessionStorage.getItem("userid"),
-			                "usertoken":sessionStorage.getItem("usertoken")
-			        	},
-			        	params:{
-			        		longitude: sessionStorage.getItem("lng"),
-			        		latitude: sessionStorage.getItem("lat"),
-			        		city:"青岛市",
-			        		page: that.page
-			        	}
-			        }).then(res => {
+					axios.post("/index/orchard",{
+		        		longitude: sessionStorage.getItem("lng"),
+		        		latitude: sessionStorage.getItem("lat"),
+		        		city:"青岛市",
+		        		page: that.page
+			        },config).then(res => {
 			        	if(res.data.code == 0){
 			        		that.picklist = res.data.data;
 			        	}
 			        })
 				}else if(sessionStorage.getItem("error")){
-					axios({
-			        	url:"/index/orchard",
-			        	method:"post",
-			        	headers:{
-			        		"appid": 1,
-			                "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			                "channelid": "WX",
-			                "UserAgent": "WX",
-			                "productid": 1,
-			                "userid":sessionStorage.getItem("userid"),
-			                "usertoken":sessionStorage.getItem("usertoken")
-			        	},
-			        	params:{
-			        		longitude: '120.369557',
-			        		latitude: '36.094406',
-			        		city:"青岛市",
-			        		page: that.page
-			        	}
-			        }).then(res => {
+					axios.post("/index/orchard",{
+		        		longitude: '120.369557',
+		        		latitude: '36.094406',
+		        		city:"青岛市",
+		        		page: that.page
+			        },config).then(res => {
 			        	if(res.data.code == 0){
 			        		that.picklist = res.data.data;
 			        	}
@@ -130,25 +104,12 @@
 				        sessionStorage.setItem("lng",data.position.getLng());
 				        sessionStorage.setItem("lat",data.position.getLat());
 				        
-				        axios({
-				        	url:"/index/orchard",
-				        	method:"post",
-				        	headers:{
-				        		"appid": 1,
-				                "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				                "channelid": "WX",
-				                "UserAgent": "WX",
-				                "productid": 1,
-				                "userid":sessionStorage.getItem("userid"),
-				                "usertoken":sessionStorage.getItem("usertoken")
-				        	},
-				        	params:{
-				        		longitude: data.position.getLng(),
-				        		latitude: data.position.getLat(),
-				        		city:"青岛市",
-				        		page: that.page
-				        	}
-				        }).then(res => {
+				        axios.post("/index/orchard",{
+			        		longitude: data.position.getLng(),
+			        		latitude: data.position.getLat(),
+			        		city:"青岛市",
+			        		page: that.page
+				        },config).then(res => {
 				        	if(res.data.code == 0){
 				        		that.picklist = res.data.data;
 				        	}
@@ -159,50 +120,23 @@
 				        alert("定位失败");
 				        sessionStorage.setItem("fail","error");
 				        if(sessionStorage.getItem("lng")){
-							axios({
-					        	url:"/index/orchard",
-					        	method:"post",
-					        	headers:{
-					        		"appid": 1,
-					                "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-					                "channelid": "WX",
-					                "UserAgent": "WX",
-					                "productid": 1,
-					                "userid":sessionStorage.getItem("userid"),
-					                "usertoken":sessionStorage.getItem("usertoken")
-					        	},
-					        	params:{
-					        		longitude: sessionStorage.getItem("lng"),
-					        		latitude: sessionStorage.getItem("lat"),
-					        		city:"青岛市",
-					        		page: that.page
-					        	}
-					        }).then(res => {
+							axios.post("/index/orchard",{
+				        		longitude: sessionStorage.getItem("lng"),
+				        		latitude: sessionStorage.getItem("lat"),
+				        		city:"青岛市",
+				        		page: that.page
+					        },config).then(res => {
 					        	if(res.data.code == 0){
 					        		that.picklist = res.data.data;
 					        	}
 					        })
 						}else{
-							axios({
-					        	url:"/index/orchard",
-					        	method:"post",
-					        	headers:{
-					        		"appid": 1,
-					                "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-					                "channelid": "WX",
-					                "UserAgent": "WX",
-					                "productid": 1,
-					                "userid":sessionStorage.getItem("userid"),
-					                "usertoken":sessionStorage.getItem("usertoken")
-					        	},
-					        	params:{
-					        		longitude: '120.369557',
-					        		latitude: '36.094406',
-					        		city:"青岛市",
-					        		page: that.page
-					        	}
-					        }).then(res => {
-					        	console.log(res);
+							axios.post("/index/orchard",{
+				        		longitude: '120.369557',
+				        		latitude: '36.094406',
+				        		city:"青岛市",
+				        		page: that.page
+					        },config).then(res => {
 					        	if(res.data.code == 0){
 					        		that.picklist = res.data.data;
 					        	}
@@ -228,26 +162,12 @@
 						var page = that.page;
 						page++;
 						that.page = page;
-						axios({
-							url:"/index/orchard",
-							method:"post",
-							headers:{
-								"appid": 1,
-						        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-						        "channelid": "WX",
-						        "UserAgent": "WX",
-						        "productid": 1,
-						        "userid":sessionStorage.getItem("userid"),
-						        "usertoken":sessionStorage.getItem("usertoken")
-							},
-							params:{
-								longitude:sessionStorage.getItem('lng'),
-								latitude:sessionStorage.getItem('lat'),
-								city:"青岛市",
-								page: that.page
-							}
-						}).then(res => {
-							console.log(res);
+						axios.post("/index/orchard",{
+							longitude:sessionStorage.getItem('lng'),
+							latitude:sessionStorage.getItem('lat'),
+							city:"青岛市",
+							page: that.page
+						},config).then(res => {
 							if(res.data.code == 0){
 								if(res.data.data.length == 0){
 									this.isShow = true;

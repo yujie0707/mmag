@@ -76,6 +76,7 @@
 <script>
 	import Header from "./header.vue";
 	import Alert from "../alert.vue";
+	import config from "../config/config.js";
 	export default{
 		components:{
 			"v-header":Header,
@@ -142,27 +143,14 @@
 					},1000)
 					return;
 				}
-				axios({
-					url:"/ec_pay/backmoney",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						orderid: this.item.orderid,
-						type:1,
-						money: this.money,
-						backReason: this.reason,
-						other: this.state,
-						file:''
-					}
-				}).then(res => {
+				axios.post("/ec_pay/backmoney",{
+					orderid: this.item.orderid,
+					type:1,
+					money: this.money,
+					backReason: this.reason,
+					other: this.state,
+					file:''
+				},config).then(res => {
 					if(res.data.code == 0){
 						this.context = "退款审核中";
 						this.alertshow = true;
@@ -181,10 +169,9 @@
 				})
 			}
 		},
-		mounted(){
-			this.item = JSON.parse(this.$route.params.data);
-		},
 		activated(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
 			this.slide = {
 				height:this.height + "px"
 			}
@@ -207,31 +194,6 @@
 			wx.hideMenuItems({
 			  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
 			});
-		},
-		beforeRouteEnter(to,from,next){
-			if(localStorage.getItem("info")){
-				if(JSON.parse(localStorage.getItem("info")).time < new Date().getTime()){
-					localStorage.removeItem("info");
-					sessionStorage.removeItem("userid");
-					sessionStorage.removeItem("usertoken");
-					next(vm => {
-						vm.$router.push("/");
-					});
-				}else{
-					var time = new Date();
-					time = time.getTime() + 3*24*60*60*1000;
-					var obj = JSON.parse(localStorage.getItem("info"));
-					obj.time = time;
-					localStorage.setItem("info",JSON.stringify(obj));
-					sessionStorage.setItem("userid",JSON.parse(localStorage.getItem("info")).userid);
-					sessionStorage.setItem("usertoken",JSON.parse(localStorage.getItem("info")).usertoken);
-					next();
-				}
-			}else{
-				next(vm => {
-					vm.$router.push("/");
-				});
-			}
 		}
 	}
 </script>

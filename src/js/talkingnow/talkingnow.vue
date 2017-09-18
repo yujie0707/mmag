@@ -29,20 +29,26 @@
 				</div>-->
 			</div>
 		</div>
+		<v-alert v-if="alertshow" :context="context"></v-alert>
 	</div>
 </template>
 
 <script>
 	import Header from "./header.vue";
+	import Alert from "../alert.vue";
+	
 	export default{
 		components:{
-			"v-header":Header
+			"v-header":Header,
+			"v-alert":Alert
 		},
 		data(){
 			return {
 				num:0,
 				count:0,
-				value:""
+				value:"",
+				alertshow:false,
+				context:""
 			}
 		},
 		methods:{
@@ -82,31 +88,6 @@
 					temp = temp.substring(0,50);
 					this.value = temp;
 				}
-			}
-		},
-		beforeRouteEnter(to,from,next){
-			if(localStorage.getItem("info")){
-				if(JSON.parse(localStorage.getItem("info")).time < new Date().getTime()){
-					localStorage.removeItem("info");
-					sessionStorage.removeItem("userid");
-					sessionStorage.removeItem("usertoken");
-					next(vm => {
-						vm.$router.push("/");
-					});
-				}else{
-					var time = new Date();
-					time = time.getTime() + 3*24*60*60*1000;
-					var obj = JSON.parse(localStorage.getItem("info"));
-					obj.time = time;
-					localStorage.setItem("info",JSON.stringify(obj));
-					sessionStorage.setItem("userid",JSON.parse(localStorage.getItem("info")).userid);
-					sessionStorage.setItem("usertoken",JSON.parse(localStorage.getItem("info")).usertoken);
-					next();
-				}
-			}else{
-				next(vm => {
-					vm.$router.push("/");
-				});
 			}
 		},
 		activated(){

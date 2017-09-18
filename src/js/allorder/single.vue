@@ -11,6 +11,7 @@
 		</p>
 		<div class="fruit" v-if="item.type == 1" @click="goDetail(item)">
 			<img v-lazy="item.img" class="detail-img" />
+			<img src="/dist/image/yiguoqi.png" class="over" v-if="item.status == 1 && item.goodStatus == 2" />
 			<div class="detail">
 				<div class="title">
 					<span>{{item.name}}</span>
@@ -31,6 +32,7 @@
 		</div>
 		<div class="pick" v-if="item.type == 2" @click="goDetail(item)">
 			<img v-lazy="item.img" class="single-img"/>
+			<img src="/dist/image/yiguoqi.png" class="over" v-if="item.status == 1 && item.goodStatus == 2" />
 			<div class="single-detail">
 				<div class="title">{{item.name}}</div>
 				<div class="address">

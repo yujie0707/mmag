@@ -17,6 +17,7 @@
 	import Store from "../store/store.js";
 	import Empty from "../home/shopping/body-empty.vue";
 	import Single from "./single.vue";
+	import config from "../config/config.js";
 	export default{
 		components:{
 			"v-empty":Empty,
@@ -46,23 +47,10 @@
 						var page = that.page;
 						page++;
 						that.page = page;
-						axios({
-							url:"/order/search",
-							method:"post",
-							headers:{
-								"appid": 1,
-						        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-						        "channelid": "WX",
-						        "UserAgent": "WX",
-						        "productid": 1,
-						        "userid":sessionStorage.getItem("userid"),
-						        "usertoken":sessionStorage.getItem("usertoken")
-							},
-							params:{
-								type: this.type,
-								page: this.page
-							}
-						}).then(res => {
+						axios.post("/order/search",{
+							type: this.type,
+							page: this.page
+						},config).then(res => {
 							if(res.data.code == 0){
 								var arr = this.list;
 								this.list = arr.concat(res.data.data);
@@ -76,23 +64,12 @@
 			}
 		},
 		mounted(){
-			axios({
-				url:"/order/search",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				},
-				params:{
-					type: this.type,
-					page: 1
-				}
-			}).then(res => {
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/order/search",{
+				type: this.type,
+				page: 1
+			},config).then(res => {
 				if(res.data.code == 0){
 					this.list = res.data.data;
 					this.show = res.data.data.length == 0 ? true : false;
@@ -101,6 +78,8 @@
 			})
 		},
 		activated(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
 			this.page = 1;
 			switch(this.type){
 				case "1":
@@ -146,23 +125,10 @@
 					})
 					break;
 			}
-			axios({
-				url:"/order/search",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				},
-				params:{
-					type: this.type,
-					page: 1
-				}
-			}).then(res => {
+			axios.post("/order/search",{
+				type: this.type,
+				page: 1
+			},config).then(res => {
 				if(res.data.code == 0){
 					switch(this.type){
 						case "1":

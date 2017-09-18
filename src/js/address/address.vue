@@ -40,6 +40,7 @@
 	import Header from "./header.vue";
 	import Footer from "./footer.vue";
 	import Alert from "../alert.vue";
+	import config from "../config/config.js";
 	export default{
 		components:{
 			"v-header":Header,
@@ -80,45 +81,18 @@
 				}
 			},
 			del(index,addressid){
-				axios({
-					url:"/address/del",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						addressid:addressid
-					}
-				}).then(res => {
+				axios.post("/address/del",{
+					addressid:addressid
+				},config).then(res => {
 					if(res.data.code == 0){
 						this.context = "删除成功";
 						this.alertshow = true;
 						setTimeout(() => {
 							this.alertshow = false;
 						},1000)
-						axios({
-							url:"/address/search",
-							method:"post",
-							headers:{
-								"appid": 1,
-						        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-						        "channelid": "WX",
-						        "UserAgent": "WX",
-						        "productid": 1,
-						        "userid":sessionStorage.getItem("userid"),
-						        "usertoken":sessionStorage.getItem("usertoken")
-							},
-							params:{
-								isdefault:100
-							}
-						}).then(res => {
-							console.log(res);
+						axios.post("/address/search",{
+							isdefault:100
+						},config).then(res => {
 							if(res.data.code == 0){
 								this.addressList = res.data.data;
 								this.show = false;
@@ -149,23 +123,11 @@
 			
 		},
 		mounted(){
-			axios({
-				url:"/address/search",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				},
-				params:{
-					isdefault:100
-				}
-			}).then(res => {
-				console.log(res.data.data);
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/address/search",{
+				isdefault:100
+			},config).then(res => {
 				if(res.data.code == 0){
 					this.addressList = res.data.data;
 					this.show = false;
@@ -175,23 +137,11 @@
 			})
 		},
 		activated(){
-			axios({
-				url:"/address/search",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				},
-				params:{
-					isdefault:100
-				}
-			}).then(res => {
-				console.log(res);
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/address/search",{
+				isdefault:100
+			},config).then(res => {
 				if(res.data.code == 0){
 					this.addressList = res.data.data;
 					this.show = false;
@@ -202,31 +152,6 @@
 			wx.hideMenuItems({
 			  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
 			});
-		},
-		beforeRouteEnter(to,from,next){
-			if(localStorage.getItem("info")){
-				if(JSON.parse(localStorage.getItem("info")).time < new Date().getTime()){
-					localStorage.removeItem("info");
-					sessionStorage.removeItem("userid");
-					sessionStorage.removeItem("usertoken");
-					next(vm => {
-						vm.$router.push("/");
-					});
-				}else{
-					var time = new Date();
-					time = time.getTime() + 3*24*60*60*1000;
-					var obj = JSON.parse(localStorage.getItem("info"));
-					obj.time = time;
-					localStorage.setItem("info",JSON.stringify(obj));
-					sessionStorage.setItem("userid",JSON.parse(localStorage.getItem("info")).userid);
-					sessionStorage.setItem("usertoken",JSON.parse(localStorage.getItem("info")).usertoken);
-					next();
-				}
-			}else{
-				next(vm => {
-					vm.$router.push("/");
-				});
-			}
 		}
 	}
 </script>

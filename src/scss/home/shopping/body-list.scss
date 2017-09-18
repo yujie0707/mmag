@@ -31,11 +31,19 @@
             a{
                 flex: 1;
                 display: flex;
+                position: relative;
                 img.shopping-list-img{
                     height: 1.5rem;
                     width: 1.5rem;
                     
                     margin-right: .3rem;
+                }
+                img.over{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 1.5rem;
+                    width: 1.5rem;
                 }
                 .shopping-list-detail{
                     flex: 1;

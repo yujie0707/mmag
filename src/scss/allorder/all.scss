@@ -31,6 +31,14 @@
     .fruit{
         padding: .2rem .4rem;
         height: 2.4rem;
+        position: relative;
+        .over{
+            position: absolute;
+            left: .4rem;
+            top: .2rem;
+            width: 2rem;
+            height: 2rem;
+        }
         .detail-img{
             float: left;
             height: 2rem;
@@ -67,6 +75,14 @@
     .pick{
         padding: .2rem .4rem;
         height: 2.4rem;
+        position: relative;
+        .over{
+            position: absolute;
+            left: .4rem;
+            top: .2rem;
+            width: 2rem;
+            height: 2rem;
+        }
         .single-img{
             float: left;
             height: 2rem;

@@ -2,10 +2,9 @@
 	<div class="talking-single">
 		<div>
 			<img v-lazy="data.userImg" class="img" />
-			<span>{{data.userPhone | mobile}}</span>
+			<span>{{data.userPhone}}</span>
 			<div class="div">
-				<img src="/dist/image/home/subhome/star_good.png" v-for="n in parseInt(data.remarkLevel)" />
-				<img src="/dist/image/home/subhome/star_bad.png" v-for="n in 5-parseInt(data.remarkLevel)" />
+				<img src="/dist/image/home/subhome/star_good.png" v-for="n in parseInt(data.remarkLevel)" /><img src="/dist/image/home/subhome/star_bad.png" v-for="n in 5-parseInt(data.remarkLevel)" />
 			</div>
 		</div>
 		<p>

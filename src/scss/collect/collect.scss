@@ -66,6 +66,14 @@
             a{
                 flex: 1;
                 display: flex;
+                position: relative;
+                .over{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 1.5rem;
+                    width: 1.5rem;
+                }
                 img.shopping-list-img{
                     height: 1.5rem;
                     width: 1.5rem;

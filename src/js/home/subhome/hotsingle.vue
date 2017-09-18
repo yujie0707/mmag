@@ -17,7 +17,7 @@
 					<img :src="'/dist/image/home/subhome/' + data.level + '.png'" />
 				</div>
 				<div class="price">
-					<span>￥<b>{{data.money.split(".")[0]}}</b>.<u>{{data.money.split(".")[1]}}</u>/斤</span>
+					<span>￥<b>{{data.money.split(".")[0]}}</b>.<u>{{data.money.split(".")[1]}}</u>{{data.mbn_detailsType | type}}</span>
 					<span>商超价/<s>￥{{data.shop_money}}</s></span>
 				</div>
 			</div>
@@ -35,6 +35,7 @@
 <script>
 	import Store from "../../store/store.js";
 	import Alert from "../../alert.vue";
+	import config from "../../config/config.js";
 	export default{
 		components:{
 			"v-alert":Alert
@@ -47,6 +48,11 @@
 				alertshow:false
 			}
 		},
+		filters:{
+			type(val){
+				return val == 1 ? "/斤" : "/个";
+			}
+		},
 		methods:{
 			goDetail(id){
 				this.$router.push({
@@ -57,23 +63,12 @@
 				})
 			},
 			addCar(id){
-				axios({
-					url:"/ec_shoppingcart/add",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						catid:id
-					}
-				}).then(res => {
-					console.log(res);
+
+				config.headers.userid = sessionStorage.getItem("userid");
+				config.headers.usertoken = sessionStorage.getItem("usertoken");
+				axios.post("/ec_shoppingcart/add",{
+					catid:id
+				},config).then(res => {
 					if(res.data.code == 0){
 						Store.dispatch({
 							type:"NUM",

@@ -5,7 +5,8 @@
 		</keep-alive>
 		<v-footer></v-footer>
 		<v-coupon v-if="show" :data="list"></v-coupon>
-		<v-alert v-if = "alertshow" context="领取成功"></v-alert>
+		<v-notice v-if="noticeShow"></v-notice>
+		<v-alert v-if = "alertshow" :context="context"></v-alert>
 	</div>
 </template>
 
@@ -13,66 +14,54 @@
 	import Coupon from "./coupon.vue";
 	import Footer from "./footer.vue";
 	import Alert from "../alert.vue";
+	import Notice from "./notice.vue";
+	import config from "../config/config.js";
 	export default{
 		components:{
 			"v-footer":Footer,
 			"v-coupon":Coupon,
-			"v-alert":Alert
+			"v-alert":Alert,
+			"v-notice":Notice
 		},
 		data(){
 			return{
 				show:false,
 				list:[],
-				alertshow:false
+				alertshow:false,
+				context:"",
+				noticeShow:false
 			}
 		},
-		mounted(){	
-			axios({
-				url:"/index/PushCoupon",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				}
-			}).then(res => {
-				console.log(res.data.data);
+		mounted(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/index/PushCoupon",{},config).then(res => {
 				if(res.data.data.type == 1){
 					this.list = res.data.data.data;
 					this.show = true;
 				}else if(res.data.data.type == 0){
 					this.show = false;
 				}
-				
+			})
+			axios.post("/index/ShowMessage",{
+				type:1
+			},config).then(res => {
+				if(res.data.data.isShow == 2){
+					this.noticeShow = true;
+				}else{
+					this.noticeShow = false;
+				}
 			})
 		},
 		beforeRouteEnter(to,from,next){
-			if(localStorage.getItem("info")){
-				if(JSON.parse(localStorage.getItem("info")).time < new Date().getTime()){
-					localStorage.removeItem("info");
-					sessionStorage.removeItem("userid");
-					sessionStorage.removeItem("usertoken");
-					next(vm => {
-						vm.$router.push("/");
-					});
-				}else{
-					var time = new Date();
-					time = time.getTime() + 3*24*60*60*1000;
-					var obj = JSON.parse(localStorage.getItem("info"));
-					obj.time = time;
-					localStorage.setItem("info",JSON.stringify(obj));
-					sessionStorage.setItem("userid",JSON.parse(localStorage.getItem("info")).userid);
-					sessionStorage.setItem("usertoken",JSON.parse(localStorage.getItem("info")).usertoken);
-					next();
-				}
-			}else{
+			var path = sessionStorage.getItem("path");
+			sessionStorage.removeItem("path");
+			if(path){
 				next(vm => {
-					vm.$router.push("/");
-				});
+					vm.$router.push(path);
+				})
+			}else{
+				next();
 			}
 		}
 	}

@@ -12,6 +12,7 @@
 	import Header from "./header.vue";
 	import Single from "./single.vue";
 	import Empty from "./empty.vue";
+	import config from "../config/config.js";
 	export default{
 		components:{
 			"v-header":Header,
@@ -25,46 +26,21 @@
 			}
 		},
 		activated(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
 			if(this.$route.params.type == 1){
-				axios({
-					url:"/Coupon/GetList",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						type:3
-					}
-				}).then(res => {
+				axios.post("/Coupon/GetList",{
+					type:3
+				},config).then(res => {
 					console.log(res);
 					this.list = res.data.data;
 					this.show = res.data.data.length == 0 ? true : false
 				})
 			}else if(this.$route.params.type == 2){
-				axios({
-					url:"/Coupon/GetList",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						type: 1,
-						money: this.$route.params.money
-					}
-				}).then(res => {
-					console.log(res);
+				axios.post("/Coupon/GetList",{
+					type: 1,
+					money: this.$route.params.money
+				},config).then(res => {
 					this.list = res.data.data;
 					this.show = res.data.data.length == 0 ? true : false
 				})

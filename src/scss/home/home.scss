@@ -57,6 +57,51 @@
             }
         }
     }
+    
+    #notice{
+        animation: pull 1s;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background:rgba(0,0,0,.5);
+        background-size: 100% 100%;
+        z-index: 1400;
+        .close{
+            height: .8rem;
+            display: block;
+            margin: 1rem auto .2rem;
+        }
+        .notice-wrap{
+            width: 5rem;
+            height: 6.8rem;
+            margin: 0 auto;
+            background: #fff;
+            font: .28rem/.4rem "微软雅黑";
+            position: relative;
+            box-sizing: border-box;
+            padding: 2.5rem .4rem 0;
+            background: url(/dist/image/home/notice.png);
+            background-size: 100% 100%;
+            p{
+                text-indent: 2em;
+            }
+            button{
+                font-size: .34rem;
+                height: .64rem;
+                width: 2.66rem;
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: .4rem;
+                margin: 0 auto;
+                background: #00c674;
+                border-radius: .1rem;
+                color: #fff;
+            }
+        }
+    }
 }
 @keyframes pull{
     0%{

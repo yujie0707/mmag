@@ -39,6 +39,8 @@
 <script>
 	import Single from "../home/subhome/hotsingle.vue";
 	import Alert from "../alert.vue";
+	
+	import config from "../config/config.js";
 	export default{
 		components:{
 			"v-single":Single,
@@ -56,23 +58,6 @@
 				alertshow:false
 			}
 		},
-		mounted(){
-			axios({
-				url:"/search/searchnum",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				}
-			}).then(res => {
-				this.hot = res.data.data;
-			})
-		},
 		methods:{
 			del(){
 				localStorage.removeItem("list");
@@ -86,23 +71,10 @@
 			},
 			searchLevel(name,level){
 				var namename = level == 2 ? name : name.split(" ")[0];
-				axios({
-					url:"/search/details",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						key:namename,
-						level:level
-					}
-				}).then(res => {
+				axios.post("/search/details",{
+					key:namename,
+					level:level
+				},config).then(res => {
 					var list = localStorage.getItem("list") ? JSON.parse(localStorage.getItem("list")) : [];
 					list.unshift(namename);
 					list = [...new Set(list)];
@@ -113,23 +85,10 @@
 				})
 			},
 			gosearch(){
-				axios({
-					url:"/search/details",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						key: this.search,
-						level:0
-					}
-				}).then(res => {
+				axios.post("/search/details",{
+					key: this.search,
+					level:0
+				},config).then(res => {
 					var list = localStorage.getItem("list") ? JSON.parse(localStorage.getItem("list")) : [];
 					list.unshift(this.search);
 					list = [...new Set(list)];
@@ -149,23 +108,10 @@
 				}else{
 					clearTimeout(this.timer);
 					this.timer = setTimeout(() => {
-						axios({
-							url:"/search/item",
-							method:"post",
-							headers:{
-								"appid": 1,
-						        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-						        "channelid": "WX",
-						        "UserAgent": "WX",
-						        "productid": 1,
-						        "userid":sessionStorage.getItem("userid"),
-						        "usertoken":sessionStorage.getItem("usertoken")
-							},
-							params:{
-								key: this.search,
-								level:0
-							}
-						}).then(res => {
+						axios.post("/search/item",{
+							key: this.search,
+							level:0
+						},config).then(res => {
 							if(res.data.data.length == 0){
 								this.alertshow = true;
 								setTimeout(() => {
@@ -180,37 +126,17 @@
 			}
 		},
 		activated(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/search/searchnum",{},config).then(res => {
+				this.hot = res.data.data;
+			})
 			this.search = "";
 			this.show = 0;
 			this.history = JSON.parse(localStorage.getItem("list"));
 			wx.hideMenuItems({
 			  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
 			});
-		},
-		beforeRouteEnter(to,from,next){
-			if(localStorage.getItem("info")){
-				if(JSON.parse(localStorage.getItem("info")).time < new Date().getTime()){
-					localStorage.removeItem("info");
-					sessionStorage.removeItem("userid");
-					sessionStorage.removeItem("usertoken");
-					next(vm => {
-						vm.$router.push("/");
-					});
-				}else{
-					var time = new Date();
-					time = time.getTime() + 3*24*60*60*1000;
-					var obj = JSON.parse(localStorage.getItem("info"));
-					obj.time = time;
-					localStorage.setItem("info",JSON.stringify(obj));
-					sessionStorage.setItem("userid",JSON.parse(localStorage.getItem("info")).userid);
-					sessionStorage.setItem("usertoken",JSON.parse(localStorage.getItem("info")).usertoken);
-					next();
-				}
-			}else{
-				next(vm => {
-					vm.$router.push("/");
-				});
-			}
 		}
 	}
 </script>

@@ -7,6 +7,7 @@
 
 <script>
 	import Store from "../../store/store.js";
+	import config from "../../config/config.js";
 	export default{
 		methods:{
 			del(el){
@@ -26,22 +27,9 @@
 					}
 				}
 				orderid = list.join("_");
-				axios({
-					url:"/ec_shoppingcart/delete",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						orderids:orderid
-					}
-				}).then(res => {
+				axios.post("/ec_shoppingcart/delete",{
+					orderids:orderid
+				},config).then(res => {
 					Store.dispatch({
 						type:"NUM",
 						context: res.data.data.carNum

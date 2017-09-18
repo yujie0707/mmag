@@ -7,19 +7,20 @@
 					<input type="checkbox" v-model="choose[index]" style="height: 0;width: 0;" class="choose-input" />
 					<img :src="choose[index] ? '/dist/image/home/shopping/xuanzhong.png' : '/dist/image/home/shopping/weixuanzhong.png'" class="choose" />
 				</label>
-				<router-link :to="{name:'detail',params:{id:item.catid}}">
+				<a @click="goDetail(item.catid,item.goodStatus)">
 					<img v-lazy="item.img" class="shopping-list-img" />
+					<img src="/dist/image/yiguoqi.png" v-if="item.goodStatus == 2" class="over" />
 					<div class="shopping-list-detail">
 						<p>{{item.names}} | {{item.mbn_details}}斤/件</p>
 						<p>一件起售 {{item.details}}</p>
 						<p>￥<span>{{(item.price * item.mbn_details * item.num).toFixed(2).toString().split(".")[0]}}.</span>{{(item.price * item.mbn_details * item.num).toFixed(2).toString().split(".")[1]}}</p>
 					</div>
-				</router-link>
+				</a>
 				<div class="shopping-list-num-wrap">
 					<div class="shopping-list-num">
-						<img src="/dist/image/home/shopping/jianhao.png" @click="minus(index,item.catid)" />
+						<img src="/dist/image/home/shopping/jianhao.png" @click="minus(index,item.catid,item.goodStatus)" />
 						<span>{{item.num}}</span>
-						<img src="/dist/image/home/shopping/jiahao.png" @click="add(index,item.catid)" />
+						<img src="/dist/image/home/shopping/jiahao.png" @click="add(index,item.catid,item.goodStatus)" />
 					</div>
 				</div>
 			</li>
@@ -39,20 +40,44 @@
 				结算<span v-if="count">{{count}}</span>
 			</div>
 		</div>
+		<v-alert v-if="alertshow" :context="context"></v-alert>
 	</div>
 </template>
 
 <script>
 	import Store from "../../store/store.js";
+	import config from "../../config/config.js";
+	import Alert from "../../alert.vue";
 	export default{
+		components:{
+			"v-alert":Alert
+		},
 		data(){
 			return{
 				chooseAll:false,
 				list:[],
-				choose:[]
+				choose:[],
+				alertshow: false,
+				context: ""
 			}
 		},
 		methods:{
+			goDetail(id,goodStatus){
+				if(goodStatus == 2){
+					this.alertshow = true;
+					this.context = "该商品已下架";
+					setTimeout(() => {
+						this.alertshow = false;
+					},1000)
+					return;
+				}
+				this.$router.push({
+					name:"detail",
+					params:{
+						id:id
+					}
+				})
+			},
 			goOrder(){
 				var list = [];
 				var shoppingList = [];
@@ -64,6 +89,14 @@
 				var orderid = '';
 				for(var i = choose.length - 1; i >= 0; i--){
 					if(choose[i]){
+						if(llist[i].goodStatus == 2){
+							this.alertshow = true;
+							this.context = "结算商品不能包涵下架商品";
+							setTimeout(() => {
+								this.alertshow = false;
+							},1000)
+							return;
+						}
 						list.push(llist[i].orderid);
 						shoppingList.push(llist[i]);
 					}
@@ -86,23 +119,18 @@
 					}
 				});
 			},
-			add(index,id){
-				axios({
-					url:"/ec_shoppingcart/add",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						catid:id
-					}
-				}).then(res => {
+			add(index,id,goodStatus){
+				if(goodStatus == 2){
+					this.alertshow = true;
+					this.context = "该商品已下架";
+					setTimeout(() => {
+						this.alertshow = false;
+					},1000)
+					return;
+				}
+				axios.post("/ec_shoppingcart/add",{
+					catid:id
+				},config).then(res => {
 					Store.dispatch({
 						type:"NUM",
 						context: res.data.data.carNum
@@ -110,30 +138,24 @@
 					var temp = this.list;
 					temp[index].num++;
 					this.list = temp;
-					
 				})
 			},
-			minus(index,id){
+			minus(index,id,goodStatus){
+				if(goodStatus == 2){
+					this.alertshow = true;
+					this.context = "该商品已下架";
+					setTimeout(() => {
+						this.alertshow = false;
+					},1000)
+					return;
+				}
 				var temp = this.list;
 				if(temp[index].num == 1){
 					return					
 				}
-				axios({
-					url:"/ec_shoppingcart/minus",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						catid:id
-					}
-				}).then(res => {
+				axios.post("/ec_shoppingcart/minus",{
+					catid:id
+				},config).then(res => {
 					Store.dispatch({
 						type:"NUM",
 						context: res.data.data.carNum
@@ -191,21 +213,10 @@
 				return count;
 			}
 		},
-		mounted(){
-			axios({
-				url:"/ec_shoppingcart/list",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				}
-			}).then(res => {
-				console.log(res);
+		activated(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/ec_shoppingcart/list",{},config).then(res => {
 				if(res.data.msg == "ok"){
 					this.list = res.data.data;
 					if(res.data.data.length == 0){
@@ -219,7 +230,6 @@
 					for(var i = 0; i < res.data.data.length; i++){
 						a[i] = false;
 					}
-					
 					this.choose = a;
 					Store.dispatch({
 						type:"NUM",
@@ -228,21 +238,10 @@
 				}
 			})
 		},
-		activated(){
-			axios({
-				url:"/ec_shoppingcart/list",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				}
-			}).then(res => {
-				console.log(res);
+		mounted(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/ec_shoppingcart/list",{},config).then(res => {
 				if(res.data.msg == "ok"){
 					this.list = res.data.data;
 					if(res.data.data.length == 0){
@@ -257,7 +256,6 @@
 						a[i] = false;
 					}
 					this.choose = a;
-					console.log(this.choose);
 					Store.dispatch({
 						type:"NUM",
 						context: res.data.data[0].carNum

@@ -1,0 +1,128 @@
+#main{
+    width: 100%;
+    min-height: 100%;
+    padding-bottom: 1.3rem;
+    background: #fedeb5;
+
+}
+
+#main .theme{
+    width: 100%;
+    display: block;
+}
+
+
+#main .list{
+    background: #fedeb5;
+    overflow: hidden;
+}
+
+#main .list li{
+    width: 7rem;
+    height: 3.52rem;
+    box-sizing: border-box;
+    border: 2px solid #333;
+    border-radius: .1rem;
+    margin: .28rem auto;
+    padding: .56rem 0 0 0;
+    background: #ffc740;
+    
+    position: relative;
+}
+
+#main .list li .img-wrap{
+    float: left;
+    position: relative;
+}
+
+#main .list li .img-wrap img{
+    height: 2.6rem;
+    width: 2.6rem;
+}
+
+#main .list li .img-wrap span{
+    position: absolute;
+    font-size: .28rem;
+    color: #fff;
+    background: #7259ad;
+    padding: .1rem .2rem;
+    top: -.24rem;
+    left: 0;
+    border-radius: 0 .1rem .1rem 0;
+}
+
+#main .list li .detail-wrap{
+    float: left;
+    margin-left: .16rem;
+    width: 4rem;
+}
+
+#main .list li .detail-wrap p:nth-child(1){
+    font: .34rem "微软雅黑";
+    font-weight: bold;
+    color: #200001;
+}
+
+
+#main .list li .detail-wrap p:nth-child(1) span:nth-child(2){
+    font-size: .24rem;
+    font-weight: 100;
+}
+
+#main .list li .detail-wrap p:nth-child(2){
+    margin-top: .2rem;
+    font: .24rem "微软雅黑";
+    
+}
+
+#main .list li .detail-wrap p:nth-child(3){
+    font: bold .28rem "微软雅黑";
+    margin-top: .5rem;
+    color: #FE4E1D;
+}
+
+#main .list li .detail-wrap p:nth-child(4){
+    font: .28rem "微软雅黑";
+    margin-top: .2rem;
+    color: #200001;
+}
+
+#main .list li .detail-wrap p:nth-child(4) img{
+    margin: 0 .3rem;
+    height: .36rem;
+    width: .36rem;
+    vertical-align: middle;
+}
+#main .list li .addshop{
+    position: absolute;
+    bottom: .2rem;
+    right: .3rem;
+    height: .5rem;
+    width: .5rem;
+}
+
+
+#main .shop-wrap{
+    position: fixed;
+    left: .22rem;
+    bottom: .24rem;
+    height: 1.1rem;
+    width: 1.1rem;
+    img{
+        height: 1.1rem;
+        width: 1.1rem;
+        display: block;
+    }
+    span{
+        position: absolute;
+        top: -.1rem;
+        right: .05rem;
+        background: #a694e6;
+        font: .2rem/.36rem "微软雅黑";
+        height: .36rem;
+        width: .36rem;
+        text-align: center;
+        color: #fff;
+        border-radius: 50%;
+    }
+}

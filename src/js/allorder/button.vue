@@ -2,7 +2,7 @@
 	<div class="bottom-button">
 		<div v-if="item.status == 1">
 			<button class="cancle" @click="cancel(item.orderid)">取消订单</button>
-			<button class="payNow" @click="payNow(item.orderid,item.finmoney)">去支付</button>
+			<button class="payNow" @click="payNow(item.orderid,item.finmoney,item.item.goodStatus)">去支付</button>
 		</div>
 		<div v-if="item.status == 2">
 			<button class="refund" @click="refund(item.orderid,item.type,item.finmoney,item.item)">申请退款</button>
@@ -29,6 +29,7 @@
 <script>
 	import Store from "../store/store.js";
 	import Alert from "../alert.vue";
+	import config from "../config/config.js";
 	export default{
 		components:{
 			"v-alert":Alert
@@ -44,22 +45,9 @@
 		},
 		methods:{
 			cancel(orderid){
-				axios({
-					url:"/order/cancle",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						orderid:orderid
-					}
-				}).then(res => {
+				axios.post("/order/cancle",{
+					orderid:orderid
+				},config).then(res => {
 					if(res.data.code == 0){
 						this.context = "取消成功";
 						this.alertshow = true;
@@ -67,23 +55,10 @@
 							this.alertshow = false;
 						},1000)
 
-						axios({
-							url:"/order/search",
-							method:"post",
-							headers:{
-								"appid": 1,
-						        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-						        "channelid": "WX",
-						        "UserAgent": "WX",
-						        "productid": 1,
-						        "userid":sessionStorage.getItem("userid"),
-						        "usertoken":sessionStorage.getItem("usertoken")
-							},
-							params:{
-								type: 1,
-								page: 1
-							}
-						}).then(res => {
+						axios.post("/order/search",{
+							type: 1,
+							page: 1
+						},config).then(res => {
 							if(res.data.code == 0){
 								Store.dispatch({
 									type:"PAY",
@@ -91,23 +66,10 @@
 								})
 							}
 						})
-						axios({
-							url:"/order/search",
-							method:"post",
-							headers:{
-								"appid": 1,
-						        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-						        "channelid": "WX",
-						        "UserAgent": "WX",
-						        "productid": 1,
-						        "userid":sessionStorage.getItem("userid"),
-						        "usertoken":sessionStorage.getItem("usertoken")
-							},
-							params:{
-								type: 6,
-								page: 1
-							}
-						}).then(res => {
+						axios.post("/order/search",{
+							type: 6,
+							page: 1
+						},config).then(res => {
 							if(res.data.code == 0){
 								Store.dispatch({
 									type:"ALL",
@@ -118,7 +80,15 @@
 					}
 				})
 			},
-			payNow(orderid,money){
+			payNow(orderid,money,goodStatus){
+				if(goodStatus == 2){
+					this.context = "该商品已下架";
+					this.alertshow = true;
+					setTimeout(() => {
+						this.alertshow = false;
+					},1000)
+					return;
+				}
 				Store.dispatch({
 					type:"WEIXIN",
 					context:{
@@ -139,46 +109,20 @@
 					})
 				}else{
 					if(confirm("你确定退款吗?")){
-						axios({
-							url:"/ec_pay/backmoney",
-							method:"post",
-							headers:{
-								"appid": 1,
-						        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-						        "channelid": "WX",
-						        "UserAgent": "WX",
-						        "productid": 1,
-						        "userid":sessionStorage.getItem("userid"),
-						        "usertoken":sessionStorage.getItem("usertoken")
-							},
-							params:{
-								orderid:orderid,
-								type:3
-							}
-						}).then(res => {
+						axios.post("/ec_pay/backmoney",{
+							orderid:orderid,
+							type:3
+						},config).then(res => {
 							if(res.data.code == 0){
 								this.context = "退款审核中";
 								this.alertshow = true;
 								setTimeout(() => {
 									this.alertshow = false;
 								},1000)
-								axios({
-									url:"/order/search",
-									method:"post",
-									headers:{
-										"appid": 1,
-								        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-								        "channelid": "WX",
-								        "UserAgent": "WX",
-								        "productid": 1,
-								        "userid":sessionStorage.getItem("userid"),
-								        "usertoken":sessionStorage.getItem("usertoken")
-									},
-									params:{
-										type: 6,
-										page: 1
-									}
-								}).then(res => {
+								axios.post("/order/search",{
+									type: 6,
+									page: 1
+								},config).then(res => {
 									if(res.data.code == 0){
 										Store.dispatch({
 											type:"ALL",
@@ -186,23 +130,10 @@
 										})
 									}
 								})
-								axios({
-									url:"/order/search",
-									method:"post",
-									headers:{
-										"appid": 1,
-								        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-								        "channelid": "WX",
-								        "UserAgent": "WX",
-								        "productid": 1,
-								        "userid":sessionStorage.getItem("userid"),
-								        "usertoken":sessionStorage.getItem("usertoken")
-									},
-									params:{
-										type: 4,
-										page: 1
-									}
-								}).then(res => {
+								axios.post("/order/search",{
+									type: 4,
+									page: 1
+								},config).then(res => {
 									if(res.data.code == 0){
 										Store.dispatch({
 											type:"REFUND",
@@ -210,23 +141,10 @@
 										})
 									}
 								})
-								axios({
-									url:"/order/search",
-									method:"post",
-									headers:{
-										"appid": 1,
-								        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-								        "channelid": "WX",
-								        "UserAgent": "WX",
-								        "productid": 1,
-								        "userid":sessionStorage.getItem("userid"),
-								        "usertoken":sessionStorage.getItem("usertoken")
-									},
-									params:{
-										type: 2,
-										page: 1
-									}
-								}).then(res => {
+								axios.post("/order/search",{
+									type: 2,
+									page: 1
+								},config).then(res => {
 									if(res.data.code == 0){
 										Store.dispatch({
 											type:"SEND",
@@ -234,23 +152,10 @@
 										})
 									}
 								})
-								axios({
-									url:"/order/search",
-									method:"post",
-									headers:{
-										"appid": 1,
-								        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-								        "channelid": "WX",
-								        "UserAgent": "WX",
-								        "productid": 1,
-								        "userid":sessionStorage.getItem("userid"),
-								        "usertoken":sessionStorage.getItem("usertoken")
-									},
-									params:{
-										type: 3,
-										page: 1
-									}
-								}).then(res => {
+								axios.post("/order/search",{
+									type: 3,
+									page: 1
+								},config).then(res => {
 									if(res.data.code == 0){
 										Store.dispatch({
 											type:"YES",
@@ -273,43 +178,17 @@
 			},
 			affirm(orderid,type){
 				type = type == 1 ? 1 : 3;
-				axios({
-					url:"/orderhandle/sure",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						orderid:orderid,
-						type: type
-					}
-				}).then(res => {
+				axios.post("/orderhandle/sure",{
+					orderid:orderid,
+					type: type
+				},config).then(res => {
 
 					if(res.data.code == 0){
 						
-						axios({
-							url:"/order/search",
-							method:"post",
-							headers:{
-								"appid": 1,
-						        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-						        "channelid": "WX",
-						        "UserAgent": "WX",
-						        "productid": 1,
-						        "userid":sessionStorage.getItem("userid"),
-						        "usertoken":sessionStorage.getItem("usertoken")
-							},
-							params:{
-								type: 6,
-								page: 1
-							}
-						}).then(res => {
+						axios.post("/order/search",{
+							type: 6,
+							page: 1
+						},config).then(res => {
 							if(res.data.code == 0){
 								Store.dispatch({
 									type:"ALL",
@@ -317,23 +196,10 @@
 								})
 							}
 						})
-						axios({
-							url:"/order/search",
-							method:"post",
-							headers:{
-								"appid": 1,
-						        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-						        "channelid": "WX",
-						        "UserAgent": "WX",
-						        "productid": 1,
-						        "userid":sessionStorage.getItem("userid"),
-						        "usertoken":sessionStorage.getItem("usertoken")
-							},
-							params:{
-								type: 3,
-								page: 1
-							}
-						}).then(res => {
+						axios.post("/order/search",{
+							type: 3,
+							page: 1
+						},config).then(res => {
 							if(res.data.code == 0){
 								Store.dispatch({
 									type:"YES",
@@ -341,23 +207,10 @@
 								})
 							}
 						})
-						axios({
-							url:"/order/search",
-							method:"post",
-							headers:{
-								"appid": 1,
-						        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-						        "channelid": "WX",
-						        "UserAgent": "WX",
-						        "productid": 1,
-						        "userid":sessionStorage.getItem("userid"),
-						        "usertoken":sessionStorage.getItem("usertoken")
-							},
-							params:{
-								type: 5,
-								page: 1
-							}
-						}).then(res => {
+						axios.post("/order/search",{
+							type: 5,
+							page: 1
+						},config).then(res => {
 							if(res.data.code == 0){
 								Store.dispatch({
 									type:"COMPLETE",

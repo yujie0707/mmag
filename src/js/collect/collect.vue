@@ -19,32 +19,58 @@
 					<input type="checkbox" v-model="choose[index]" style="height: 0;width: 0;" class="choose-input" />
 					<img :src="choose[index] ? '/dist/image/home/shopping/xuanzhong.png' : '/dist/image/home/shopping/weixuanzhong.png'" class="choose" />
 				</label>
-				<router-link :to="{name:'detail',params:{id:item.catid}}">
+				<a @click="goDetail(item.catid,item.goodStatus)">
 					<img v-lazy="item.img" class="shopping-list-img" />
+					<img src="/dist/image/yiguoqi.png" v-if="item.goodStatus == 2" class="over" />
 					<div class="shopping-list-detail">
 						<p>{{item.name}} | {{item.mbn_details}}斤/件</p>
 						<p>一件起售 {{item.details}}</p>
 						<p>￥{{item.money}}/斤</p>
 					</div>
-				</router-link>
+				</a>
 			</li>
 		</ul>
 		<input class="remove" v-if="!del" @click="remove()" value="删除" type="button">
+		<v-alert v-if="alertshow" :context="context"></v-alert>
 	</div>
 </template>
 
 <script>
+	import config from "../config/config.js";
+	import Alert from "../alert.vue";
 	export default{
+		components:{
+			"v-alert":Alert
+		},
 		data(){
 			return{
 				del:true,
 				total:0,
 				choose:[],
 				chooseAll:false,
-				collectList:[]
+				collectList:[],
+				alertshow:false,
+				context:''
 			}
 		},
 		methods:{
+			goDetail(id,goodStatus){
+				if(goodStatus == 2){
+					this.alertshow = true;
+					this.context = "该商品已下架";
+					setTimeout(() => {
+						this.alertshow = false;
+					},1000)
+					return;
+				}
+				
+				this.$router.push({
+					name:"detail",
+					params:{
+						id:id
+					}
+				})
+			},
 			goback(){
 				this.$router.go(-1);
 			},
@@ -85,23 +111,9 @@
 					}
 				}
 				catid = list.join("_");
-				axios({
-					url:"/ec_collection/del",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						catids:catid
-					}
-				}).then(res => {
-					console.log(res.data)
+				axios.post("/ec_collection/del",{
+					catids:catid
+				},config).then(res => {
 					if(res.data.code == 0){
 						this.collectList = llist;
 						this.choose = choose;
@@ -121,49 +133,12 @@
 				}
 			}
 		},
-		mounted(){
-			axios({
-				url:"/ec_collection/search",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				}
-			}).then(res => {
-				console.log(res.data.data);
-				if(res.data.code == 0){
-					this.collectList = res.data.data;
-					var arr = [];
-					for(var i = 0; i < res.data.data.length; i++){
-						arr[i] = false;
-					}
-					this.choose = arr;
-					this.total = res.data.data.length;
-				}
-			})
-		},
 		activated(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
 			this.del = true;
 			this.chooseAll = false;
-			axios({
-				url:"/ec_collection/search",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				}
-			}).then(res => {
-				console.log(res.data.data);
+			axios.post("/ec_collection/search",{},config).then(res => {
 				if(res.data.code == 0){
 					this.collectList = res.data.data;
 					var arr = [];
@@ -177,31 +152,6 @@
 			wx.hideMenuItems({
 			  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
 			});
-		},
-		beforeRouteEnter(to,from,next){
-			if(localStorage.getItem("info")){
-				if(JSON.parse(localStorage.getItem("info")).time < new Date().getTime()){
-					localStorage.removeItem("info");
-					sessionStorage.removeItem("userid");
-					sessionStorage.removeItem("usertoken");
-					next(vm => {
-						vm.$router.push("/");
-					});
-				}else{
-					var time = new Date();
-					time = time.getTime() + 3*24*60*60*1000;
-					var obj = JSON.parse(localStorage.getItem("info"));
-					obj.time = time;
-					localStorage.setItem("info",JSON.stringify(obj));
-					sessionStorage.setItem("userid",JSON.parse(localStorage.getItem("info")).userid);
-					sessionStorage.setItem("usertoken",JSON.parse(localStorage.getItem("info")).usertoken);
-					next();
-				}
-			}else{
-				next(vm => {
-					vm.$router.push("/");
-				});
-			}
 		}
 	}
 </script>

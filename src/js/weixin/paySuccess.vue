@@ -46,20 +46,6 @@
 				orderid:""
 			}
 		},
-		mounted(){
-			var time = new Date();
-			var arr = [];
-			arr.push(time.getFullYear());
-			arr.push(time.getMonth() + 1 < 10 ? "0" + (time.getMonth() + 1) : time.getMonth());
-			arr.push(time.getDate() < 10 ? "0" + time.getDate() : time.getDate());
-			var arr1 = [];
-			arr1.push(time.getHours() < 10 ? "0" + time.getHours() : time.getHours());
-			arr1.push(time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes());
-			arr1.push(time.getSeconds() < 10 ? "0" + time.getSeconds() : time.getSeconds());
-			this.time = arr.join("-");
-			this.time1 = arr1.join(":");
-			this.orderid = Store.getState().weixin.orderid;
-		},
 		activated(){
 			var time = new Date();
 			var arr = [];

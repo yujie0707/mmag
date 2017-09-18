@@ -68,6 +68,7 @@
 <script>
 	
 	import Store from "../store/store.js";
+	import config from "../config/config.js";
 	export default{
 		
 		methods:{
@@ -87,29 +88,16 @@
 			},
 			submit(){
 				if(Store.getState().order.type == 1){
-					axios({
-						url: "/order/add",
-						method:"post",
-						headers:{
-							"appid": 1,
-					        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-					        "channelid": "WX",
-					        "UserAgent": "WX",
-					        "productid": 1,
-					        "userid":sessionStorage.getItem("userid"),
-					        "usertoken":sessionStorage.getItem("usertoken")
-						},
-						params:{
-							addressid: this.address.addressid,
-							couponid: this.couponid,
-							integralid:'',
-							totallmoney: this.total,
-							finallymoney: this.totalcoupon,
-							freight:"0.00",
-							ordertype: Store.getState().order.type,
-							orderids: Store.getState().order.detail.orderids
-						}
-					}).then(res => {
+					axios.post("/order/add",{
+						addressid: this.address.addressid,
+						couponid: this.couponid,
+						integralid:'',
+						totallmoney: this.total,
+						finallymoney: this.totalcoupon,
+						freight:"0.00",
+						ordertype: Store.getState().order.type,
+						orderids: Store.getState().order.detail.orderids
+					},config).then(res => {
 						if(res.data.code == 0){
 							Store.dispatch({
 								type:"WEIXIN",
@@ -127,30 +115,17 @@
 					})
 					
 				}else if(Store.getState().order.type == 2){
-					axios({
-						url:"/order/add",
-						method:"post",
-						headers:{
-							"appid": 1,
-					        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-					        "channelid": "WX",
-					        "UserAgent": "WX",
-					        "productid": 1,
-					        "userid":sessionStorage.getItem("userid"),
-					        "usertoken":sessionStorage.getItem("usertoken")
-						},
-						params:{
-							addressid: this.address.addressid,
-							couponid:this.couponid,
-							integralid:'',
-							totallmoney: this.total,
-							finallymoney: this.totalcoupon,
-							freight:"0.00",
-							ordertype: Store.getState().order.type,
-							catid:Store.getState().order.detail.list[0].catid,
-							buy_num:Store.getState().order.detail.list[0].num
-						}
-					}).then(res => {
+					axios.post("/order/add",{
+						addressid: this.address.addressid,
+						couponid:this.couponid,
+						integralid:'',
+						totallmoney: this.total,
+						finallymoney: this.totalcoupon,
+						freight:"0.00",
+						ordertype: Store.getState().order.type,
+						catid:Store.getState().order.detail.list[0].catid,
+						buy_num:Store.getState().order.detail.list[0].num
+					},config).then(res => {
 						if(res.data.code == 0){
 							Store.dispatch({
 								type:"WEIXIN",
@@ -197,90 +172,26 @@
 				return total.toFixed(2);
 			}
 		},
-		mounted(){
-			axios({
-				url:"/address/search",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				},
-				params:{
-					isdefault:1
-				}
-			}).then(res => {
-				this.address = res.data.data[0];
-				this.show = res.data.data.length == 0 ? true : false;
-			})
-			axios({
-				url:"/Coupon/GetList",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				},
-				params:{
-					type:1,
-					money: this.total
-				}
-			}).then(res => {
-				this.couponNum = res.data.data.length;
-			})
-		},
 		activated(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
 			this.show = false;
 			this.list = Store.getState().order.detail.list;
 			this.couponShow = sessionStorage.getItem("coupon") ? false : true;
 			this.couponMoney = sessionStorage.getItem("coupon") ? parseFloat(sessionStorage.getItem("coupon")) : 0;
 			this.couponid = sessionStorage.getItem("couponid") ? sessionStorage.getItem("couponid") : '';
 			
-			axios({
-				url:"/Coupon/GetList",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				},
-				params:{
-					type:1,
-					money: this.total
-				}
-			}).then(res => {
+			axios.post("/Coupon/GetList",{
+				type:1,
+				money: this.total
+			},config).then(res => {
 				this.couponNum = res.data.data.length;
 			})
 			if(this.$route.params.address){
 				if(this.$route.params.address == "false"){
-					axios({
-						url:"/address/search",
-						method:"post",
-						headers:{
-							"appid": 1,
-					        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-					        "channelid": "WX",
-					        "UserAgent": "WX",
-					        "productid": 1,
-					        "userid":sessionStorage.getItem("userid"),
-					        "usertoken":sessionStorage.getItem("usertoken")
-						},
-						params:{
-							isdefault:1
-						}
-					}).then(res => {
+					axios.post("/address/search",{
+						isdefault:1
+					},config).then(res => {
 						this.address = res.data.data[0];
 						this.show = res.data.data.length == 0 ? true : false;
 					})
@@ -288,22 +199,9 @@
 					this.address = JSON.parse(this.$route.params.address);
 				}
 			}else{
-				axios({
-					url:"/address/search",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						isdefault:1
-					}
-				}).then(res => {
+				axios.post("/address/search",{
+					isdefault:1
+				},config).then(res => {
 					this.address = res.data.data[0];
 					this.show = res.data.data.length == 0 ? true : false;
 				})

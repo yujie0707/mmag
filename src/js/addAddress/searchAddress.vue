@@ -44,7 +44,6 @@
 					    		}
 					    	}
 					    	that.list = result.tips;
-					    	console.log(that.list);
 					    }
 					    
 					});

@@ -76,6 +76,7 @@
 	import Store from "../store/store.js";
 	import Header from "./header.vue";
 	import Alert from "../alert.vue";
+	import config from "../config/config.js";
 	export default{
 		components:{
 			"v-header":Header,
@@ -117,31 +118,17 @@
 					},1000)
 					return;
 				}
-				axios({
-					url:"/order/addcg",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						catid: this.$route.params.catid,
-		                couponid: "",
-		                integralid: "",
-		                totalmoney: this.total,
-		                finMoney: this.total,
-		                enterTime: this.timeGo,
-		                adultNum:this.$route.params.adultNum,
-		                childNum:this.$route.params.childNum,
-		                teamNum:this.$route.params.teamNum
-					}
-				}).then(res => {
-					console.log(res.data.data);
+				axios.post("/order/addcg",{
+					catid: this.$route.params.catid,
+	                couponid: "",
+	                integralid: "",
+	                totalmoney: this.total,
+	                finMoney: this.total,
+	                enterTime: this.timeGo,
+	                adultNum:this.$route.params.adultNum,
+	                childNum:this.$route.params.childNum,
+	                teamNum:this.$route.params.teamNum
+				},config).then(res => {
 					if(res.data.code == 0){
 						Store.dispatch({
 							type:"WEIXIN",
@@ -266,6 +253,9 @@
 			this.yearlist = arr;
 		},
 		activated(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			
 			var time = this.$route.params.time;
 			this.timeStart = time.split("-----")[0].split("-");
 			this.timeEnd = time.split("-----")[1].split("-");

@@ -67,6 +67,7 @@
 <script>
 	import Alert from "../alert.vue";
 	import Header from "./header.vue";
+	import config from "../config/config.js";
 	export default{
 		components:{
 			"v-header": Header,
@@ -118,24 +119,10 @@
 			},
 			tocity(id,province){
 				var that = this;
-				axios({
-					url:"/address/getarea",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						provinceid:id,
-						cityid:''
-					}
-				}).then(res => {
-					console.log(res);
+				axios.post("/address/getarea",{
+					provinceid:id,
+					cityid:''
+				},config).then(res => {
 					that.citylist = res.data.data;
 					this.showcity = 1;
 					this.city1[0] = province;
@@ -144,24 +131,10 @@
 			toarea(id,aaa){
 				var that = this;
 				
-				axios({
-					url:"/address/getarea",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						provinceid:'',
-						cityid:id
-					}
-				}).then(res => {
-					console.log(res);
+				axios.post("/address/getarea",{
+					provinceid:'',
+					cityid:id
+				},config).then(res => {
 					that.arealist = res.data.data;
 					this.showcity = 2;
 					
@@ -187,30 +160,17 @@
 			},
 			send(){
 				if(!this.addressid){
-					axios({
-						url:"/address/adds",
-						method:"post",
-						headers:{
-							"appid": 1,
-					        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-					        "channelid": "WX",
-					        "UserAgent": "WX",
-					        "productid": 1,
-					        "userid":sessionStorage.getItem("userid"),
-					        "usertoken":sessionStorage.getItem("usertoken")
-						},
-						params:{
-							name: this.name,
-							phone: this.phone,
-							areaid: this.areaid,
-							details: this.plot,
-							adressnum: this.addressDetail,
-							longitude: this.lng,
-							latitude: this.lat,
-							default: this.isdefault ? 2 : 1,
-							type: this.type
-						}
-					}).then(res => {
+					axios.post("/address/adds",{
+						name: this.name,
+						phone: this.phone,
+						areaid: this.areaid,
+						details: this.plot,
+						adressnum: this.addressDetail,
+						longitude: this.lng,
+						latitude: this.lat,
+						default: this.isdefault ? 2 : 1,
+						type: this.type
+					},config).then(res => {
 						if(res.data.code == 0){
 							this.$router.go(-1);
 						}else if(res.data.code == 2175){
@@ -230,33 +190,27 @@
 						}
 					})
 				}else{
-					axios({
-						url:"/address/update",
-						method:"post",
-						headers:{
-							"appid": 1,
-					        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-					        "channelid": "WX",
-					        "UserAgent": "WX",
-					        "productid": 1,
-					        "userid":sessionStorage.getItem("userid"),
-					        "usertoken":sessionStorage.getItem("usertoken")
-						},
-						params:{
-							name: this.name,
-							phone: this.phone,
-							areaid: this.areaid,
-							details: this.plot,
-							adressnum: this.addressDetail,
-							longitude: this.lng,
-							latitude: this.lat,
-							default: this.isdefault ? 2 : 1,
-							type: this.type,
-							addressid: this.addressid
-						}
-					}).then(res => {
+					axios.post("/address/update",{
+						name: this.name,
+						phone: this.phone,
+						areaid: this.areaid,
+						details: this.plot,
+						adressnum: this.addressDetail,
+						longitude: this.lng,
+						latitude: this.lat,
+						default: this.isdefault ? 2 : 1,
+						type: this.type,
+						addressid: this.addressid
+					},config).then(res => {
 						if(res.data.code == 0){
 							this.$router.go(-1);
+						}else if(res.data.code == 2175){
+							this.context = "详细地址字数过多，请适当删减";
+							this.alertshow = true;
+							
+							setTimeout(() => {
+								this.alertshow = false;
+							},1000)
 						}else{
 							this.context = "地址添加失败";
 							this.alertshow = true;
@@ -279,20 +233,10 @@
 			}
 		},
 		mounted(){
-			axios({
-				url:"/address/getarea",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertaken":sessionStorage.getItem("usertaken")
-				}
-			}).then(res => {
-				console.log(res);
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			
+			axios.post("/address/getarea",{},config).then(res => {
 				this.provincelist = res.data.data;
 			})
 			
@@ -311,6 +255,8 @@
 			}
 		},
 		activated(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
 			if(this.$route.params.data){
 				var item = this.$route.params.data;
 				this.name = item.name;

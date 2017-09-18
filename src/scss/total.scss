@@ -16,6 +16,7 @@
 @import "./talkingnow/talkingnow";
 @import "./refund/refund";
 @import "./coupon/coupon";
+@import "./sale/sale";
 
 
 html,body,#outer{
@@ -38,6 +39,7 @@ html,body,#outer{
         img.single-img{
             float: left;
             height: 100%;
+            width: 2.3rem;
         }
         .single-detail{
             float: left;

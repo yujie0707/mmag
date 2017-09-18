@@ -6,6 +6,7 @@
 
 <script>
 	import Single from "./hotsingle.vue";
+	import config from "../../config/config.js";
 	export default{
 		components:{
 			"v-single":Single
@@ -17,24 +18,12 @@
 			}
 		},
 		activated(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
 			this.$el.scrollTop = sessionStorage.getItem("chinaTop") ? sessionStorage.getItem("chinaTop") : 0;
-			axios({
-				url:"/index/category",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				},
-				params:{
-					type:3
-				}
-			}).then(res => {
-				console.log(res);
+			axios.post("/index/category",{
+				type:3
+			},config).then(res => {
 				if(res.data.code == 0){
 					this.chinaList = res.data.data;
 				}

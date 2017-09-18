@@ -1,11 +1,9 @@
 <template>
 	<div id="my">
 		<header class="my-header">
-			<div @click="goEdit(info.avatar,info.mobile)">
+			<div @click="goeditmy()">
 				<img v-lazy="info.avatar" class="person-pic" />
-				<span>{{info.mobile | mobile}}</span>
-				<img src="/dist/image/home/my/bianij.png" />
-
+				<span>{{info.mobile}}</span>
 			</div>
 		</header>
 		<div class="coupon">
@@ -68,13 +66,23 @@
 
 <script>
 	import Store from "../../store/store.js";
-	export default{
+	import config from "../../config/config.js";
+ 	export default{
 		data(){
 			return {
 				info:{}
 			}
 		},
 		methods:{
+			goeditmy(){
+				this.$router.push({
+					name:"editmy",
+					params:{
+						head: this.info.avatar,
+						name: this.info.mobile
+					}
+				})
+			},
 			goCollect(){
 				this.$router.push("/collect");
 			},
@@ -86,15 +94,6 @@
 				sessionStorage.setItem("isjump",0);
 				this.$router.push("/address");
 			},
-			goEdit(img,phone){
-				this.$router.push({
-					name:"editmy",
-					params:{
-						img:img,
-						phone:phone
-					}
-				})
-			},
 			goCoupon(){
 				this.$router.push({
 					name:"coupon",
@@ -105,87 +104,23 @@
 				})
 			}
 		},
-		mounted(){
-			axios({
-				url:"/ec_shoppingcart/getnum",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				}
-			}).then(res => {
-				Store.dispatch({
-					type:"NUM",
-					context: res.data.data.carNum
-				})
-			})
-			axios({
-				url:"/user/getmyuserinfo",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				}
-			}).then(res => {
-				this.info = res.data.data.baseinfo;
-			})
-		},
-		filters:{
-			mobile:function(value){
-				if(value){
-					var arr = value.split("");
-					for(var i = 0; i < 4; i++){
-						arr[i+3] = "*";
-					}
-					return arr.join("");
-					
-				}else{
-					return "";
-				}
-			}
-		},
 		activated(){
-			axios({
-				url:"/ec_shoppingcart/getnum",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			axios.post("/ec_shoppingcart/getnum",{},config).then(res => {
+				if(res.data.code == 0){
+					Store.dispatch({
+						type:"NUM",
+						context: res.data.data.carNum
+					})
+				}else if(res.data.code == 2000){
+					Store.dispatch({
+						type:"NUM",
+						context: 0
+					})
 				}
-			}).then(res => {
-				Store.dispatch({
-					type:"NUM",
-					context: res.data.data.carNum
-				})
 			})
-			axios({
-				url:"/user/getmyuserinfo",
-				method:"post",
-				headers:{
-					"appid": 1,
-			        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-			        "channelid": "WX",
-			        "UserAgent": "WX",
-			        "productid": 1,
-			        "userid":sessionStorage.getItem("userid"),
-			        "usertoken":sessionStorage.getItem("usertoken")
-				}
-			}).then(res => {
+			axios.post("/user/getmyuserinfo",{},config).then(res => {
 				this.info = res.data.data.baseinfo;
 			})
 			wx.hideMenuItems({

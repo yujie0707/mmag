@@ -26,6 +26,7 @@
 	import Store from "../store/store.js";
 	import Header from "../order/header.vue";
 	import Alert from "../alert.vue";
+	import config from "../config/config.js";
 	export default{
 		components:{
 			"v-header":Header,
@@ -40,24 +41,11 @@
 		},
 		methods:{
 			payNow(){
-				axios({
-					url:"/ec_pay/pay",
-					method:"post",
-					headers:{
-						"appid": 1,
-				        "deviceid": "985ff090eb761e8329c64092ac421adf9afe3",
-				        "channelid": "WX",
-				        "UserAgent": "WX",
-				        "productid": 1,
-				        "userid":sessionStorage.getItem("userid"),
-				        "usertoken":sessionStorage.getItem("usertoken")
-					},
-					params:{
-						type:3,
-						orderid: this.orderid,
-						total_amount: this.money
-					}
-				}).then(res => {
+				axios.post("/ec_pay/pay",{
+					type:3,
+					orderid: this.orderid,
+					total_amount: this.money
+				},config).then(res => {
 					var that = this;
 				    WeixinJSBridge.invoke('getBrandWCPayRequest', {
 				           "appId": res.data.data.appId,     //公众号名称，由商户传入     
@@ -77,15 +65,13 @@
 				            	},1000)
 				            }
 				        }
-				    ); 
+				    );
 				})
 			}
 		},
 		activated(){
-			this.money = Store.getState().weixin.money;
-			this.orderid = Store.getState().weixin.orderid;
-		},
-		mounted(){
+			config.headers.userid = sessionStorage.getItem("userid");
+			config.headers.usertoken = sessionStorage.getItem("usertoken");
 			this.money = Store.getState().weixin.money;
 			this.orderid = Store.getState().weixin.orderid;
 		}
