@@ -62,6 +62,7 @@
 				<span @click="submit()">提交订单</span>
 			</div>
 		</footer>
+		<v-alert v-if="alertshow" :context="context"></v-alert>
 	</div>
 </template>
 
@@ -69,11 +70,13 @@
 	
 	import Store from "../store/store.js";
 	import config from "../config/config.js";
+	import Alert from "../alert.vue";
 	export default{
-		
+		components:{
+			"v-alert":Alert
+		},
 		methods:{
 			goCoupon(){
-				
 				this.$router.push({
 					name:"coupon",
 					params:{
@@ -87,6 +90,13 @@
 				this.$router.push("/address");
 			},
 			submit(){
+				if(this.show){
+					this.alertshow = true;
+					this.context = "请添加地址";
+					setTimeout(() => {
+						this.alertshow = false;
+					},1000)
+				}
 				if(Store.getState().order.type == 1){
 					axios.post("/order/add",{
 						addressid: this.address.addressid,
@@ -152,7 +162,9 @@
 			    couponNum:0,
 			    couponShow:true,
 			    couponMoney:0,
-			    couponid:''
+			    couponid:'',
+			    alertshow:false,
+			    context:""
 			}
 		},
 		computed:{

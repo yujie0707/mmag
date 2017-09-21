@@ -26,6 +26,7 @@ import Refund from "./js/refund/refund.vue";
 import Coupon from "./js/coupon/coupon.vue";
 import Sale from "./js/sale/sale.vue";
 import Editmy from "./js/editmy/editmy.vue";
+import Student from "./js/student/student.vue";
 
 import './scss/total.scss';
 
@@ -127,6 +128,10 @@ var routes = [{
 	path:"/editmy/:head/:name",
 	name:"editmy",
 	component:Editmy
+},{
+	path:"/student",
+	name:"student",
+	component:Student
 }];
 
 var router = new VueRouter({

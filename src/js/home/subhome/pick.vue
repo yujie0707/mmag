@@ -23,14 +23,11 @@
 							<span>￥<b>{{item.child.split(".")[0]}}</b>.{{item.child.split(".")[1]}}/人</span>
 						</div>
 						<div class="wrap-right">
-								<span>原价</span>
-								<span>共享价</span>
-								<span>儿童价(半价)<a>1.2-1.5米（1.2米以下免费）</a></span>
-								
+							<span>原价</span>
+							<span>共享价</span>
+							<span>儿童价(半价)<a>1.2-1.5米（1.2米以下免费）</a></span>
 						</div>
-						
 					</div>
-					
 				</router-link>
 			</li>
 		</ul>
@@ -90,7 +87,7 @@
 			        })
 				}else{
 					
-					AMap.service(["AMap.Geolocation"], function() { 
+					/*AMap.service(["AMap.Geolocation"], function() { 
 		               	//实例化城市查询类 
 		               	var geolocation = new AMap.Geolocation({
 		        			timeout: 10000,         
@@ -99,8 +96,57 @@
 		               	geolocation.getCurrentPosition();
 		    			AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
 		    			AMap.event.addListener(geolocation, 'error', onError); 
-		           	}); 
-					function onComplete(data) {
+		           	});*/ 
+		           	wx.ready(function(){
+			           	wx.getLocation({
+						    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+						    success: function (res) {
+						        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+						        var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180
+						        
+						        sessionStorage.setItem("lng",longitude);
+						        sessionStorage.setItem("lat",latitude);
+						        
+						        axios.post("/index/orchard",{
+					        		longitude: longitude,
+					        		latitude: latitude,
+					        		city:"青岛市",
+					        		page: that.page
+						        },config).then(res => {
+						        	if(res.data.code == 0){
+						        		that.picklist = res.data.data;
+						        	}
+						        })
+						    },
+						    fail: function(res) {
+						    	sessionStorage.setItem("fail","error");
+						        if(sessionStorage.getItem("lng")){
+									axios.post("/index/orchard",{
+						        		longitude: sessionStorage.getItem("lng"),
+						        		latitude: sessionStorage.getItem("lat"),
+						        		city:"青岛市",
+						        		page: that.page
+							        },config).then(res => {
+							        	if(res.data.code == 0){
+							        		that.picklist = res.data.data;
+							        	}
+							        })
+								}else{
+									axios.post("/index/orchard",{
+						        		longitude: '120.369557',
+						        		latitude: '36.094406',
+						        		city:"青岛市",
+						        		page: that.page
+							        },config).then(res => {
+							        	if(res.data.code == 0){
+							        		that.picklist = res.data.data;
+							        	}
+							        })
+								}
+						    }
+						});
+					});
+					/*function onComplete(data) {
 				        sessionStorage.setItem("lng",data.position.getLng());
 				        sessionStorage.setItem("lat",data.position.getLat());
 				        
@@ -142,8 +188,7 @@
 					        	}
 					        })
 						}
-				    }
-					
+				    }*/
 				}
 				
 			}

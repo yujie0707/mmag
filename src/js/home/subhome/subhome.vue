@@ -38,6 +38,11 @@
 			"v-pick":Pick
 		},
 		mounted(){
+			
+			this.height = document.querySelector(".wrap-swiper").offsetHeight;
+			
+		},
+		activated(){
 			var that = this;
 			setTimeout(()=>{
 				this.swiper = new Swiper('.swiper-container', {
@@ -48,11 +53,6 @@
 				    }
 				})
 			},500);
-			
-			this.height = document.querySelector(".wrap-swiper").offsetHeight;
-			
-		},
-		activated(){
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
 			axios.post("/ec_shoppingcart/getnum",{},config).then(res => {

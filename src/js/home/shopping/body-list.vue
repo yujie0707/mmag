@@ -150,7 +150,7 @@
 					return;
 				}
 				var temp = this.list;
-				if(temp[index].num == 1){
+				if(temp[index].num <= 1){
 					return					
 				}
 				axios.post("/ec_shoppingcart/minus",{

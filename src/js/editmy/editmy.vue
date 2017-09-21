@@ -35,15 +35,15 @@
 		},
 		methods:{
 			exit(){
-				axios.post("",{},config).then(res => {
+				axios.post("/user/UpdateUserInfo",{},config).then(res => {
 					if(res.data.code == 0){
 						this.alertshow = true;
 						this.context = "同步成功";
 						setTimeout(() => {
 							this.alertshow = false;
 						},1000)
-						this.$route.params.head = res.data.data.head;
-						this.$route.params.name = res.data.data.name;
+						this.$route.params.head = res.data.data.avatar;
+						this.$route.params.name = res.data.data.nickname;
 					}else{
 						this.alertshow = true;
 						this.context = "同步失败，请重新尝试";

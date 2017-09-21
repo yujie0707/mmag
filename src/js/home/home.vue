@@ -58,6 +58,7 @@
 			sessionStorage.removeItem("path");
 			if(path){
 				next(vm => {
+					sessionStorage.setItem("jumpother",1);
 					vm.$router.push(path);
 				})
 			}else{
