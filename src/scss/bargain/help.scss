@@ -1,0 +1,205 @@
+#help{
+    width: 100%;
+    background: #332e35;
+    .top{
+        width: 100%;
+        height: 6.45rem;
+        position: relative;
+        overflow: hidden;
+        img{
+            display: block;
+            width: 100%;
+        }
+        .detail{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,.5);
+            height: 1.2rem;
+            img{
+                height: 1rem;
+                width: 1rem;
+                border-radius: 50%;
+                float: left;
+                margin: .1rem .26rem 0 .22rem;
+            }
+            span:nth-child(2){
+                float: left;
+                font: .3rem/1.2rem "微软雅黑";
+                color: #fff;
+            }
+            span:nth-child(3){
+                float: right;
+                color: #fff;
+                margin-right: .55rem;
+                font: .28rem/1.2rem "微软雅黑";
+            }
+        }
+    }
+    
+    .middle{
+        width: 100%;
+        height: 6.82rem;
+        background: #332e35;
+        overflow: hidden;
+        .bargain{
+            width: 5.16rem;
+            height: 2.8rem;
+            background: url(/dist/image/bargain/Red-envelopes@2x.png);
+            background-size: 100% 100%;
+            margin: .32rem auto 0;
+            position: relative;
+            .l{
+                width: .9rem;
+                height: .7rem;
+                font: .28rem/.35rem "微软雅黑";
+                position: absolute;
+                left: 1.05rem;
+                top: 1.15rem;
+                text-align: center;
+                color: #fee767;
+            }
+            .r{
+                width: .9rem;
+                height: .7rem;
+                font: .28rem/.35rem "微软雅黑";
+                position: absolute;
+                right: .65rem;
+                top: 1.5rem;
+                text-align: center;
+                color: #e08005;
+            }
+        }
+        .info{
+            padding: .5rem .5rem 0;
+            overflow: hidden;
+            img{
+                height: .8rem;
+                width: .8rem;
+                border-radius: 50%;
+                margin-right: .28rem;
+                float: left;
+            }
+            p{
+                color: #fff;
+                font-size: .32rem;
+                width: 5rem;float: left;
+            }
+        }
+        .button{
+            position: relative;
+            margin-top: .68rem;
+            button{
+                position: absolute;
+                height: .84rem;
+                width: 2.8rem;
+                font-size: .32rem;
+                font-weight: bold;
+                color: #fff;
+            }
+            button:nth-child(1){
+                background: url(/dist/image/bargain/Red-button@2x.png);
+                background-size: 100% 100%;
+                top: 0;
+                left: .5rem;
+                
+            }
+            button:nth-child(2){
+                background: url(/dist/image/bargain/Yellow-button@2x.png);
+                background-size: 100% 100%;
+                top: 0;
+                right: .5rem;
+            }
+            button.hand{
+                background: url(/dist/image/bargain/helpother.png);
+                background-size: 100% 100%;
+                width: 5.5rem;
+                height: .84rem;
+                top: 0;
+                left: 1rem;
+                font-size: .34rem;
+            }
+        }
+    }
+    .list{
+        background: #473b49;
+        width: 100%;
+        h3{
+            width: 100%;
+            height: 1.78rem;
+            text-align: center;
+            font-size: .36rem;
+            color: #fff;
+            background: url(/dist/image/bargain/tophand.png) #332e35;
+            background-size: 100% 100%;
+            line-height: 1.78rem;
+            span{
+                position: relative;
+                top: .2rem;
+            }
+        }
+        ul{
+            padding: 0 .53rem 1rem;
+            li{
+                height: 1.08rem;
+                border-bottom: 1px dashed #fff;
+                line-height: 1.08rem;
+                font-size: .3rem;
+                color: #fff;
+                img{
+                    height: .84rem;
+                    width: .84rem;
+                    vertical-align: middle;
+                    border-radius: 50%;
+                    margin-right: .2rem;
+                }
+                span{
+                    a{
+                        color: #f7b12b;
+                    }
+                }
+            }
+        }
+    }
+    .code-wrap{
+        width: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background: rgba(0,0,0,.5);
+        .code{
+            width: 4.8rem;
+            height: 5.9rem;
+            background: #fff;
+            border-radius: .16rem;
+            margin: 3rem auto 0;
+            text-align: center;
+            p:nth-child(1){
+                font: .34rem/1.08rem "微软雅黑";
+                color: #1e1e1e;
+            }
+            img{
+                width: 2.08rem;
+                height: 2.08rem;
+                display: block;
+                margin: 0 auto;
+            }
+            p:nth-child(3){
+                font: .28rem/.86rem "微软雅黑";
+                color: #24a7ba;
+                border-bottom: 1px solid #bababa;
+            }
+            p:nth-child(4){
+                font: .34rem/1.08rem "微软雅黑";
+                color: #1e1e1e;
+            }
+            p:nth-child(5){
+                font: .28rem "微软雅黑";
+                color: #24a7ba;
+            }
+        }
+        
+    }
+}
+

@@ -14,11 +14,8 @@
 			},config).then(res => {
 				sessionStorage.setItem("userid",res.data.data.userid);
 				sessionStorage.setItem("usertoken",res.data.data.usertoken);
-				localStorage.removeItem("info");
-				
+
 				this.$router.push("/home");
-				
-				
 			})
 		}
 	}

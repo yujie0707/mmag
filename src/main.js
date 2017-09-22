@@ -27,6 +27,8 @@ import Coupon from "./js/coupon/coupon.vue";
 import Sale from "./js/sale/sale.vue";
 import Editmy from "./js/editmy/editmy.vue";
 import Student from "./js/student/student.vue";
+import Bargain from "./js/bargain/bargain.vue";
+import Help from "./js/bargain/share.vue";
 
 import './scss/total.scss';
 
@@ -132,6 +134,14 @@ var routes = [{
 	path:"/student",
 	name:"student",
 	component:Student
+},{
+	path:"/bargain",
+	name:"bargain",
+	component:Bargain
+},{
+	path:"/help",
+	name:"help",
+	component: Help
 }];
 
 var router = new VueRouter({
