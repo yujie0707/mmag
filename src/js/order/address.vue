@@ -21,7 +21,10 @@
 					<div class="shopping-list-detail">
 						<p>{{item.names}} | {{item.mbn_details}}斤/件</p>
 						<p>一件起售 {{item.details}}</p>
-						<p>￥<span>{{(item.price * item.mbn_details).toFixed(2).toString().split(".")[0]}}.</span>{{(item.price * item.mbn_details).toFixed(2).toString().split(".")[1]}}</p>
+						<p v-if="type == 1">￥<span>{{(item.price * item.mbn_details).toFixed(2).toString().split(".")[0]}}.</span>{{(item.price * item.mbn_details).toFixed(2).toString().split(".")[1]}}</p>
+						<p v-else>
+							￥<span>{{(item.price * 1).toFixed(2).toString().split(".")[0]}}.</span>{{(item.price * 1).toFixed(2).toString().split(".")[1]}}
+						</p>
 					</div>
 				</router-link>
 				<div class="shopping-list-num">
@@ -151,6 +154,35 @@
 							this.$router.push("/weixin")
 						}
 					})
+				}else if(Store.getState().order.type == 3){
+					axios.post("/order/add",{
+						addressid: this.address.addressid,
+						couponid:this.couponid,
+						integralid:'',
+						totallmoney: this.total,
+						finallymoney: this.totalcoupon,
+						freight:"0.00",
+						ordertype: Store.getState().order.type,
+						catid:Store.getState().order.detail.list[0].catid,
+						buy_num:Store.getState().order.detail.list[0].num,
+						shareid:sessionStorage.getItem("shareid"),
+						type:1
+					},config).then(res => {
+						if(res.data.code == 0){
+							Store.dispatch({
+								type:"WEIXIN",
+								context:{
+									orderid: res.data.data.orderid,
+									money: res.data.data.fin_money
+								}
+							})
+							if(sessionStorage.getItem("coupon")){
+								sessionStorage.removeItem("coupon");
+								sessionStorage.removeItem("couponid");
+							}
+							this.$router.push("/weixin")
+						}
+					})
 				}
 			}
 		},
@@ -164,7 +196,8 @@
 			    couponMoney:0,
 			    couponid:'',
 			    alertshow:false,
-			    context:""
+			    context:"",
+			    type:1
 			}
 		},
 		computed:{
@@ -192,7 +225,7 @@
 			this.couponShow = sessionStorage.getItem("coupon") ? false : true;
 			this.couponMoney = sessionStorage.getItem("coupon") ? parseFloat(sessionStorage.getItem("coupon")) : 0;
 			this.couponid = sessionStorage.getItem("couponid") ? sessionStorage.getItem("couponid") : '';
-			
+			this.type = Store.getState().order.type;
 			axios.post("/Coupon/GetList",{
 				type:1,
 				money: this.total

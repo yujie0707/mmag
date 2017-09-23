@@ -3,117 +3,224 @@
 		<div class="top">
 			<img src="/dist/image/bargain/backgroundtop@2x.png" />
 			<div class="detail">
-				<img :src="info.baseData.proImg" />
-				<span>{{info.baseData.proName}}</span>
-				<span>原价：￥{{info.baseData.allMoney}}</span>
+				<img :src="infomation.proImg" />
+				<span>{{infomation.proName}}</span>
+				<span>原价：￥{{infomation.allMoney}}</span>
 			</div>
 		</div>
 		<div class="middle">
 			<div class="bargain">
 				<div class="l">
 					<p>当前价</p>
-					<p>{{info.baseData.nowMoney}}</p>
+					<p>{{infomation.nowMoney}}</p>
 				</div>
 				<div class="r">
 					<p>已砍</p>
-					<p>{{info.baseData.allMoney - info.baseData.nowMoney}}</p>
+					<p>{{(infomation.allMoney - infomation.nowMoney).toFixed(2)}}</p>
 				</div>
 			</div>
-			<div class="info" v-if="info.type == 1">
-				<img v-lazy="info.baseData.userImg" class="headimg" />
-				<p>{{info.baseData.userName}}一出手砍掉了{{info.baseData.cutMoney}}元，还可以找人帮砍，试试好友的刀法~~</p>
+			<div class="info" v-if="type == 1">
+				<img v-lazy="infomation.userImg" class="headimg" />
+				<p>{{infomation.userName}}你使用{{infomation.weaponName}}砍掉了{{infomation.cutMoney}}元，还可以找人帮砍，试试好友的刀法~~</p>
 			</div>
-			<div class="info" v-if="info.type == 3">
-				<img v-lazy="info.baseData.userImg" class="headimg" />
-				<p>{{info.baseData.userName}}你可以先为自己砍一刀，赶紧试试刀法吧~~</p>
+			<div class="info" v-if="type == 3">
+				<img v-lazy="infomation.userImg" class="headimg" />
+				<p>{{infomation.userName}}你可以先为自己砍一刀，赶紧试试刀法吧~~</p>
 			</div>
-			<div class="info" v-if="info.type == 2">
-				<img v-lazy="info.baseData.userImg" class="headimg" />
-				<p>你正在为你的好友{{info.baseData.userName}}砍价，赶紧试试刀法吧~~</p>
+			<div class="info" v-if="type == 2">
+				<img v-lazy="infomation.userImg" class="headimg" />
+				<p>你正在为你的好友{{infomation.userName}}砍价，赶紧试试刀法吧~~</p>
 			</div>
-			<div class="info" v-if="info.type == 4">
-				<img v-lazy="info.baseData.userImg" class="headimg" />
-				<p>你成功为你的好友{{info.baseData.userName}}砍掉了{{info.baseData.cutMoney}}元，你也可以发起砍价，赶紧试试吧~~</p>
+			<div class="info" v-if="type == 4">
+				<img v-lazy="infomation.userImg" class="headimg" />
+				<p>你成功使用{{infomation.weaponName}}为你的好友{{infomation.userName}}砍掉了{{infomation.cutMoney}}元，你也可以发起砍价，赶紧试试吧~~</p>
 			</div>
-			<div class="button" v-if="info.type == 1">
+			<div class="button" v-if="type == 1">
 				<button @click="goOrder()">立即购买</button>
-				<button>找人帮砍</button>
+				<button @click="help()">找人帮砍</button>
 			</div>
-			<div class="button" v-else-if="info.type == 2">
+			<div class="button" v-else-if="type == 2">
 				<button class="hand" @click="code()">手起刀落</button>
 			</div>
-			<div class="button" v-else-if="info.type == 3">
+			<div class="button" v-else-if="type == 3">
 				<button class="hand" @click="code()">先来一刀</button>
 			</div>
-			<div class="button" v-else-if="info.type == 4">
+			<div class="button" v-else-if="type == 4">
 				<button @click="goBargain()">我也要买</button>
-				<button>找人帮砍</button>
+				<button @click="help()">找人帮砍</button>
 			</div>
 		</div>
 		<div class="list">
 			<h3><span>砍价高手</span></h3>
 			<ul>
-				<li v-for="item in info.cutList">
+				<li v-for="item in cutList">
 					<img v-lazy="item.userImg" />
-					<span>{{item.userName}}使用{{item.weapon}}帮你砍掉了 <a>{{item.money}}</a> 元</span>
+					<span>{{item.userName}}使用  <a style="color: #f00;">{{item.weapon}}</a> 砍掉了<a>{{item.money}}</a> 元</span>
 				</li>
 			</ul>
 		</div>
 		<div class="code-wrap" v-if="codeShow" :style="{height:height + 'px'}" @click="hide()">
 			<div class="code">
-				<p>我未关注公众号</p>
-				<img src="/dist/image/bargain/code.png" />
-				<p>长按识别二维码</p>
-				<p>我已经关注过公众号</p>
-				<p @click.stop="cutNow()">马上砍价</p>
+				<p>你还未关注公众号</p>
+				<img :src="img" />
+				<p>请长按识别二维码</p>
 			</div>
 		</div>
+		<div class="share-wrap" :style="{height:height + 'px'}" v-if="shareShow" @click="shareHide()">
+			<img src="/dist/image/bargain/fruit_share@2x.png" class="img" />
+			<img src="/dist/image/bargain/star_three@2x.png" class="img1" />
+			<p>找人帮忙</p>
+			<p>点击右上方按钮，发送给朋友，让他们来帮你砍</p>
+		</div>
+		<v-alert v-if="alertshow" :context="context"></v-alert>
 	</div>
 </template>
 
 <script>
 	import config from "../config/config.js";
+	import Store from "../store/store.js";
+	import Alert from "../alert.vue";
 	export default{
+		components:{
+			"v-alert":Alert
+		},
 		data(){
 			return {
-				info:{},
+				infomation:{},
 				codeShow:false,
-				height:0
+				height:0,
+				shareid:"",
+				alertshow:false,
+				context:"",
+				img:"",
+				type:0,
+				cutList:[],
+				shareShow:false
 			}
 		},
 		activated(){
+			var that = this;
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			wx.ready(function(){
+				wx.getLocation({
+				    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+				    success: function (res) {
+				        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+				        var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180
+				        axios.post("/Utils/GetCity",{
+				        	Lat:latitude,
+				        	Lng:longitude
+				        },config).then(res => {
+				        	if(res.data.code == 0){
+				        		if(res.data.data.result.addressComponent.city !== "青岛市"){
+				        			that.$router.push("/no/1")
+				        		}
+				        	}
+				        })
+				    },
+				    fail: function(){
+				    	that.$router.push("/no/2");
+				    },
+				    cancle: function(){
+				    	that.$router.push("/no/3");
+				    }
+				});
+			})
+			
 			this.height = document.body.offsetHeight;
-			var obj = {};
-		 	var arr = location.href.split("?")[1].split("&");
-		 	for(var i = 0; i < arr.length; i++){
-		 		obj[arr[i].split("=")[0]] = arr[i].split("=")[1];
-		 	}
-			var shareid = sessionStorage.getItem("shareid") || obj.shareid;
+			this.shareid = sessionStorage.getItem("shareid");
 			axios.post("/activity/GetCutList",{
-				shareid:shareid
+				shareid:this.shareid
 			},config).then(res => {
 				if(res.data.code == 0){
-					this.info = res.data.data;
+					
+					this.infomation = res.data.data.baseData;
+					this.type = res.data.data.type;
+					this.cutList = res.data.data.cutList;
+					wx.onMenuShareAppMessage({
+					    title: that.infomation.userName + '正在砍价中，快来帮他啊', // 分享标题
+					    desc: '妈妈爱果推出月满中秋活动，大家都来参与吧', // 分享描述
+					    link: 'http://rs.tianmaoetong.com/wx/Index?path=/help*' + that.shareid, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					    imgUrl: that.infomation.userImg, // 分享图标
+					    type: '', // 分享类型,music、video或link，不填默认为link
+					    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+					    success: function () { 
+					        // 用户确认分享后执行的回调函数
+					        
+					    },
+					    cancel: function () { 
+					        // 用户取消分享后执行的回调函数
+					    }
+					});
 				}
 			})
+			
 		},
 		methods:{
 			code(){
-				this.codeShow = true;
+				axios.post("/activity/CutButton",{
+					type:1,
+					shareid:this.shareid
+				},config).then(res => {
+					if(res.data.code == 0){
+						if(res.data.data.type == 6){
+							this.codeShow = true;
+							this.img = res.data.data.img;
+						}else if(res.data.data.type == 5){
+							this.alertshow = true;
+							this.context = "少侠，价格已经到了最低，不能再砍了~~";
+							setTimeout(() => {
+								this.alertshow = false;
+							},1000)
+						}else{
+							this.infomation.allMoney = res.data.data.allMoney;
+							this.infomation.nowMoney = res.data.data.nowMoney;
+							this.infomation.cutMoney = res.data.data.cutMoney;
+							this.infomation.weaponName = res.data.data.weaponName;
+							this.cutList = res.data.data.cutList;
+							this.type = res.data.data.type;
+						}
+					}
+				})
 			},
 			goBargain(){
-				this.$router.push("/bargain")
+				this.$router.push("/bargain");
 			},
 			goOrder(){
-				
+				Store.dispatch({
+					type:"ORDER",
+					context:{
+						detail:{
+							list:[{
+						      "catid": this.infomation.proId,
+						      "num": 1,
+						      "price": this.infomation.nowMoney,
+						      "img": this.infomation.proImg,
+						      "shop_price": '',
+						      "names": this.infomation.proName,
+						      "details": this.infomation.details,
+						      "mbn_details": this.infomation.mbn_details
+						    }]
+						},
+						type:3
+					}
+				});
+				this.$router.push({
+					name:"order",
+					params:{
+						address:false
+					}
+				});
 			},
 			hide(){
 				this.codeShow = false;
 			},
-			cutNow(){
-				
+			help(){
+				this.shareShow = true;
+			},
+			shareHide(){
+				this.shareShow = false;
 			}
 		}
 	}

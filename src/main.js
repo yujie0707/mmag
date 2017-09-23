@@ -29,6 +29,7 @@ import Editmy from "./js/editmy/editmy.vue";
 import Student from "./js/student/student.vue";
 import Bargain from "./js/bargain/bargain.vue";
 import Help from "./js/bargain/share.vue";
+import No from "./js/bargain/no.vue";
 
 import './scss/total.scss';
 
@@ -142,6 +143,10 @@ var routes = [{
 	path:"/help",
 	name:"help",
 	component: Help
+},{
+	path:"/no/:type",
+	name:"no",
+	component:No
 }];
 
 var router = new VueRouter({

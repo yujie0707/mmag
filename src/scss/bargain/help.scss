@@ -201,5 +201,41 @@
         }
         
     }
+    
+    .share-wrap{
+        width: 100%;
+        background: rgba(0,0,0,0.6);
+        position: fixed;
+        left: 0;
+        top: 0;
+        .img{
+            height: 2.98rem;
+            width: 2.39rem;
+            position: absolute;
+            right: .32rem;
+            top: .24rem;
+        }
+        .img1{
+            height: .94rem;
+            width: 5.2rem;
+            position: absolute;
+            right: 0;
+            left: 0;
+            top: 4.56rem;
+            margin: 0 auto;
+        }
+        p:nth-child(3){
+            color: #ff544c;
+            font: .46rem "微软雅黑";
+            text-align: center;
+            margin-top: 5.26rem;
+        }
+        p:nth-child(4){
+            color: #fff;
+            font: .32rem "微软雅黑";
+            text-align: center;
+            margin-top: .4rem;
+        }
+    }
 }
 
