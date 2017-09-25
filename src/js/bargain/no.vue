@@ -4,7 +4,7 @@
 			未在青岛区的用户没有参加此活动的资格
 		</p>
 		<p v-if="type == 2">
-			获取位置失败，请 <a @click="other()">重试</a>
+			获取位置失败，请 <a @click="other()" style="color: #00f;">重试</a>
 		</p>
 		<p v-if="type == 3">
 			未给予获取位置权限，没有参与资格

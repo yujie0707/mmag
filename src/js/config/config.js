@@ -11,7 +11,7 @@ var headers = {
 
 export default{
   // 基础url前缀
-  baseURL: 'http://rs.tianmaoetong.com',
+  baseURL: 'http://ws.tianmaoetong.com',
 　　
 　　　　
   transformRequest: [function (data) {

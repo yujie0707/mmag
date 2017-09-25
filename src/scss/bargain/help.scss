@@ -58,7 +58,7 @@
                 left: 1.05rem;
                 top: 1.15rem;
                 text-align: center;
-                color: #fee767;
+                animation: bian 1s infinite;
             }
             .r{
                 width: .9rem;
@@ -142,11 +142,12 @@
         ul{
             padding: 0 .53rem 1rem;
             li{
-                height: 1.08rem;
                 border-bottom: 1px dashed #fff;
-                line-height: 1.08rem;
                 font-size: .3rem;
                 color: #fff;
+                width: 100%;
+                line-height: 1.08rem;
+                height: 1.08rem;
                 img{
                     height: .84rem;
                     width: .84rem;
@@ -155,6 +156,11 @@
                     margin-right: .2rem;
                 }
                 span{
+                    display: inline-block;
+                    width: 5.3rem;
+                    line-height: .4rem;
+                    overflow: hidden;
+                    vertical-align: middle;
                     a{
                         color: #f7b12b;
                     }
@@ -238,4 +244,14 @@
         }
     }
 }
-
+@keyframes bian{
+    0%{
+        color: #fff;
+    }
+    50%{
+        color: #fee767;
+    }
+    100%{
+        color: #fff;
+    }
+}

@@ -30,6 +30,7 @@ import Student from "./js/student/student.vue";
 import Bargain from "./js/bargain/bargain.vue";
 import Help from "./js/bargain/share.vue";
 import No from "./js/bargain/no.vue";
+import Gift from "./js/sale/gift.vue";
 
 import './scss/total.scss';
 
@@ -147,6 +148,10 @@ var routes = [{
 	path:"/no/:type",
 	name:"no",
 	component:No
+},{
+	path:"/gift",
+	name:"gift",
+	component:Gift
 }];
 
 var router = new VueRouter({

@@ -46,7 +46,7 @@
 				<button class="hand" @click="code()">先来一刀</button>
 			</div>
 			<div class="button" v-else-if="type == 4">
-				<button @click="goBargain()">我也要买</button>
+				<button @click="goBargain()">我也要0元购</button>
 				<button @click="help()">找人帮砍</button>
 			</div>
 		</div>
@@ -139,15 +139,26 @@
 					this.type = res.data.data.type;
 					this.cutList = res.data.data.cutList;
 					wx.onMenuShareAppMessage({
-					    title: that.infomation.userName + '正在砍价中，快来帮他啊', // 分享标题
-					    desc: '妈妈爱果推出月满中秋活动，大家都来参与吧', // 分享描述
-					    link: 'http://rs.tianmaoetong.com/wx/Index?path=/help*' + that.shareid, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					    title: that.infomation.userName + '正在进行砍价活动，快来帮他啊', // 分享标题
+					    desc: '妈妈爱果推出月满中秋砍价活动，大家都来参与吧', // 分享描述
+					    link: 'http://ws.tianmaoetong.com/wx/Index?path=/help*' + that.shareid, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 					    imgUrl: that.infomation.userImg, // 分享图标
 					    type: '', // 分享类型,music、video或link，不填默认为link
 					    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 					    success: function () { 
 					        // 用户确认分享后执行的回调函数
-					        
+				        
+					    },
+					    cancel: function () { 
+					        // 用户取消分享后执行的回调函数
+					    }
+					});
+					wx.onMenuShareTimeline({
+					    title: that.infomation.userName + '正在进行砍价活动，快来帮他啊', // 分享标题
+					    link: 'http://ws.tianmaoetong.com/wx/Index?path=/help*' + that.shareid, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					    imgUrl: that.infomation.userImg, // 分享图标
+					    success: function () { 
+					        // 用户确认分享后执行的回调函数
 					    },
 					    cancel: function () { 
 					        // 用户取消分享后执行的回调函数
@@ -156,6 +167,10 @@
 				}
 			})
 			
+				wx.hideMenuItems({
+				  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] 
+				});
+				
 		},
 		methods:{
 			code(){

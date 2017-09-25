@@ -47,7 +47,8 @@
 		</div>
 		<div class="mustTotal">
 			<span>商品应付</span>
-			<span>￥{{total}}</span>
+			<span v-if="type == 1">￥{{total}}</span>
+			<span v-else>￥{{list[0].price}}</span>
 		</div>
 		<div class="mustTotal" style="margin-bottom: 2.2rem;">
 			<span>运费</span>
@@ -56,11 +57,12 @@
 		<footer>
 			<div>
 				<span>合计：</span>
-				<span>￥{{totalcoupon}}</span>
+				<span v-if="type == 1">￥{{totalcoupon}}</span>
+				<span v-else>￥{{list[0].price}}</span>
 			</div>
 			<div>
 				<span>
-					付款：<a>￥{{totalcoupon}}</a>
+					付款：<a v-if="type == 1">￥{{totalcoupon}}</a><a v-else>￥{{list[0].price}}</a>
 				</span>
 				<span @click="submit()">提交订单</span>
 			</div>
@@ -80,6 +82,14 @@
 		},
 		methods:{
 			goCoupon(){
+				if(this.type == 3){
+					this.alertshow = true;
+					this.context = "该商品不可用优惠券";
+					setTimeout(() => {
+						this.alertshow = false;
+					},1000);
+					return;
+				}
 				this.$router.push({
 					name:"coupon",
 					params:{
@@ -159,10 +169,10 @@
 						addressid: this.address.addressid,
 						couponid:this.couponid,
 						integralid:'',
-						totallmoney: this.total,
-						finallymoney: this.totalcoupon,
+						totallmoney: Store.getState().order.detail.list[0].price,
+						finallymoney: Store.getState().order.detail.list[0].price,
 						freight:"0.00",
-						ordertype: Store.getState().order.type,
+						ordertype: 2,
 						catid:Store.getState().order.detail.list[0].catid,
 						buy_num:Store.getState().order.detail.list[0].num,
 						shareid:sessionStorage.getItem("shareid"),
@@ -225,13 +235,15 @@
 			this.couponShow = sessionStorage.getItem("coupon") ? false : true;
 			this.couponMoney = sessionStorage.getItem("coupon") ? parseFloat(sessionStorage.getItem("coupon")) : 0;
 			this.couponid = sessionStorage.getItem("couponid") ? sessionStorage.getItem("couponid") : '';
-			this.type = Store.getState().order.type;
-			axios.post("/Coupon/GetList",{
-				type:1,
-				money: this.total
-			},config).then(res => {
-				this.couponNum = res.data.data.length;
-			})
+			this.type = Store.getState().order.type == 3 ? Store.getState().order.type : 1;
+			if(this.type !== 3){
+				axios.post("/Coupon/GetList",{
+					type:1,
+					money: this.total
+				},config).then(res => {
+					this.couponNum = res.data.data.length;
+				})
+			}
 			if(this.$route.params.address){
 				if(this.$route.params.address == "false"){
 					axios.post("/address/search",{
