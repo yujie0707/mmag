@@ -14,7 +14,7 @@
 			"v-address":Address
 		},
 		activated(){
-			wx.hideOptionMenu();
+			
 		},
 		deactivated(){
 			if(sessionStorage.getItem("coupon")){

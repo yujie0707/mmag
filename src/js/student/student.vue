@@ -16,7 +16,7 @@
 						<span>{{item.tag}}</span>
 					</p>
 					<p>
-						学生专享：￥{{item.price}}
+						专享价：￥{{item.price}}
 					</p>
 
 				</div>
@@ -66,7 +66,7 @@
 		
 		        wx.onMenuShareAppMessage({
 		            title: '妈妈爱果', // 分享标题
-		            desc: '大家好，妈妈爱果现推出学生专区20元水果购买活动，青岛地区免费配送。', // 分享描述
+		            desc: '大家好，妈妈爱果现推出20元专区水果购买活动，青岛地区免费配送。', // 分享描述
 		            link: 'http://ws.tianmaoetong.com/wx/Index?path=/student', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 		            imgUrl:'http://ws.tianmaoetong.com/img/index/154846261648515.png', // 分享图标
 		            type: '', // 分享类型,music、video或link，不填默认为link

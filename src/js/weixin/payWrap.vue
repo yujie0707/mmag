@@ -1,7 +1,7 @@
 <template>
 	<div id="payWrap">
-		<v-weixin v-if="show"></v-weixin>
-		<v-paySuccess v-else></v-paySuccess>
+		<v-weixin v-show="show"></v-weixin>
+		<v-paySuccess v-show="!show"></v-paySuccess>
 	</div>
 </template>
 
@@ -21,7 +21,6 @@
 		activated(){
 			this.show = true;
 			wx.hideOptionMenu();
-			
 		}
 	}
 </script>

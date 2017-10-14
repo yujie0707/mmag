@@ -54,7 +54,7 @@
 				var path = this.$route.path;
 				
 				switch (path){
-					case "/home":
+					case "/home/":
 						sessionStorage.setItem("cur",0)
 						this.cur = 0;
 						break;

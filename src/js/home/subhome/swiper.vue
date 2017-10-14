@@ -26,11 +26,11 @@
 				for(let i = 0; i < document.querySelectorAll(".jumpother").length; i++){
 					var that = this;
 					document.querySelectorAll(".jumpother")[i].onclick = function(){
-						if(that.data[(i-1)%3].type == 1){
-							that.$router.push(that.data[(i-1)%3].url);
-						}else if(that.data[(i-1)%3].type == 2){
-							location.href = that.data[(i-1)%3].url;
-						}else if(that.data[(i-1)%3].type == 3){
+						if(that.data[(i-1)%that.data.length].type == 1){
+							that.$router.push(that.data[(i-1)%that.data.length].url);
+						}else if(that.data[(i-1)%that.data.length].type == 2){
+							location.href = that.data[(i-1)%that.data.length].url;
+						}else if(that.data[(i-1)%that.data.length].type == 3){
 							return;
 						}
 					}

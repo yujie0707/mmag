@@ -53,12 +53,13 @@
             .l{
                 width: .9rem;
                 height: .7rem;
-                font: .28rem/.35rem "微软雅黑";
+                font: bold .3rem/.35rem "微软雅黑";
                 position: absolute;
                 left: 1.05rem;
                 top: 1.15rem;
                 text-align: center;
-                animation: bian 1s infinite;
+                animation: bian .2s infinite linear;
+                color: #fee767;
             }
             .r{
                 width: .9rem;
@@ -97,6 +98,9 @@
                 font-size: .32rem;
                 font-weight: bold;
                 color: #fff;
+            }
+            button.buy0{
+                animation: bian .4s infinite linear;
             }
             button:nth-child(1){
                 background: url(/dist/image/bargain/Red-button@2x.png);
@@ -210,7 +214,7 @@
     
     .share-wrap{
         width: 100%;
-        background: rgba(0,0,0,0.6);
+        background: rgba(0,0,0,0.8);
         position: fixed;
         left: 0;
         top: 0;
@@ -246,12 +250,12 @@
 }
 @keyframes bian{
     0%{
-        color: #fff;
+        transform: scale(1,1);
     }
     50%{
-        color: #fee767;
+        transform: scale(1.2,1.2);
     }
     100%{
-        color: #fff;
+        transform: scale(1,1);
     }
 }
