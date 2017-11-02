@@ -1,6 +1,6 @@
 <template>
 	<div id="subhome-hot-swiper">
-		<div class="swiper-container-hot">
+		<div class="swiper-container">
 		  <div class="swiper-wrapper">
 		    <div class="swiper-slide" v-for="item in data"><img :src="item.img" style="width: 100%;height: 7.55rem;"/></div>
 		  </div>
@@ -21,7 +21,7 @@
 		mounted(){
 			
 			setTimeout(()=>{
-				this.mySwiper = new Swiper('.swiper-container-hot', {
+				this.mySwiper = new Swiper('.swiper-container', {
 					
 					autoplay: 5000,//可选选项，自动滑动
 					pagination : '.swiper-pagination-p1',
@@ -40,7 +40,6 @@
 		activated(){
 			setTimeout(() => {
 				this.mySwiper.init();
-				
 			},500)
 		}
 	}

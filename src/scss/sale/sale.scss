@@ -130,11 +130,12 @@
 }
 
 #student{
-    background: #ff8846;
+    background: #fea972;
     .list{
-        background: #ff8846;
+        background: #fea972;
         li{
             background: #fff;
+            
             .img-wrap{
                 span{
                     background: #fc6a6a;
@@ -150,18 +151,28 @@
 }
 
 #gift{
-    background: url(/dist/image/gift/bg.png) repeat-y;
-    background-size: 100%;
+    background: #aee0d7;
     .list{
-        background: url(/dist/image/gift/bg.png) repeat-y;
-        background-size: 100%;
+        background: #aee0d7;
+        padding-top: .3rem;
         li{
             color: #fff;
-            background: #447989;
+            background: #81d8d0;
             border: 2px solid #fff;
+            margin-bottom: .64rem;
+            img.flower{
+                position: absolute;
+                height: .72rem;
+                width: 2.1rem;
+                top: -.5rem;
+                right: 0;
+                left: 0;
+                margin: 0 auto;
+            }
             .img-wrap{
                 span{
-                    background: #ea6901;
+                    background: #fff;
+                    color: #191919;
                 }
             }
             .detail-wrap{
@@ -176,7 +187,7 @@
     }
     .shop-wrap{
         span{
-            background: #ea6901;
+            background: #fd9494;
         }
     }
 }

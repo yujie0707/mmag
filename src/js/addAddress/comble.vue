@@ -15,7 +15,7 @@
 		},
 		data(){
 			return{
-				show:true
+				show:true//显示标志
 			}
 		},
 		activated(){

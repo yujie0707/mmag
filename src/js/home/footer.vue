@@ -40,7 +40,7 @@
 	export default{
 		data(){
 			return{
-				cur:sessionStorage.getItem("cur") ? sessionStorage.getItem("cur") : 0,
+				cur:0,
 				carNum: Store.getState().carNum,
 				path:''
 			}
@@ -81,6 +81,9 @@
 			Store.subscribe(() => {
 				this.carNum = Store.getState().carNum;
 			})
+		},
+		activated(){
+			this.cur = sessionStorage.getItem("cur") ? sessionStorage.getItem("cur") : 0;
 		},
 		watch:{
 			"$route":"change",

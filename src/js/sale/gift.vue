@@ -16,11 +16,12 @@
 						<span>{{item.tag}}</span>
 					</p>
 					<p>
-						中秋特价：￥{{item.price}}
+						礼盒优惠：￥{{item.price}}
 					</p>
 
 				</div>
 				<img src="/dist/image/gift/addshop.png" class="addshop" @click="add(item.id)" />
+				<img src="/dist/image/gift/flower.png" class="flower" />
 			</li>
 		</ul>
 		<div class="shop-wrap">
@@ -34,6 +35,7 @@
 <script>
 	import Alert from "../alert.vue";
 	import config from "../config/config.js";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-alert":Alert
@@ -49,6 +51,12 @@
 		activated(){
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			share({
+				title:"爱果有礼",
+				desc:"妈妈爱果现推出水果礼盒，不仅外包装精美，食用起来口感好，不论是买来自家食用，还是走亲访友绝对拿得出手。",
+				imgUrl:"http://ws.tiammaoetong.com/dist/image/gift/theme.png",
+				link:"/gift"
+			})
 			axios.post("/activity/Gift",{},config).then(res => {
 				if(res.data.code == 0){
 					this.list = res.data.data;

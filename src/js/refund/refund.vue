@@ -77,6 +77,7 @@
 	import Header from "./header.vue";
 	import Alert from "../alert.vue";
 	import config from "../config/config.js";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-header":Header,
@@ -172,6 +173,7 @@
 		activated(){
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			share({});
 			this.slide = {
 				height:this.height + "px"
 			}

@@ -38,6 +38,7 @@
 <script>
 	import config from "../config/config.js";
 	import Alert from "../alert.vue";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-alert":Alert
@@ -136,6 +137,7 @@
 		activated(){
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			share({});
 			this.del = true;
 			this.chooseAll = false;
 			axios.post("/ec_collection/search",{},config).then(res => {
@@ -149,9 +151,7 @@
 					this.total = res.data.data.length;
 				}
 			})
-			wx.hideMenuItems({
-			  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
-			});
+			
 		}
 	}
 </script>

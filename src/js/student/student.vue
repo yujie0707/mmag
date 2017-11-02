@@ -34,6 +34,7 @@
 <script>
 	import Alert from "../alert.vue";
 	import config from "../config/config.js";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-alert":Alert
@@ -49,6 +50,12 @@
 		activated(){
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			share({
+				title:"20元专区",
+				desc:"大家好，妈妈爱果现推出20元专区水果购买活动，青岛地区免费配送。",
+				imgUrl:"http://ws.tianmaoetong.com/dist/image/student/theme.png",
+				link:"/student"
+			});
 			axios.post("/Ec_Category/StudentMakes",{},config).then(res => {
 				if(res.data.code == 0){
 					this.list = res.data.data;
@@ -60,36 +67,8 @@
 				}
 			})
 			
-			wx.ready(function(){
-		        wx.hideMenuItems({
-		            menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"]});
-		
-		        wx.onMenuShareAppMessage({
-		            title: '妈妈爱果', // 分享标题
-		            desc: '大家好，妈妈爱果现推出20元专区水果购买活动，青岛地区免费配送。', // 分享描述
-		            link: 'http://ws.tianmaoetong.com/wx/Index?path=/student', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-		            imgUrl:'http://ws.tianmaoetong.com/img/index/154846261648515.png', // 分享图标
-		            type: '', // 分享类型,music、video或link，不填默认为link
-		            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-		            success: function () {
-		                // 用户确认分享后执行的回调函数
-		            },
-		            cancel: function () {
-		                // 用户取消分享后执行的回调函数
-		            }
-		        });
-		        wx.onMenuShareTimeline({
-		            title: '妈妈爱果', // 分享标题
-		            link: 'http://ws.tianmaoetong.com/wx/Index?path=/student', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-		            imgUrl:'http://ws.tianmaoetong.com/img/index/154846261648515.png', // 分享图标
-		            success: function () {
-		                // 用户确认分享后执行的回调函数
-		            },
-		            cancel: function () {
-		                // 用户取消分享后执行的回调函数
-		            }
-		        });
-		    })
+			
+		    
 		},
 		methods:{
 			add(id){

@@ -42,6 +42,8 @@
 
 <script>
 	import All from "./all.vue";
+	import share from "../share/share.js";
+	
 	export default{
 		components:{
 			"v-all":All
@@ -90,11 +92,10 @@
 			}
 		},
 		activated(){
+			share({});
 			var mySwiper = this.swiper;
 			mySwiper.slideTo(sessionStorage.getItem("index"));
-			wx.hideMenuItems({
-			  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
-			});
+			
 		}
 	}
 </script>

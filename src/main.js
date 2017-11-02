@@ -10,10 +10,8 @@ import subClassify from "./js/home/classify/classify.vue";
 import subShopping from "./js/home/shopping/shopping.vue";
 import subMy from "./js/home/my/my.vue";
 import Detail from "./js/detail/detail.vue";
-import Pick from "./js/pick/pick.vue";
 import Search from "./js/search/search.vue";
 import Order from "./js/order/order.vue";
-import Pickorder from "./js/order/pickorder.vue";
 import payWrap from "./js/weixin/payWrap.vue";
 import A from "./js/collect/collect.vue";
 import Allorder from "./js/allorder/allorder.vue";
@@ -31,6 +29,14 @@ import Bargain from "./js/bargain/bargain.vue";
 import Help from "./js/bargain/share.vue";
 import No from "./js/bargain/no.vue";
 import Gift from "./js/sale/gift.vue";
+import Seckill from "./js/seckill/seckill.vue";
+import Headline from "./js/video/headline.vue";
+import Video from "./js/video/video.vue";
+import China from "./js/china/china.vue";
+import Import from "./js/import/import.vue";
+import SignIn from "./js/signin/signin.vue";
+import Cdkey from "./js/signin/cdkey.vue";
+import Everyday from "./js/signin/everyday.vue";
 
 import './scss/total.scss';
 
@@ -69,10 +75,6 @@ var routes = [{
 	name:"detail",
 	component:Detail
 },{
-	path:"/pick/:id/:goodLevel/:distance",
-	name:"pick",
-	component:Pick
-},{
 	path:"/search",
 	name:"search",
 	component:Search
@@ -80,10 +82,6 @@ var routes = [{
 	path:"/order/:address",
 	name:"order",
 	component:Order
-},{
-	path:"/pickorder",
-	name:"pickorder",
-	component:Pickorder
 },{
 	path:"/weixin",
 	name:"weixin",
@@ -152,6 +150,38 @@ var routes = [{
 	path:"/gift",
 	name:"gift",
 	component:Gift
+},{
+	path:"/seckill",
+	name:"seckill",
+	component:Seckill
+},{
+	path:"/headline",
+	name:"headline",
+	component:Headline
+},{
+	path:"/video/:id",
+	name:"video",
+	component:Video
+},{
+	path:"/china",
+	name:"china",
+	component:China
+},{
+	path:"/import",
+	name:"import",
+	component:Import
+},{
+	path:"/signIn/:points",
+	name:"signIn",
+	component:SignIn
+},{
+	path:"/cdkey",
+	name:"cdkey",
+	component:Cdkey
+},{
+	path:"/everyday",
+	name:"everyday",
+	component:Everyday
 }];
 
 var router = new VueRouter({
@@ -167,7 +197,7 @@ new Vue({
 		"$route":function(){
 			var path = this.$route.path;
 			switch (path){
-				case "/home":
+				case "/home/":
 					sessionStorage.setItem("cur",0)
 					this.cur = 0;
 					break;

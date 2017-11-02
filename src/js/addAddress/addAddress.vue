@@ -68,6 +68,7 @@
 	import Alert from "../alert.vue";
 	import Header from "./header.vue";
 	import config from "../config/config.js";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-header": Header,
@@ -75,25 +76,25 @@
 		},
 		data(){
 			return{
-				name:"",
-				phone:"",
-				addressDetail:'',
-				type:1,
-				isdefault:true,
-				provincelist:[],
-				citylist:[],
-				arealist:[],
-				isshow:false,
-				height: document.body.offsetHeight,
-				showcity:0,
-				back:"",
-				city1:[],
-				city:"所在城市",
-				areaid:'',
-				lng:'',
-				lat:'',
-				plot:"小区/街道/写字楼",
-				addressid:'',
+				name:"",//收货人姓名
+				phone:"",//收货人电话
+				addressDetail:'',//详细地址
+				type:1,//地址类型
+				isdefault:true,//是否是默认地址
+				provincelist:[],//省列表
+				citylist:[],//市列表
+				arealist:[],//区列表
+				isshow:false,//选择地址弹窗是否显示
+				height: document.body.offsetHeight,//屏幕高度
+				showcity:0,//决定显示省市区的标志 0 显示省 1显示市 2显示区
+				back:"",//地址栏头部右侧显示文字
+				city1:[],//保存用户选择的省市区
+				city:"所在城市",//未选择地址时地址区域显示的文字
+				areaid:'',//区ID
+				lng:'',//经度
+				lat:'',//纬度
+				plot:"小区/街道/写字楼",//未选择详细收货地址时的显示
+				addressid:'',//是否是修改地址标志
 				alertshow: false,
 				context:""
 			}
@@ -257,6 +258,7 @@
 		activated(){
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			share({});
 			if(this.$route.params.data){
 				var item = this.$route.params.data;
 				this.name = item.name;

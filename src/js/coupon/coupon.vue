@@ -13,6 +13,7 @@
 	import Single from "./single.vue";
 	import Empty from "./empty.vue";
 	import config from "../config/config.js";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-header":Header,
@@ -28,6 +29,7 @@
 		activated(){
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			share({});
 			if(this.$route.params.type == 1){
 				axios.post("/Coupon/GetList",{
 					type:3

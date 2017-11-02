@@ -11,6 +11,7 @@
 	import Aside from "./aside.vue";
 	import Store from "../../store/store.js";
 	import config from "../../config/config.js";
+	import share from "../../share/share.js";
 	export default{
 		components:{
 			"v-header":Header,
@@ -25,6 +26,7 @@
 		activated(){
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			share({});
 			axios.post("/ec_shoppingcart/getnum",{},config).then(res => {
 				if(res.data.code == 0){
 					Store.dispatch({
@@ -38,9 +40,7 @@
 					})
 				}
 			})
-			wx.hideMenuItems({
-			  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
-			});
+			
 		}
 	}
 </script>

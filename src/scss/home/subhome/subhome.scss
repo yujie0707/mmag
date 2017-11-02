@@ -1,50 +1,138 @@
-@import "./header";
-@import "./pick";
+
 
 #subhome{
     flex: 1;
-    display: flex;
-    flex-direction: column;
     width: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+
     
-    nav{
-        display: flex;
-        text-align: center;
-        height: .8rem;
-        position: relative;
-        div{
-            flex: 1;
-            font: .28rem/.8rem "PingFang-M";
-            color: #323232;
-        }
-        div.active{
-            color: #49B152;
-        }
-        p{
-            height: .06rem;
-            width: 25%;
-            background: #49b152;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            transition: .3s left;
-        }
-    }
-    #subhome-hot{
-        -webkit-overflow-scrolling: touch;
-    }
-    #subhome-import{
-        -webkit-overflow-scrolling: touch;
-    }
-    #subhome-pick{
-        -webkit-overflow-scrolling: touch;
-    }
-    .wrap-swiper{
-        flex: 1;
+    
+    .header-subhome{
+        position: fixed;
         width: 100%;
-        overflow: auto;
+        z-index: 200;
+        right: .4rem;
+        top: .4rem;
+        width: .75rem;
+        height: .75rem;
+        img{
+            width: .75rem;
+            height: .75rem;
+            display: block;
+        }
     }
     
+    .header-subhome-sec{
+        position: fixed;
+        width: 100%;
+        z-index: 200;
+        left: 0;
+        top: -.84rem;
+        height: .84rem;
+        
+        background: #e6e6e6;
+        transition: top .3s;
+        div{
+            height: .52rem;
+            background: #fff;
+            width: 5.5rem;
+            margin: .16rem auto;
+            
+            border-radius: .26rem;
+            position: relative;
+            img{
+                position: absolute;
+                height: .28rem;
+                width: .28rem;
+                top: .1rem;
+                left: .26rem;
+            }
+        }
+                
+    }
     
+    .nav-subhome{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        
+        div{
+            text-align: center;
+            align-items: center;
+            width: 25%;
+            img{
+                width: .9rem;
+                height: .9rem;
+                margin: .16rem auto .14rem;
+                display: block;
+            }
+            span{
+                font: .26rem "微软雅黑";
+                color: #222;
+                display: block;
+                margin-bottom: .1rem;
+            }
+        }
+    }
+    
+    .new{
+        font: .3rem "微软雅黑";
+        color: #323232;
+        text-align: center;
+        font-weight: bold;
+        line-height: 1.6rem;
+        width: 100%;
+        
+        img{
+            margin-right: .1rem;
+            height: .32rem;
+            width: .41rem;
+            vertical-align: middle;
+            
+        }
+    }
+    
+    #subhome-3d-swiper{
+        .swiper-slide-active{
+            box-shadow: 0 0 1rem #999;
+        }
+        
+        .wrap-prd{
+            border-radius: .2rem;
+            text-align: center;
+            p:nth-child(2){
+                font-weight: bold;
+                font-size: .36rem;
+                line-height: .5rem;
+                font-family: "微软雅黑";
+                color: #323232;
+            }
+            p:nth-child(3){
+                font: .24rem "微软雅黑";
+                color: #646464;
+            }
+            
+            p:nth-child(4){
+                margin-top: .4rem;
+                font: bold .4rem "微软雅黑";
+                color: #fb4622;
+            }
+            
+            button{
+                height: .7rem;
+                width: 2.38rem;
+                background: #fd4030;
+                border-radius: .35rem;
+                color: #fff;
+                font-weight: bold;
+                font-family: "微软雅黑";
+                font-size: .3rem;
+                display: block;
+                margin: .2rem auto .7rem;
+            }
+        }
+    }
     
 }

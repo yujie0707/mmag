@@ -168,6 +168,7 @@
 	import Store from "../store/store.js";
 	import Share from "./share.vue";
 	import config from "../config/config.js";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-swiper":Swiper,
@@ -186,36 +187,13 @@
 			},config).then(res => {
 				this.detail = res.data.data;
 				var that = this;
-				wx.ready(function(){
-					wx.onMenuShareTimeline({
-					    title: that.detail.name, // 分享标题
-					    link: 'http://ws.tianmaoetong.com/wx/Index?path=/detail/' + that.detail.catid, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-					    imgUrl: that.detail.img_map[0].img, // 分享图标
-					    success: function () { 
-					        // 用户确认分享后执行的回调函数
-					    },
-					    cancel: function () { 
-					        // 用户取消分享后执行的回调函数
-					    }
-					});
-					wx.onMenuShareAppMessage({
-					    title: that.detail.name, // 分享标题
-					    desc: '中国首款共享农产品和农场采摘电商平台‘妈妈爱果’，数万用户收益，我也关注了妈妈爱果，邀请您一起来关注！', // 分享描述
-					    link: 'http://ws.tianmaoetong.com/wx/Index?path=/detail/' + that.detail.catid, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-					    imgUrl: that.detail.img_map[0].img, // 分享图标
-					    type: '', // 分享类型,music、video或link，不填默认为link
-					    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-					    success: function () { 
-					        // 用户确认分享后执行的回调函数
-					    },
-					    cancel: function () { 
-					        // 用户取消分享后执行的回调函数
-					    }
-					});
-					wx.hideMenuItems({
-					  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] 
-					});
-				})
+				share({
+					title: that.detail.name,
+					link: '/detail/' + that.detail.catid,
+					desc: '我正在买' + that.detail.name + '，快来看看啊！！',
+					imgUrl: that.detail.img_map[0].img
+				});
+				
 			})
 		},
 		data(){

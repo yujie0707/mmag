@@ -1,7 +1,17 @@
 <template>
 	<div id="help">
 		<div class="top">
-			<img src="/dist/image/bargain/backgroundtop@2x.png" />
+			<img src="/dist/image/bargain/top.png" />
+			<div class="time">
+				<a>{{day < 10 ? "0" + day : day}}</a>
+				<span>天</span>
+				<a>{{hour < 10 ? "0" + hour : hour}}</a>
+				<span>时</span>
+				<a>{{minute < 10 ? "0" + minute : minute}}</a>
+				<span>分</span>
+				<a>{{second < 10 ? "0" + second : second}}</a>
+				<span>秒</span>
+			</div>
 			<div class="detail">
 				<img :src="infomation.proImg" />
 				<span>{{infomation.proName}}</span>
@@ -80,6 +90,7 @@
 	import config from "../config/config.js";
 	import Store from "../store/store.js";
 	import Alert from "../alert.vue";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-alert":Alert
@@ -97,7 +108,12 @@
 				cutList:[],
 				shareShow:false,
 				address:false,
-				end:false
+				end:false,
+				day:0,
+				hour:0,
+				minute:0,
+				second:0,
+				timer:null
 			}
 		},
 		activated(){
@@ -145,38 +161,59 @@
 					this.infomation = res.data.data.baseData;
 					this.type = res.data.data.type;
 					this.cutList = res.data.data.cutList;
-					wx.ready(function(){
-						wx.onMenuShareAppMessage({
-						    title: that.infomation.userName + '正在进行砍价活动，快来帮他啊', // 分享标题
-						    desc: '妈妈爱果推出月满中秋砍价0元购活动，大家都来参与吧', // 分享描述
-						    link: 'http://ws.tianmaoetong.com/wx/Index?path=/help*' + that.shareid, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-						    imgUrl: that.infomation.userImg, // 分享图标
-						    type: '', // 分享类型,music、video或link，不填默认为link
-						    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-						    success: function () {
-						        // 用户确认分享后执行的回调函数
-					        
-						    },
-						    cancel: function () {
-						        // 用户取消分享后执行的回调函数
-						    }
-						});
-						wx.onMenuShareTimeline({
-						    title: that.infomation.userName + '正在进行砍价活动，快来帮他啊', // 分享标题
-						    link: 'http://ws.tianmaoetong.com/wx/Index?path=/help*' + that.shareid, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-						    imgUrl: that.infomation.userImg, // 分享图标
-						    success: function () { 
-						        // 用户确认分享后执行的回调函数
-						    },
-						    cancel: function () { 
-						        // 用户取消分享后执行的回调函数
-						    }
-						});
-						
-						wx.hideMenuItems({
-						  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] 
-						});
-					})
+					var time = res.data.data.eTime;
+					clearInterval(this.timer);
+					this.timer = setInterval(() => {
+						if(time == 0){
+							this.end = true;
+							this.alertshow = true;
+							this.context = "活动结束";
+							setTimeout(() => {
+								this.alertshow = false;
+							},2000);
+						}
+						this.day = Math.floor(time/(3600*24));
+						this.hour = Math.floor(time%(3600*24)/3600);
+						this.minute = Math.floor(time%3600/60);
+						this.second = Math.floor(time%60);
+						time--;
+					},1000)
+					
+					share({
+						title:that.infomation.userName + '正在进行砍价活动，快来帮他啊',
+						desc:'妈妈爱果推出砍价0元购活动，大家都来参与吧',
+						imgUrl:that.infomation.userImg,
+						link:"/help*" + that.shareid
+					});
+					
+					if(res.data.data.type == 3){
+						axios.post("/activity/CutButton",{
+							type:1,
+							shareid:this.shareid
+						},config).then(res => {
+							if(res.data.code == 0){
+								if(res.data.data.type == 6){
+									this.codeShow = true;
+									this.img = res.data.data.img;
+								}else if(res.data.data.type == 5){
+									this.alertshow = true;
+									this.context = "少侠，价格已经到了最低，不能再砍了~~";
+									setTimeout(() => {
+										this.alertshow = false;
+									},1000)
+								}else{
+									this.infomation.allMoney = res.data.data.allMoney;
+									this.infomation.nowMoney = res.data.data.nowMoney;
+									this.infomation.cutMoney = res.data.data.cutMoney;
+									this.infomation.weaponName = res.data.data.weaponName;
+									this.cutList = res.data.data.cutList;
+									this.type = res.data.data.type;
+								}
+							}
+						})
+						return;
+					}
+					
 				}else if(res.data.code == 432){
 					this.infomation = res.data.data.baseData;
 					this.type = res.data.data.type;

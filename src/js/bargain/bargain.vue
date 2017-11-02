@@ -2,8 +2,16 @@
 	<div id="bargain">
 		<div class="top">
 			<img src="/dist/image/bargain/backgroundtop@2x.png" />
-			<div class="rule" @click="showActivity()">
-				活动说明
+			<img src="/dist/image/bargain/procedure@2x.png" />
+			<div class="time">
+				<a>{{day < 10 ? "0" + day : day}}</a>
+				<span>天</span>
+				<a>{{hour < 10 ? "0" + hour : hour}}</a>
+				<span>时</span>
+				<a>{{minute < 10 ? "0" + minute : minute}}</a>
+				<span>分</span>
+				<a>{{second < 10 ? "0" + second : second}}</a>
+				<span>秒</span>
 			</div>
 		</div>
 		<ul class="list">
@@ -19,19 +27,15 @@
 				</div>
 			</li>
 		</ul>
-		<img src="/dist/image/bargain/bottom.png" class="bottom" />
-		<div class="activity-wrap" v-if="show" :style="{height:height + 'px'}">
-			<div class="detail">
-				<h3>活动说明</h3>
-				<div>
-					<p>1.一个商品只可购买一次</p>
-					<p>2.一个微信号首次可砍0.8~1.5元</p>
-					<p>3.该活动不可与其他优惠活动同时使用（如优惠券)</p>
-					<p>4.下单后去妈妈爱果微信公众号里的微商城查看订单</p>
-					<p>5.活动截止到10月8号</p>
-				</div>
-				<button @click="hide()">我知道了</button>
-			</div>
+		<div class="rule">
+			<h3>活动规则</h3>
+			<p>1.一个商品只可购买一次</p>
+			<p>2.该活动不可与其他优惠活动同时使用（如优惠券)</p>
+			<p>3.下单后去妈妈爱果微信公众号微商城查看订单</p>
+			<p>4.新用户首次可砍0.8-1.5元，老用户每次可砍0.2-0.5元</p>
+			<p>5.该活动仅限青岛地区参与，其他地区敬请期待</p>
+			<p>6.该活动商品，砍至任意价格均可付款</p>
+			<p>7.参与活动的用户请于活动持续期间付款，逾期不能付款</p>
 		</div>
 		<v-alert v-if="alertshow" :context="context"></v-alert>
 	</div>
@@ -40,18 +44,23 @@
 <script>
 	import config from "../config/config.js";
 	import Alert from "../alert.vue";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-alert": Alert
 		},
 		data(){
 			return {
-				show:false,
 				alertshow:false,
 				context:"",
 				height:0,
 				list:[],
-				end:false
+				end:false,
+				day:0,
+				hour:0,
+				minute:0,
+				second:0,
+				timer:null
 			}
 		},
 		methods:{
@@ -88,47 +97,39 @@
 			}
 		},
 		activated(){
-			wx.ready(function(){
-				wx.onMenuShareAppMessage({
-				    title: '月满中秋砍价0元购', // 分享标题
-				    desc: '妈妈爱果推出月满中秋砍价0元购活动，大家都来参与吧', // 分享描述
-				    link: 'http://ws.tianmaoetong.com/wx/Index?path=/bargain', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-				    imgUrl:"http://ws.tianmaoetong.com/dist/image/bargain/backgroundtop@2x.png", // 分享图标
-				    type: '', // 分享类型,music、video或link，不填默认为link
-				    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-				    success: function () {
-				        // 用户确认分享后执行的回调函数
-			        
-				    },
-				    cancel: function () {
-				        // 用户取消分享后执行的回调函数
-				    }
-				});
-				wx.onMenuShareTimeline({
-				    title: '月满中秋砍价0元购',
-				    link: 'http://ws.tianmaoetong.com/wx/Index?path=/bargain',
-				    imgUrl:"http://ws.tianmaoetong.com/dist/image/bargain/backgroundtop@2x.png",
-				    success: function () { 
-				        
-				    },
-				    cancel: function () { 
-				        
-				    }
-				});
-				
-				wx.hideMenuItems({
-				  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] 
-				});
-			})
+			share({
+				title:"砍价0元购",
+				desc:'妈妈爱果推出砍价0元购活动，大家都来参与吧',
+				imgUrl:"http://ws.tianmaoetong.com/dist/image/bargain/backgroundtop@2x.png",
+				link:"/bargain"
+			});
+			
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
 			this.height = document.body.offsetHeight;
 			
 			axios.post("/activity/CutMoney",{},config).then(res => {
 				if(res.data.code == 0){
-					this.list = res.data.data;
+					this.list = res.data.data.proList;
+					var time = res.data.data.other.eTime;
+					clearInterval(this.timer);
+					this.timer = setInterval(() => {
+						if(time == 0){
+							this.end = true;
+							this.alertshow = true;
+							this.context = "活动结束";
+							setTimeout(() => {
+								this.alertshow = false;
+							},2000);
+						}
+						this.day = Math.floor(time/(3600*24));
+						this.hour = Math.floor(time%(3600*24)/3600);
+						this.minute = Math.floor(time%3600/60);
+						this.second = Math.floor(time%60);
+						time--;
+					},1000)
 				}else if(res.data.code == 432){
-					this.list = res.data.data;
+					this.list = res.data.data.proList;
 					this.end = true;
 					this.alertshow = true;
 					this.context = "活动结束";

@@ -7,7 +7,7 @@
 			</div>
 		</header>
 		<div class="coupon">
-			<div class="coupon-left">
+			<div class="coupon-left" @click="goEveryday()">
 				<span>积分</span>
 				<span>{{info.points}}</span>
 				<span>去兑换<img src="/dist/image/home/my/duihuan.png"/></span>
@@ -67,6 +67,7 @@
 <script>
 	import Store from "../../store/store.js";
 	import config from "../../config/config.js";
+	import share from "../../share/share.js";
  	export default{
 		data(){
 			return {
@@ -102,11 +103,15 @@
 						money:0
 					}
 				})
+			},
+			goEveryday(){
+				this.$router.push("/everyday");
 			}
 		},
 		activated(){
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			share({});
 			axios.post("/ec_shoppingcart/getnum",{},config).then(res => {
 				if(res.data.code == 0){
 					Store.dispatch({
@@ -123,9 +128,6 @@
 			axios.post("/user/getmyuserinfo",{},config).then(res => {
 				this.info = res.data.data.baseinfo;
 			})
-			wx.hideMenuItems({
-			  menuList: ["menuItem:copyUrl","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari","menuItem:share:qq","menuItem:share:weiboApp","menuItem:favorite","menuItem:share:facebook","menuItem:share:QZone"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
-			});
 		}
 	}
 </script>

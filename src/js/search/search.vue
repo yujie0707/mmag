@@ -41,6 +41,7 @@
 	import Alert from "../alert.vue";
 	
 	import config from "../config/config.js";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-single":Single,
@@ -128,6 +129,7 @@
 		activated(){
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			share({});
 			axios.post("/search/searchnum",{},config).then(res => {
 				this.hot = res.data.data;
 			})

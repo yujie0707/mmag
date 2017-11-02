@@ -35,6 +35,7 @@
 <script>
 	import Alert from "../alert.vue";
 	import config from "../config/config.js";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-alert":Alert
@@ -50,6 +51,9 @@
 		activated(){
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			share({
+				
+			});
 			axios.post("/Ec_Category/ToDayHot",{},config).then(res => {
 				if(res.data.code == 0){
 					this.list = res.data.data;

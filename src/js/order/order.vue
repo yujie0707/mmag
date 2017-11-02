@@ -8,13 +8,14 @@
 <script>
 	import Header from "./header.vue";
 	import Address from "./address.vue";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-header":Header,
 			"v-address":Address
 		},
 		activated(){
-			
+			share({});
 		},
 		deactivated(){
 			if(sessionStorage.getItem("coupon")){

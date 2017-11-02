@@ -42,6 +42,7 @@
 <script>
 	import Single from "./single.vue";
 	import config from "../config/config.js";
+	import share from "../share/share.js";
 	export default{
 		components:{
 			"v-single":Single
@@ -85,6 +86,7 @@
 		activated(){
 			config.headers.userid = sessionStorage.getItem("userid");
 			config.headers.usertoken = sessionStorage.getItem("usertoken");
+			share({});
 			this.show = false;
 			var that = this;
 			setTimeout(()=>{
