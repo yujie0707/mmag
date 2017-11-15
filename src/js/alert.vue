@@ -1,7 +1,6 @@
 <template>
 	<div class="alert">
 		<span>{{context}}</span>
-		
 	</div>
 </template>
 

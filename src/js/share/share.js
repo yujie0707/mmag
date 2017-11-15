@@ -1,3 +1,10 @@
+//传参数形式：对象
+//title（string）：标题
+//desc（string）：描述
+//link（string）：路由名称
+//imgUrl（string）：分享的图片路径
+//hide（array）：隐藏的菜单列表 
+
 function share(obj){
 	if(!obj.title){
 		obj.title = "妈妈爱果";

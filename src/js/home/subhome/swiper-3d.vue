@@ -29,11 +29,11 @@
 					slidesPerView: 2,
 					centeredSlides: true,
 					coverflow: {
-					            rotate: 30,
-					            stretch: 10,
-					            depth: 60,
-					            modifier: 2,
-					            slideShadows : true
+			            rotate: 30,
+			            stretch: 10,
+			            depth: 60,
+			            modifier: 2,
+			            slideShadows : true
 					},
 					observer:true,
 					observeParents:true,

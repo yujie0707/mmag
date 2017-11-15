@@ -42,11 +42,17 @@
 		},
 		methods:{
 			payNow(){
+				/*if(sessionStorage.getItem("userid") == "35392"){
+						alert("hehe");
+					}*/
 				axios.post("/ec_pay/pay",{
 					type:3,
 					orderid: this.orderid,
 					total_amount: this.money
 				},config).then(res => {
+					/*if(sessionStorage.getItem("userid") == "35392"){
+						alert(JSON.stringify(res));
+					}*/
 					var that = this;
 				    WeixinJSBridge.invoke('getBrandWCPayRequest', {
 				           "appId": res.data.data.appId,     //公众号名称，由商户传入     

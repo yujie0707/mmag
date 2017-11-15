@@ -7,7 +7,7 @@
 		<div style="height: .1rem;background: #F3F3F3;"></div>
 		<section class="seckill-main" v-if="show">
 			<div class="time" v-if="killStatus == 1">
-				<p>15:00开始抢购</p>
+				<p>6:00开始抢购</p>
 				<p>距开始<span>{{hour1 < 10 ? "0" + hour1 : hour1}}</span>:<span>{{min1 < 10 ? "0" + min1 : min1}}</span>:<span>{{sec1 < 10 ? "0" + sec1 : sec1}}</span></p>
 				<p>秒杀宝贝请24小时内付款</p>
 				<p>超过24小时宝贝价格将随市场价变化</p>
@@ -60,7 +60,7 @@
 					<p>{{item.name}} {{item.mbn_details}}</p>
 					<p>一件起售 {{item.details}}</p>
 					<p class="next">
-						限量{{item.leastNum}}件 | 明日15:00开抢
+						限量{{item.leastNum}}件 | 明日6:00开抢
 					</p>
 					<p class="price">
 						￥{{item.money}}{{item.mbn_detailsType | type}}
@@ -153,14 +153,20 @@
 					
 					var time = new Date(res.data.data.time * 1000);
 					var str = time.getFullYear() + "-" + (time.getMonth()+1) + "-" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-					var time1 = new Date(time.getFullYear() + "-" + (time.getMonth()+1) + "-" + time.getDate() + " 15:00:00");
-					var time2 = new Date(time.getFullYear() + "-" + (time.getMonth()+1) + "-" + time.getDate() + " 16:00:00");
-					var time3 = new Date(time.getFullYear() + "-" + (time.getMonth()+1) + "-" + (time.getDate() + 1) + " 00:00:00");
-					if(time.getTime() < time1.getTime()){
+					var time1 = new Date(time.getFullYear(),time.getMonth(),time.getDate(),"6","00","00");
+					var time2 = new Date(time.getFullYear(),time.getMonth(),time.getDate(),"23","00","00");
+					var time3 = new Date(time.getFullYear(),time.getMonth(),time.getDate()+1,"00","00","00");
+					
+					time = Date.parse(time);
+					time1 = Date.parse(time1);
+					time2 = Date.parse(time2);
+					time3 = Date.parse(time3);
+					
+					if(time < time1){
 						this.killStatus = 1;
-						var count1 = (time1.getTime() - time.getTime())/1000;
-						var count2 = (time2.getTime() - time.getTime())/1000;
-						var count3 = (time3.getTime() - time.getTime())/1000;
+						var count1 = (time1 - time)/1000;
+						var count2 = (time2 - time)/1000;
+						var count3 = (time3 - time)/1000;
 						clearInterval(this.timer1);
 						clearInterval(this.timer2);
 						clearInterval(this.timer3);
@@ -189,10 +195,10 @@
 							count2--;
 							count3--;
 						},1000)
-					}else if(time.getTime() < time2.getTime()){
+					}else if(time < time2){
 						this.killStatus = 2;
-						var count2 = (time2.getTime() - time.getTime())/1000;
-						var count3 = (time3.getTime() - time.getTime())/1000;
+						var count2 = (time2 - time)/1000;
+						var count3 = (time3 - time)/1000;
 						clearInterval(this.timer1);
 						clearInterval(this.timer2);
 						clearInterval(this.timer3);
@@ -212,9 +218,9 @@
 							count2--;
 							count3--;
 						},1000)
-					}else if(time.getTime() < time3.getTime()){
+					}else if(time < time3){
 						this.killStatus = 3;
-						var count3 = (time3.getTime() - time.getTime())/1000;
+						var count3 = (time3 - time)/1000;
 						clearInterval(this.timer1);
 						clearInterval(this.timer2);
 						clearInterval(this.timer3);
